@@ -101,6 +101,11 @@ app.post("/delivery-receipt", (req, res) => {
   res.status(204).end();
 });
 
+app.use("*", (req, res) => {
+  const error = { status: 404, message: "invalid endpoint" };
+  res.status(404).json({ error });
+});
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
