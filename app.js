@@ -47,8 +47,10 @@ app.post("/inbound-sms", (req, res) => {
   const fromNumber = req.body.msisdn;
   const textMessage = req.body.text;
 
+  const recipients = process.env.SMS_TO_EMAIL_RECIPIENTS.split(",");
+
   const email = {
-    to: process.env.SMS_TO_EMAIL_RECIPIENT,
+    to: recipients,
     from: {
       name: "SMS Notifier",
       email: `${fromNumber}@${process.env.SENDGRID_VERIFIED_DOMAIN}`,
