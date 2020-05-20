@@ -8,7 +8,7 @@ const Nexmo = require("nexmo");
 const sendgrid = require("@sendgrid/mail");
 const multer = require("multer");
 const addrs = require("email-addresses");
-const replyParser = require("node-email-reply-parser");
+const emailReplyParser = require("node-email-reply-parser");
 
 const upload = multer();
 
@@ -87,7 +87,7 @@ app.post("/email-to-sms", upload.any(), (req, res) => {
   const toNum = addrs.parseOneAddress(to).local; // get phone # from email address
 
   const emailText = req.body.text; // email reply body text
-  const sms = replyParser(emailText, true);
+  const sms = emailReplyParser(emailText, true);
 
   nexmo.message.sendSms(fromNum, toNum, sms, (err, nexmoRes) => {
     if (err) {
