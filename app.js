@@ -22,8 +22,12 @@ sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 const app = express();
 const port = process.env.PORT || 8080;
 
+// For serving the SMS reply HTML file at the server root
+app.use(express.static("public"));
+
 // Both required for delivery receipts
-// app.use(bodyParser.json());
+// JSON support also required for Axios
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Receive external POST request -> Send SMS
