@@ -57,11 +57,16 @@ app.post("/inbound-sms", (req, res) => {
     to: recipients,
     from: {
       name: "SMS Notifier",
-      email: `${fromNumber}@${process.env.SENDGRID_VERIFIED_DOMAIN}`,
+      email: `sms-notifier@${process.env.SENDGRID_VERIFIED_DOMAIN}`,
     },
     subject: `SMS from ${fromNumber}`,
-    text: textMessage,
-    // html: "<strong>and easy to do anywhere, even with Node.js</strong>",
+    html: `
+      <h3>New SMS Message</h3>
+      <strong>From:</strong> ${fromNumber}<br/>
+      <strong>Message:</strong> ${textMessage}<br/>
+      <br/>
+      <a href="${process.env.APP_DOMAIN_URL}/?phoneNumber=${fromNumber}">Click here to reply</a>
+    `,
   };
 
   sendgrid
