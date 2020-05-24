@@ -8,6 +8,7 @@ const multer = require("multer");
 const addrs = require("email-addresses");
 const emailReplyParser = require("node-email-reply-parser");
 
+const { inboundSms } = require("./routes/sms/inbound");
 const upload = multer();
 
 const nexmo = new Nexmo({
@@ -45,9 +46,7 @@ app.post("/sms", (req, res) => {
 
 // SMS to Email
 // Nexmo webhook -> SendGrid API
-app.post("/inbound-sms", (req, res) => {
-  const fromNumber = req.body.msisdn;
-  const textMessage = req.body.text;
+app.post("/inbound-sms", inboundSms);
 
   const recipients = process.env.SMS_TO_EMAIL_RECIPIENTS.split(",");
 
