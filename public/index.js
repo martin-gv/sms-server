@@ -1,6 +1,6 @@
 // Get phone number from URL
 const urlParams = Qs.parse(location.search, { ignoreQueryPrefix: true });
-const phoneNumber = urlParams.phoneNumber;
+const token = urlParams.token;
 
 // Form elements
 const smsMessage = document.getElementById("sms-message");
@@ -14,9 +14,9 @@ function handleFormSubmit(event) {
   disableForm();
 
   axios
-    .post("/sms", {
-      to: phoneNumber,
+    .post("/sms-reply", {
       sms: smsMessage.value,
+      token: token,
     })
     .then(function (response) {
       console.log(response);
