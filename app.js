@@ -9,6 +9,8 @@ const addrs = require("email-addresses");
 const emailReplyParser = require("node-email-reply-parser");
 
 const { inboundSms } = require("./routes/sms/inbound");
+const { smsReply } = require("./routes/sms/reply");
+
 const upload = multer();
 
 const nexmo = new Nexmo({
@@ -48,35 +50,8 @@ app.post("/sms", (req, res) => {
 // Nexmo webhook -> SendGrid API
 app.post("/inbound-sms", inboundSms);
 
-  const recipients = process.env.SMS_TO_EMAIL_RECIPIENTS.split(",");
-
-  const email = {
-    to: recipients,
-    from: {
-      name: "SMS Notifier",
-      email: `sms-notifier@${process.env.SENDGRID_VERIFIED_DOMAIN}`,
-    },
-    subject: `SMS from ${fromNumber}`,
-    html: `
-      <h3>New SMS Message</h3>
-      <strong>From:</strong> ${fromNumber}<br/>
-      <strong>Message:</strong> ${textMessage}<br/>
-      <br/>
-      <a href="${process.env.APP_DOMAIN_URL}/?phoneNumber=${fromNumber}">Click here to reply</a>
-    `,
-  };
-
-  sendgrid
-    .send(email)
-    .then(() => {
-      console.log("Email sent");
-    })
-    .catch((error) => {
-      console.log(error.response.body);
-    });
-
-  res.status(204).end();
-});
+// SMS reply from
+app.post("/sms-reply", smsReply);
 
 // Email to SMS
 // SendGrid webook -> Nexmo API
