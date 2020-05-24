@@ -1,5 +1,3 @@
-// @todo emoji support
-
 require("dotenv").config();
 
 const express = require("express");
