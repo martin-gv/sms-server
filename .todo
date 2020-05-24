@@ -1,2 +1,4 @@
-// @todo errors from Nexmo in SMS reply form
-// @todo emoji support
+errors from Nexmo in SMS reply form
+emoji support
+
+use jwts for replies
