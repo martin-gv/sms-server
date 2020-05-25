@@ -12,11 +12,22 @@
       integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
       crossorigin="anonymous"
     />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="container">
-      <h1 class="text-center">SMS Reply</h1>
-      <div class="card mx-auto mt-4" style="max-width: 35rem;">
+      <!-- <h1 class="text-center">SMS Reply</h1> -->
+      <div class="card mx-auto mt-4 bg-light">
+        <div class="card-header">
+          Text message from: <span id="from-number"></span>
+        </div>
+        <div class="card-body">
+          <span id="text-message-body"></span>
+        </div>
+      </div>
+
+      <div class="card mx-auto mt-4">
         <div class="card-body">
           <!-- autocomplete to prevent form values from persisting between refreshes -->
           <form onsubmit="handleFormSubmit(event)" autocomplete="off">
@@ -60,6 +71,8 @@
       integrity="sha256-ijqLssetA1NMNjZ+w1zaUafQQLm4IW5OoM8O+4tatME="
       crossorigin="anonymous"
     ></script>
+    <!-- jwt-decode -->
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@2.2.0/lib/index.min.js"></script>
     <script src="index.js"></script>
   </body>
 </html>

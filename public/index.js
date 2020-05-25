@@ -1,6 +1,18 @@
 // Get phone number from URL
 const urlParams = Qs.parse(location.search, { ignoreQueryPrefix: true });
 const token = urlParams.token;
+const fromNumber = urlParams.from;
+const textMessage = urlParams.message;
+
+// Inbound SMS
+const fromNumberElement = document.getElementById("from-number");
+const textMessageBodyElement = document.getElementById("text-message-body");
+
+// Show last text message received
+fromNumberElement.innerText = fromNumber;
+textMessageBodyElement.innerText = textMessage;
+
+console.log(textMessage, fromNumber);
 
 // Form elements
 const smsMessage = document.getElementById("sms-message");
