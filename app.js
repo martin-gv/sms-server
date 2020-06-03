@@ -10,6 +10,7 @@ const emailReplyParser = require("node-email-reply-parser");
 
 const { inboundSms } = require("./routes/sms/inbound");
 const { smsReply } = require("./routes/sms/reply");
+const authRoutes = require("./routes/auth/auth");
 
 const upload = multer();
 
@@ -30,6 +31,11 @@ app.use(express.static("public"));
 // JSON support also required for Axios
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.set("views", "./views");
+app.set("view engine", "ejs");
+
+app.use(authRoutes);
 
 // Receive external POST request -> Send SMS
 app.post("/sms", (req, res) => {
