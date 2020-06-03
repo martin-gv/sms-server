@@ -1,3 +1,6 @@
 node_modules
 
 .env
+
+# sequelize-cli
+config/config.json
