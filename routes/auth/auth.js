@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-const db = require("../../config/database");
 const User = require("../../models/User");
 
 router.get("/login", (req, res) => {
@@ -17,9 +16,13 @@ router.get("/register", (req, res) => {
   res.render("register");
 });
 
-router.post("/register", (req, res) => {
-  console.log("post register");
-  console.log(req.body);
+router.post("/register", async (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  await User.create({ email: email, password: password });
+
+  res.status(201).end();
 });
 
 module.exports = router;
