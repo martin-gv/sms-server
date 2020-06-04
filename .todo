@@ -1,6 +1,7 @@
 errors from Nexmo in SMS reply form
 emoji support
 add error handler
+add async handler to routes
 
 x add message to sms reply
 x use jwts for replies
