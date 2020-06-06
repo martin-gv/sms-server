@@ -2,6 +2,7 @@ errors from Nexmo in SMS reply form
 emoji support
 add error handler
 add async handler to routes
+add error handling in passport.deserializeUser
 
 x add message to sms reply
 x use jwts for replies
