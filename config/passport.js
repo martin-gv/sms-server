@@ -12,11 +12,11 @@ const verifyCallback = async (username, password, done) => {
   const user = await User.findOne({ where: { email: username } });
 
   if (!user) {
-    return done(null, false, { message: "Incorrect username." });
+    return done(null, false, { message: "Incorrect username" });
   }
 
   if (user.password !== password) {
-    return done(null, false, { message: "Incorrect password." });
+    return done(null, false, { message: "Incorrect password" });
   }
 
   return done(null, user);
