@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
+const session = require("express-session");
 const bodyParser = require("body-parser");
 const Nexmo = require("nexmo");
 const sendgrid = require("@sendgrid/mail");
@@ -8,6 +9,7 @@ const multer = require("multer");
 const addrs = require("email-addresses");
 const emailReplyParser = require("node-email-reply-parser");
 const passport = require("passport");
+const flash = require("connect-flash");
 
 const { inboundSms } = require("./routes/sms/inbound");
 const { smsReply } = require("./routes/sms/reply");
@@ -32,9 +34,27 @@ app.use(express.static("public"));
 // JSON support also required for Axios
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(flash());
 
-app.set("view engine", "ejs");
 app.set("views", "./views");
+app.set("view engine", "ejs");
+
+//
+// ─── SESSION CONFIG ─────────────────────────────────────────────────────────────
+//
+
+app.use(
+  session({
+    secret: "keyboard cat",
+    // connect-session-sequelize implements the touch method,
+    // so per the Express docs resave should be set to false
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24, // 24 hours
+    },
+  })
+);
 
 //
 // ─── PASSPORT CONFIG ────────────────────────────────────────────────────────────
@@ -42,6 +62,7 @@ app.set("views", "./views");
 
 require("./config/passport");
 app.use(passport.initialize());
+app.use(passport.session()); // must run after app.use(session())
 
 app.use(authRoutes);
 
