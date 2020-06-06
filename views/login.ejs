@@ -34,6 +34,7 @@
                 id="password"
               />
             </div>
+            <% if (message.error) { %> <%= message.error %> <% } %>
             <button class="btn btn-primary btn-block" type="submit">
               Login
             </button>
