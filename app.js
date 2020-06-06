@@ -7,6 +7,7 @@ const sendgrid = require("@sendgrid/mail");
 const multer = require("multer");
 const addrs = require("email-addresses");
 const emailReplyParser = require("node-email-reply-parser");
+const passport = require("passport");
 
 const { inboundSms } = require("./routes/sms/inbound");
 const { smsReply } = require("./routes/sms/reply");
@@ -34,6 +35,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
 app.set("views", "./views");
+
+//
+// ─── PASSPORT CONFIG ────────────────────────────────────────────────────────────
+//
+
+require("./config/passport");
+app.use(passport.initialize());
 
 app.use(authRoutes);
 
