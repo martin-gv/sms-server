@@ -14,6 +14,7 @@ const flash = require("connect-flash");
 const { inboundSms } = require("./routes/sms/inbound");
 const { smsReply } = require("./routes/sms/reply");
 const authRoutes = require("./routes/auth/auth");
+const { isAuthenticated } = require("./middleware/auth");
 
 const upload = multer();
 
@@ -63,6 +64,24 @@ app.use(
 require("./config/passport");
 app.use(passport.initialize());
 app.use(passport.session()); // must run after app.use(session())
+
+//
+// ─── DEBUG ──────────────────────────────────────────────────────────────────────
+//
+
+app.use((req, res, next) => {
+  console.log(req.session);
+  console.log(req.user);
+  next();
+});
+
+//
+// ─── ROUTES ─────────────────────────────────────────────────────────────────────
+//
+
+app.get("/", isAuthenticated, (req, res) => {
+  res.render("index");
+});
 
 app.use(authRoutes);
 

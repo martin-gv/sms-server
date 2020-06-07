@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMS Reply</title>
+    <meta name="robots" content="noindex" />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- <h1 class="text-center">SMS Reply</h1> -->
+      <div class="card mx-auto mt-4 bg-light">
+        <div class="card-header">
+          Text message from: <span id="from-number"></span>
+        </div>
+        <div class="card-body">
+          <span id="text-message-body"></span>
+        </div>
+      </div>
+      <div class="card mx-auto mt-4">
+        <div class="card-body">
+          <!-- autocomplete to prevent form values from persisting between refreshes -->
+          <form onsubmit="handleFormSubmit(event)" autocomplete="off">
+            <div class="form-group">
+              <label for="sms-message">Enter your reply here:</label>
+              <textarea
+                class="form-control"
+                id="sms-message"
+                rows="3"
+              ></textarea>
+            </div>
+            <div id="alert"></div>
+            <button type="submit" class="btn btn-primary" id="send-button">
+              Send SMS
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Required for Bootstrap: jQuery, Popper.js, and Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- qs -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.4/qs.min.js"
+      integrity="sha256-ijqLssetA1NMNjZ+w1zaUafQQLm4IW5OoM8O+4tatME="
+      crossorigin="anonymous"
+    ></script>
+    <!-- jwt-decode -->
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@2.2.0/lib/index.min.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
