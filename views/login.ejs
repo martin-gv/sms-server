@@ -21,6 +21,7 @@
         <div class="card-body">
           <h1 class="text-center mb-4">Login</h1>
           <form method="POST" action="/login">
+            <input type="hidden" name="token" value="<%= token ? token : '' %>">
             <div class="form-group">
               <label for="email">Email:</label>
               <input class="form-control" type="text" name="email" id="email" />
@@ -34,7 +35,7 @@
                 id="password"
               />
             </div>
-            <% if (message.error) { %> <%= message.error %> <% } %>
+            <%= message && message.error ? message.error : '' %>
             <button class="btn btn-primary btn-block" type="submit">
               Login
             </button>
