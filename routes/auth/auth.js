@@ -5,8 +5,10 @@ const passport = require("passport");
 const User = require("../../models/User");
 
 router.get("/login", (req, res) => {
+  console.log("login route");
   const message = req.flash();
-  res.render("login", { message: message });
+  const token = req.query.token;
+  res.render("login", { message: message, token: token });
 });
 
 router.post(
@@ -16,7 +18,6 @@ router.post(
     failureFlash: true,
   }),
   (req, res) => {
-    console.log("session", req.session);
     res.redirect("/");
   }
 );
