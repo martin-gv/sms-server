@@ -1,8 +1,11 @@
-// Get phone number from URL
+// Get token from URL and decode
 const urlParams = Qs.parse(location.search, { ignoreQueryPrefix: true });
 const token = urlParams.token;
-const fromNumber = urlParams.from;
-const textMessage = urlParams.message;
+const decoded = jwt_decode(token);
+
+// Extract info from token
+const fromNumber = decoded.fromNumber;
+const textMessage = decoded.textMessage;
 
 // Inbound SMS
 const fromNumberElement = document.getElementById("from-number");
