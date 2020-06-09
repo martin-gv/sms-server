@@ -1,6 +1,6 @@
 const sendgrid = require("@sendgrid/mail");
 const jwt = require("jsonwebtoken");
-const queryString = require("query-string");
+const querystring = require("querystring");
 
 const secret = process.env.JWT_SECRET_KEY;
 
@@ -13,11 +13,7 @@ function inboundSms(req, res, next) {
   const payload = { fromNumber, textMessage };
   const token = jwt.sign(payload, secret);
 
-  const queryParams = queryString.stringify({
-    token: token,
-    from: fromNumber,
-    message: textMessage,
-  });
+  const queryParams = querystring.encode({ token: token });
 
   const email = {
     to: emailRecipients,
