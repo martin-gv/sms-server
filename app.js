@@ -70,8 +70,10 @@ app.use(passport.session()); // must run after app.use(session())
 //
 
 app.use((req, res, next) => {
+  console.log("----------- debug ------------");
+  console.log("location", req.originalUrl);
   console.log("session", req.session);
-  console.log("user", req.user);
+  console.log("user", !!req.user);
   next();
 });
 
