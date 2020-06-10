@@ -1,4 +1,5 @@
 const Sequelize = require("sequelize");
+const path = require("path");
 
 const database = process.env.DB_NAME;
 const user = process.env.DB_USER;
@@ -8,6 +9,9 @@ const sequelize = new Sequelize(database, user, password, {
   host: "localhost",
   dialect: "postgres",
 });
+
+const User = require("../models/User");
+User(sequelize);
 
 sequelize
   .authenticate()

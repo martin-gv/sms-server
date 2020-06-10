@@ -1,20 +1,21 @@
 const { DataTypes } = require("sequelize");
-const db = require("../config/database");
 
-const User = db.define(
-  "User",
-  {
-    email: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-      unique: true,
+module.exports = (sequelize) => {
+  const User = sequelize.define(
+    "User",
+    {
+      email: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        unique: true,
+      },
+      password: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
     },
-    password: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-  },
-  { tableName: "Users" }
-);
+    { tableName: "Users" }
+  );
 
-module.exports = User;
+  return User;
+};

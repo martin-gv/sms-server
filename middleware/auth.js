@@ -1,4 +1,9 @@
 const querystring = require("querystring");
+const bcrypt = require("bcrypt");
+
+//
+// ─── IS AUTHENTICATED ───────────────────────────────────────────────────────────
+//
 
 exports.isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
@@ -11,4 +16,20 @@ exports.isAuthenticated = (req, res, next) => {
     const query = querystring.encode(req.query);
     res.redirect("/login?" + query);
   }
+};
+
+//
+// ─── HASH PASSWORD ──────────────────────────────────────────────────────────────
+//
+
+const saltRounds = 12;
+
+exports.hashPassword = async (req, res, next) => {
+  // No error on undefined password because the hashPassword() middleware isn't
+  // always required in some routes (e.g. when updating fields other than password)
+  if (req.body.password) {
+    req.body.password = await bcrypt.hash(req.body.password, saltRounds);
+  }
+
+  next();
 };

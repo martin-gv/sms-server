@@ -3,8 +3,6 @@ const router = express.Router();
 const passport = require("passport");
 const querystring = require("querystring");
 
-const User = require("../../models/User");
-
 router.get("/login", (req, res) => {
   const message = req.flash();
   const tokenParam = req.query.token;
@@ -33,19 +31,6 @@ router.post("/login", (req, res, next) => {
       res.redirect("/?" + tokenParam);
     });
   })(req, res, next);
-});
-
-router.get("/register", (req, res) => {
-  res.render("register");
-});
-
-router.post("/register", async (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
-
-  await User.create({ email: email, password: password });
-
-  res.status(201).end();
 });
 
 module.exports = router;
