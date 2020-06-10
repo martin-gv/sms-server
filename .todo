@@ -3,6 +3,10 @@ emoji support
 add error handler
 add async handler to routes
 add error handling in passport.deserializeUser
+don't delete email on incorrect password?
+add sessions
 
+x add password hashing
+x style error in login form
 x add message to sms reply
 x use jwts for replies
