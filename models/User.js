@@ -13,6 +13,9 @@ module.exports = (sequelize) => {
         type: DataTypes.TEXT,
         allowNull: false,
       },
+      emailNotificationRecipients: {
+        type: DataTypes.TEXT,
+      },
     },
     { tableName: "Users" }
   );
