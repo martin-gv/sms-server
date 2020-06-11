@@ -9,7 +9,12 @@ const User = db.models.User;
 //
 
 router.get("/settings", (req, res) => {
-  res.render("settings");
+  const { emailNotificationRecipients } = req.user;
+  const message = req.flash();
+  res.render("settings", {
+    message: message,
+    emailNotificationRecipients: emailNotificationRecipients,
+  });
 });
 
 //
@@ -24,6 +29,7 @@ router.post("/settings", async (req, res) => {
     { where: { id: req.user.id } }
   );
 
+  req.flash("success", "Settings updated successfully!");
   res.redirect("/settings");
 });
 
