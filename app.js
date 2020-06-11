@@ -14,6 +14,7 @@ const { inboundSms } = require("./routes/sms/inbound");
 const { smsReply } = require("./routes/sms/reply");
 const authRoutes = require("./routes/auth/auth");
 const registerRoutes = require("./routes/auth/register");
+const settingsRoutes = require('./routes/settings')
 const { isAuthenticated } = require("./middleware/auth");
 
 const upload = multer();
@@ -97,6 +98,8 @@ app.get("/", isAuthenticated, (req, res) => {
 
 app.use(authRoutes);
 app.use(registerRoutes);
+
+app.use(isAuthenticated, settingsRoutes)
 
 // Receive external POST request -> Send SMS
 app.post("/sms", (req, res) => {

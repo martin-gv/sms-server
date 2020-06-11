@@ -1,0 +1,50 @@
+<%- include('includes/header', { title: "Settings"}); %>
+<div class="container">
+  <div class="card mx-auto mt-4 bg-light">
+    <div class="card-body">
+      <h2>Settings</h2>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <h5>Account</h5>
+        <dl class="row">
+          <dt class="col-sm-3">Email:</dt>
+          <dd class="col-sm-9">
+            martin@martin.com
+          </dd>
+        </dl>
+      </li>
+      <li class="list-group-item">
+        <h5>Notifications</h5>
+        <dl class="row">
+          <dt class="col-sm-3">By email:</dt>
+          <dd class="col-sm-9">
+            Enabled
+          </dd>
+        </dl>
+        <form autocomplete="off" method="POST" action="/settings">
+          <div class="form-group">
+            <label for="email-recipients">Send email notifications to:</label>
+            <textarea
+              class="form-control"
+              id="email-recipients"
+              name="email-recipients"
+              rows="3"
+              aria-describedby="email-recipients-help-text"
+            >martin@martin.com</textarea>
+            <small
+              id="email-recipients-help-text"
+              class="form-text text-muted"
+            >
+              For multiple emails, separate each one with a comma
+            </small>
+          </div>
+          <button type="submit" class="btn btn-primary" id="update-button">
+            Update
+          </button>
+        </form>
+      </li>
+    </ul>
+  </div>
+</div>
+<%- include('includes/footer'); %>
