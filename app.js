@@ -1,7 +1,6 @@
 require("dotenv").config();
 
 const express = require("express");
-const session = require("express-session");
 const bodyParser = require("body-parser");
 const Nexmo = require("nexmo");
 const sendgrid = require("@sendgrid/mail");
@@ -45,18 +44,28 @@ app.set("view engine", "ejs");
 // ─── SESSION CONFIG ─────────────────────────────────────────────────────────────
 //
 
+const session = require("express-session");
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
+const db = require("./config/database");
+
+const sessionStore = new SequelizeStore({ db: db });
+
 app.use(
   session({
-    secret: "keyboard cat",
-    // connect-session-sequelize implements the touch method,
-    // so per the Express docs resave should be set to false
+    secret: process.env.SESSIONS_SECRET_KEY,
+    store: sessionStore,
+    // connect-session-sequelize implements the touch method
+    // so, per the Express docs, resave should be set to false
     resave: false,
     saveUninitialized: true,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24, // 24 hours
+      maxAge: 1000 * 60 * 60 * 12, // 12 hours
     },
   })
 );
+
+// Creates/syncs the session table
+sessionStore.sync();
 
 //
 // ─── PASSPORT CONFIG ────────────────────────────────────────────────────────────
