@@ -3,11 +3,19 @@ const router = express.Router();
 const passport = require("passport");
 const querystring = require("querystring");
 
+//
+// ─── LOGIN PAGE ─────────────────────────────────────────────────────────────────
+//
+
 router.get("/login", (req, res) => {
   const message = req.flash();
   const tokenParam = req.query.token;
   res.render("login", { message: message, token: tokenParam });
 });
+
+//
+// ─── LOGIN HANDLER ──────────────────────────────────────────────────────────────
+//
 
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
@@ -33,9 +41,13 @@ router.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
-router.get('/logout', (req, res) => {
+//
+// ─── LOGOUT HANDLER ─────────────────────────────────────────────────────────────
+//
+
+router.get("/logout", (req, res) => {
   req.logout();
-  res.redirect('/login')
-})
+  res.redirect("/login");
+});
 
 module.exports = router;
