@@ -1,14 +1,25 @@
 const sendgrid = require("@sendgrid/mail");
 const jwt = require("jsonwebtoken");
 const querystring = require("querystring");
+const db = require("../../config/database");
+
+const User = db.models.User;
 
 const secret = process.env.JWT_SECRET_KEY;
 
-function inboundSms(req, res, next) {
+async function inboundSms(req, res, next) {
   const fromNumber = req.body.msisdn;
   const textMessage = req.body.text;
 
-  const emailRecipients = process.env.SMS_TO_EMAIL_RECIPIENTS.split(",");
+  const user = await User.findOne({
+    where: { email: process.env.SMS_TO_EMAIL_RECIPIENTS },
+  });
+
+  const emailRecipients = user.emailNotificationRecipients
+    .split(",")
+    .map((email) => email.trim());
+
+  console.log(emailRecipients);
 
   const payload = { fromNumber, textMessage };
   const token = jwt.sign(payload, secret);

@@ -29,25 +29,24 @@
       <li class="list-group-item">
         <h5 class="mb-3">Notifications</h5>
         <dl class="row">
-          <dt class="col-sm-3">By email:</dt>
-          <dd class="col-sm-9">
+          <dt class="col-sm-4">By email:</dt>
+          <dd class="col-sm-8">
             Enabled
           </dd>
         </dl>
         <form autocomplete="off" method="POST" action="/settings">
           <div class="form-group">
-            <label for="emailNotificationRecipients"
-              >Send email notifications to:</label
-            >
-            <textarea
+            <label for="emailNotificationRecipients">
+              Send email notifications to:
+            </label>
+            <input
               class="form-control"
               id="emailNotificationRecipients"
+              type="text"
               name="emailNotificationRecipients"
-              rows="3"
               aria-describedby="email-notification-recipients-helper-text"
-            >
-<%= locals.emailNotificationRecipients %></textarea
-            >
+              value="<%= locals.emailNotificationRecipients %>"
+            />
             <small
               id="email-notification-recipients-helper-text"
               class="form-text text-muted"
