@@ -4,7 +4,11 @@ add error handler
 add async handler to routes
 add error handling in passport.deserializeUser
 don't delete email on incorrect password?
+fix main script running on every page
+menu items hide/show depending on login/logout status
+add isAuthenticated to settings routes
 
+x add success message on updating settings
 x auto focus email field on login form
 x add sessions
 x add password hashing
