@@ -8,7 +8,7 @@ const User = db.models.User;
 // ─── SETTINGS PAGE ──────────────────────────────────────────────────────────────
 //
 
-router.get("/settings", (req, res) => {
+router.get((req, res) => {
   const { email, emailNotificationRecipients } = req.user;
   const message = req.flash();
   res.render("settings", {
@@ -22,7 +22,7 @@ router.get("/settings", (req, res) => {
 // ─── SETTINGS UPDATE HANDLER ────────────────────────────────────────────────────
 //
 
-router.post("/settings", async (req, res) => {
+router.post(async (req, res) => {
   const { emailNotificationRecipients } = req.body;
 
   await User.update(

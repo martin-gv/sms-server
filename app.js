@@ -99,8 +99,7 @@ app.get("/", isAuthenticated, (req, res) => {
 app.use(authRoutes);
 app.use(registerRoutes);
 
-// todo - add authentication
-app.use(settingsRoutes);
+app.use("/settings", isAuthenticated, settingsRoutes);
 
 // Receive external POST request -> Send SMS
 app.post("/sms", (req, res) => {
