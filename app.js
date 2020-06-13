@@ -15,6 +15,7 @@ const { smsReply } = require("./routes/sms/reply");
 const authRoutes = require("./routes/auth/auth");
 const registerRoutes = require("./routes/auth/register");
 const settingsRoutes = require("./routes/settings");
+const outboundSmsRoutes = require("./routes/sms/outbound");
 const { isAuthenticated } = require("./middleware/auth");
 
 const upload = multer();
@@ -95,6 +96,7 @@ app.use(passport.session()); // must run after app.use(session())
 app.use(authRoutes); // login and logout
 app.use(registerRoutes);
 app.use(settingsRoutes);
+app.use(outboundSmsRoutes);
 
 // External app integration
 // POST request -> Send SMS
