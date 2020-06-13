@@ -1,4 +1,4 @@
-<%- include('includes/header', { title: "Settings"}); %>
+<%- include('includes/header', { title: "Settings", loggedIn: true }); %>
 <div class="container">
   <% if (locals.message.success) { %>
   <div class="alert alert-success alert-dismissible fade show" role="alert">

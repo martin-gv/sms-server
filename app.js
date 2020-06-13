@@ -93,7 +93,7 @@ app.use(passport.session()); // must run after app.use(session())
 //
 
 app.get("/", isAuthenticated, (req, res) => {
-  res.render("index");
+  res.render("index", { loggedIn: Boolean(req.user) });
 });
 
 app.use(authRoutes);

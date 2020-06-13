@@ -32,8 +32,12 @@
 
       <div class="collapse navbar-collapse" id="navbarMenuItems">
         <div class="navbar-nav ml-auto">
-          <a class="nav-item nav-link" href="/settings">Settings</a>
-          <a class="nav-item nav-link" href="/logout">Logout</a>
+          <% if (locals.loggedIn) { %>
+            <a class="nav-item nav-link" href="/settings">Settings</a>
+            <a class="nav-item nav-link" href="/logout">Logout</a>
+          <% } %>
         </div>
       </div>
     </nav>
+  </body>
+</html>
