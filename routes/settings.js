@@ -9,10 +9,11 @@ const User = db.models.User;
 //
 
 router.get("/settings", (req, res) => {
-  const { emailNotificationRecipients } = req.user;
+  const { email, emailNotificationRecipients } = req.user;
   const message = req.flash();
   res.render("settings", {
     message: message,
+    email: email,
     emailNotificationRecipients: emailNotificationRecipients,
   });
 });
