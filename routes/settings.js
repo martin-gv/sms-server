@@ -3,12 +3,19 @@ const router = express.Router();
 const db = require("../config/database");
 
 const User = db.models.User;
+const { isAuthenticated } = require("../middleware/auth");
+
+//
+// ─── USE AUTHENTICATION ─────────────────────────────────────────────────────────
+//
+
+router.use("/settings", isAuthenticated);
 
 //
 // ─── SETTINGS PAGE ──────────────────────────────────────────────────────────────
 //
 
-router.get((req, res) => {
+router.get("/settings", (req, res) => {
   const { email, emailNotificationRecipients } = req.user;
   const message = req.flash();
   res.render("settings", {
@@ -22,7 +29,7 @@ router.get((req, res) => {
 // ─── SETTINGS UPDATE HANDLER ────────────────────────────────────────────────────
 //
 
-router.post(async (req, res) => {
+router.post("/settings", async (req, res) => {
   const { emailNotificationRecipients } = req.body;
 
   await User.update(

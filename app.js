@@ -96,10 +96,9 @@ app.get("/", isAuthenticated, (req, res) => {
   res.render("index", { loggedIn: Boolean(req.user) });
 });
 
-app.use(authRoutes);
+app.use(authRoutes); // login and logout
 app.use(registerRoutes);
-
-app.use("/settings", isAuthenticated, settingsRoutes);
+app.use(settingsRoutes);
 
 // External app integration
 // POST request -> Send SMS
