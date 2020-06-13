@@ -7,19 +7,31 @@ const User = db.models.User;
 
 const secret = process.env.JWT_SECRET_KEY;
 
-async function inboundSms(req, res, next) {
+// Nexmo webhook POSTS to this route:
+
+async function inboundSms(req, res) {
   const fromNumber = req.body.msisdn;
   const textMessage = req.body.text;
 
+  //
+  // ─── INBOUND TEXT MESSAGE ───────────────────────────────────────────────────────
+  //
+
+  // const sender = req.body.msisdn;
+  const recipient = req.body.to;
+  // const content = req.body.text;
+
+  //
+  // ─── LOOK UP ACCOUNT ────────────────────────────────────────────────────────────
+  //
+
   const user = await User.findOne({
-    where: { email: process.env.SMS_TO_EMAIL_RECIPIENTS },
+    where: { smsNumber: recipient },
   });
 
   const emailRecipients = user.emailNotificationRecipients
     .split(",")
     .map((email) => email.trim());
-
-  console.log(emailRecipients);
 
   const payload = { fromNumber, textMessage };
   const token = jwt.sign(payload, secret);

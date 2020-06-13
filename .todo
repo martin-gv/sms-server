@@ -5,8 +5,12 @@ add async handler to routes
 add error handling in passport.deserializeUser
 don't delete email on incorrect password?
 fix main script running on every page
-add isAuthenticated to settings routes
+create session table in migratin? and remove sync()
+add logger?
+send text message to anyone
 
+x email notification lookup using number used by Nexmo
+x add isAuthenticated to settings routes
 x menu items hide/show depending on login/logout status
 x add success message on updating settings
 x auto focus email field on login form
