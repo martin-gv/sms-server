@@ -101,7 +101,8 @@ app.use(registerRoutes);
 
 app.use("/settings", isAuthenticated, settingsRoutes);
 
-// Receive external POST request -> Send SMS
+// External app integration
+// POST request -> Send SMS
 app.post("/sms", (req, res) => {
   const from = process.env.NEXMO_PHONE_NUMBER; // Nexmo number
   const to = req.body.to;
@@ -116,8 +117,8 @@ app.post("/sms", (req, res) => {
   });
 });
 
-// SMS to Email
-// Nexmo webhook -> SendGrid API
+// Inbound SMS -> Email Notificaiton
+// Nexmo webhook POSTS to this route
 app.post("/inbound-sms", inboundSms);
 
 // SMS reply from
