@@ -92,10 +92,6 @@ app.use(passport.session()); // must run after app.use(session())
 // ─── ROUTES ─────────────────────────────────────────────────────────────────────
 //
 
-app.get("/", isAuthenticated, (req, res) => {
-  res.render("index", { loggedIn: Boolean(req.user) });
-});
-
 app.use(authRoutes); // login and logout
 app.use(registerRoutes);
 app.use(settingsRoutes);
@@ -116,12 +112,26 @@ app.post("/sms", (req, res) => {
   });
 });
 
-// Inbound SMS -> Email Notificaiton
-// Nexmo webhook POSTS to this route
+//
+// ─── INBOUND SMS -> EMAIL NOTIFICATION ────────────────────────────────────────────
+//
+
+// Used by the Nexmo webhook
 app.post("/inbound-sms", inboundSms);
 
-// SMS reply from
+//
+// ─── OUTBOUND SMS REPLIES ───────────────────────────────────────────────────────
+//
+
+app.get("/", isAuthenticated, (req, res) => {
+  res.render("index", { loggedIn: Boolean(req.user) });
+});
+
 app.post("/sms-reply", smsReply);
+
+//
+// ─── OTHER ROUTES ───────────────────────────────────────────────────────────────
+//
 
 // Email to SMS
 // SendGrid webook -> Nexmo API
