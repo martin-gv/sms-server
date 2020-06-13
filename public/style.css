@@ -1,4 +1,4 @@
-.container {
-  max-width: 35rem;
+.container.main {
+  max-width: 40rem;
   padding-top: 1rem;
 }
