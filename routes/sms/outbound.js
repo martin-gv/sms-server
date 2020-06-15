@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const nexmo = require("../../config/nexmo");
 
 const { isAuthenticated } = require("../../middleware/auth");
 
@@ -14,7 +15,8 @@ router.use("/send", isAuthenticated);
 //
 
 router.get("/send", (req, res) => {
-  res.render("send");
+  const message = req.flash();
+  res.render("send", { message: message });
 });
 
 //
@@ -22,7 +24,19 @@ router.get("/send", (req, res) => {
 //
 
 router.post("/send", (req, res) => {
-  res.end();
+  const from = req.user.smsNumber;
+  const to = req.body.recipientNumber;
+  const sms = req.body.messageContent;
+
+  nexmo.message.sendSms(from, to, sms, (err, nexmoRes) => {
+    if (err) {
+      req.flash("error", "Something went wrong");
+      res.redirect("/send");
+    } else {
+      req.flash("success", "Message sent successfully!");
+      res.redirect("/send");
+    }
+  });
 });
 
 //
