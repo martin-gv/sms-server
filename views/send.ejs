@@ -1,13 +1,39 @@
 <%- include('includes/header', { title: "Send Mesage", loggedIn: true }); %>
+<%- include('includes/alert', { message: locals.message}); %>
 <div class="card mx-auto">
   <div class="card-body">
     <h4 class="card-title">Send Message</h4>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam,
-      impedit! Recusandae, nemo magni doloremque atque eaque dolorum sunt,
-      laudantium harum repudiandae error illum nihil voluptatibus, dicta ab quas
-      excepturi repellat.
-    </p>
+    <hr />
+    <form autocomplete="off" method="POST" action="/send">
+      <div class="form-group">
+        <label class="font-weight-bold" for="senderNumber">From:</label>
+        <p id="senderNumber">
+          1-780-900-0958
+        </p>
+      </div>
+      <div class="form-group">
+        <label class="font-weight-bold" for="recipientNumber">To:</label>
+        <input
+          class="form-control"
+          id="recipientNumber"
+          type="text"
+          name="recipientNumber"
+        />
+      </div>
+      <div class="form-group">
+        <label class="font-weight-bold" for="messageContent">Message:</label>
+        <textarea
+          class="form-control"
+          id="messageContent"
+          name="messageContent"
+          rows="3"
+        ></textarea>
+      </div>
+      <div id="alert"></div>
+      <button type="submit" class="btn btn-primary">
+        Send Message
+      </button>
+    </form>
   </div>
 </div>
 <%- include('includes/footer'); %>
