@@ -5,7 +5,6 @@ const PNF = require("google-libphonenumber").PhoneNumberFormat;
 const phoneUtil = require("google-libphonenumber").PhoneNumberUtil.getInstance();
 
 const { isAuthenticated } = require("../../middleware/auth");
-const e = require("express");
 
 //
 // ─── USE AUTHENTICATION ─────────────────────────────────────────────────────────
