@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../config/database");
+const PNF = require("google-libphonenumber").PhoneNumberFormat;
+const phoneUtil = require("google-libphonenumber").PhoneNumberUtil.getInstance();
 
 const User = db.models.User;
 const { isAuthenticated } = require("../middleware/auth");
@@ -16,12 +18,17 @@ router.use("/settings", isAuthenticated);
 //
 
 router.get("/settings", (req, res) => {
-  const { email, emailNotificationRecipients } = req.user;
+  const { email, emailNotificationRecipients, smsNumber } = req.user;
+
+  const number = phoneUtil.parseAndKeepRawInput(smsNumber, "CA");
+  const formattedNumber = phoneUtil.format(number, PNF.NATIONAL);
+
   const message = req.flash();
   res.render("settings", {
     message: message,
     email: email,
     emailNotificationRecipients: emailNotificationRecipients,
+    formattedNumber: formattedNumber,
   });
 });
 
