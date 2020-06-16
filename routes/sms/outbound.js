@@ -62,7 +62,7 @@ router.post("/send", (req, res) => {
       } else {
         req.flash(
           "error",
-          `<strong>${to}</strong> is not a valid phone number`
+          `<strong>${to}</strong> is not a valid Canadian phone number`
         );
         res.redirect("/send");
       }
