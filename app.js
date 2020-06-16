@@ -90,6 +90,14 @@ app.use(passport.session()); // must run after app.use(session())
 // });
 
 //
+// ─── INDEX ROUTE ────────────────────────────────────────────────────────────────
+//
+
+app.get("/", (req, res) => {
+  res.redirect("/send");
+});
+
+//
 // ─── ROUTES ─────────────────────────────────────────────────────────────────────
 //
 
@@ -125,7 +133,7 @@ app.post("/inbound-sms", inboundSms);
 // ─── OUTBOUND SMS REPLIES ───────────────────────────────────────────────────────
 //
 
-app.get("/", isAuthenticated, (req, res) => {
+app.get("/reply", isAuthenticated, (req, res) => {
   res.render("index", { loggedIn: Boolean(req.user) });
 });
 

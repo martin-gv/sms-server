@@ -50,7 +50,7 @@ async function inboundSms(req, res) {
       <strong>From:</strong> ${fromNumber}<br/>
       <strong>Message:</strong> ${textMessage}<br/>
       <br/>
-      <a href="${process.env.APP_DOMAIN_URL}/?${queryParams}">
+      <a href="${process.env.APP_DOMAIN_URL}/reply?${queryParams}">
         Click here to reply
       </a>
     `,
