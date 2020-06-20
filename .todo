@@ -8,6 +8,18 @@ fix main script running on every page
 create session table in migratin? and remove sync()
 add logger?
 send text message to anyone
+send text message - save fields on error
+send text message - validation for only numbers and +
+send text message - check local number using region of account number
+register - save fields on error
+check token redirect after login (new reply page)
+middleware to new number routes to only work if user doesn't have a number
+glitch where first message from nexmo number isn't delivered?
+register only if not logged in
+
+new-number redirects - on login, go to new number
+new-number redirects - on settings, show alert about getting a new number
+new-number redirects - on new message, show alert about getting a number + disable form
 
 x email notification lookup using number used by Nexmo
 x add isAuthenticated to settings routes
