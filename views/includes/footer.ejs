@@ -31,5 +31,11 @@
     ></script>
     <!-- page script -->
     <script src="index.js"></script>
+    <!-- Page specific scripts -->
+    <% if (typeof locals.js !== 'undefined') { %>
+      <% for (const fileName of js) { %>
+          <script src='/js/<%= fileName %>.js' type='text/javascript'></script>
+      <% } %>
+    <% } %>
   </body>
 </html>
