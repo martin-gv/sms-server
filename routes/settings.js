@@ -18,17 +18,23 @@ router.use("/settings", isAuthenticated);
 //
 
 router.get("/settings", (req, res) => {
-  const { email, emailNotificationRecipients, smsNumber } = req.user;
+  const { email, emailNotificationRecipients } = req.user;
 
-  const number = phoneUtil.parseAndKeepRawInput(smsNumber, "CA");
-  const formattedNumber = phoneUtil.format(number, PNF.NATIONAL);
+  let smsNumber = req.user.smsNumber;
+
+  if (smsNumber !== null) {
+    const parsedNumber = phoneUtil.parseAndKeepRawInput(smsNumber, "CA");
+    smsNumber = phoneUtil.format(parsedNumber, PNF.NATIONAL);
+  } else {
+    smsNumber = "No number assigned to account";
+  }
 
   const message = req.flash();
   res.render("settings", {
     message: message,
     email: email,
     emailNotificationRecipients: emailNotificationRecipients,
-    formattedNumber: formattedNumber,
+    smsNumber: smsNumber,
   });
 });
 
