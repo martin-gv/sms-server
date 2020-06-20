@@ -1,12 +1,12 @@
-<%- include('includes/header', { title: "Send Mesage", loggedIn: true }); %> <%-
-include('includes/alert', { message: locals.message}); %>
+<%- include('includes/header', { title: "Send Mesage", loggedIn: true }); %>
+<%- include('includes/alert', { message: locals.message}); %>
 <div class="card mx-auto">
   <div class="card-body">
     <h4 class="card-title">Send Message</h4>
     <hr />
     <form autocomplete="off" method="POST" action="/send">
       <div class="form-group">
-        <label class="font-weight-bold" for="recipientNumber">To:</label>
+        <label for="recipientNumber">To:</label>
         <input
           class="form-control"
           id="recipientNumber"
@@ -16,7 +16,7 @@ include('includes/alert', { message: locals.message}); %>
         />
       </div>
       <div class="form-group">
-        <label class="font-weight-bold" for="messageContent">Message:</label>
+        <label for="messageContent">Message:</label>
         <textarea
           class="form-control"
           id="messageContent"
