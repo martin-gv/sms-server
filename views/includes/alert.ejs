@@ -1,6 +1,22 @@
+<% if (locals.message && locals.message.primary) { %>
+<div class="alert alert-primary alert-dismissible fade show" role="alert">
+  <%- locals.message.primary %>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<% } %>
 <% if (locals.message && locals.message.success) { %>
 <div class="alert alert-success alert-dismissible fade show" role="alert">
   <%- locals.message.success %>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<% } %>
+<% if (locals.message && locals.message.warning) { %>
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <%- locals.message.warning %>
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
