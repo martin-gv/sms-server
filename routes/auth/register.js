@@ -5,11 +5,26 @@ const validator = require("email-validator");
 const bcrypt = require("bcrypt");
 
 const User = db.models.User;
+const { isUnauthenticated } = require("../../middleware/auth");
+
+//
+// ─── ROUTE ONLY AVAILABLE TO NON LOGGED IN USERS ────────────────────────────────
+//
+
+router.use("/register", isUnauthenticated);
+
+//
+// ─── REGISTER PAGE ──────────────────────────────────────────────────────────────
+//
 
 router.get("/register", (req, res) => {
   const message = req.flash();
   res.render("register", { message: message });
 });
+
+//
+// ─── REGISTER HANDLER ───────────────────────────────────────────────────────────
+//
 
 router.post("/register", async (req, res) => {
   const email = req.body.email;
