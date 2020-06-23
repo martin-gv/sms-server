@@ -1,7 +1,7 @@
-const sendgrid = require("@sendgrid/mail");
 const jwt = require("jsonwebtoken");
 const querystring = require("querystring");
 const db = require("../../config/database");
+const mailgun = require("../../config/mailgun");
 
 const User = db.models.User;
 
@@ -29,9 +29,9 @@ async function inboundSms(req, res) {
     where: { smsNumber: recipient },
   });
 
-  const emailRecipients = user.emailNotificationRecipients
-    .split(",")
-    .map((email) => email.trim());
+  const emailRecipients = user.emailNotificationRecipients;
+  // .split(",")
+  // .map((email) => email.trim());
 
   const payload = { fromNumber, textMessage };
   const token = jwt.sign(payload, secret);
@@ -40,10 +40,7 @@ async function inboundSms(req, res) {
 
   const email = {
     to: emailRecipients,
-    from: {
-      name: "SMS Notifier",
-      email: `sms-notifier@${process.env.SENDGRID_VERIFIED_DOMAIN}`,
-    },
+    from: "SMS Notifier <sms-notifier@mail.sms.martin-gv.com>",
     subject: `SMS from ${fromNumber}`,
     html: `
       <h3>New SMS Message</h3>
@@ -56,14 +53,14 @@ async function inboundSms(req, res) {
     `,
   };
 
-  sendgrid
-    .send(email)
-    .then(() => {
-      console.log("Email sent");
-    })
-    .catch((error) => {
-      console.log(error.response.body);
-    });
+  mailgun.messages().send(email, (error, body) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("email sent!");
+      console.log(body);
+    }
+  });
 
   res.status(204).end();
 }
