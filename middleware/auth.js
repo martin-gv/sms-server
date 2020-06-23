@@ -19,6 +19,18 @@ exports.isAuthenticated = (req, res, next) => {
 };
 
 //
+// ─── IS NOT AUTHENTICATED ───────────────────────────────────────────────────────
+//
+
+exports.isUnauthenticated = (req, res, next) => {
+  if (req.isUnauthenticated()) {
+    next();
+  } else {
+    res.redirect("/");
+  }
+};
+
+//
 // ─── HASH PASSWORD ──────────────────────────────────────────────────────────────
 //
 
