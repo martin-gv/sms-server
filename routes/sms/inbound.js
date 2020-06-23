@@ -30,8 +30,6 @@ async function inboundSms(req, res) {
   });
 
   const emailRecipients = user.emailNotificationRecipients;
-  // .split(",")
-  // .map((email) => email.trim());
 
   const payload = { fromNumber, textMessage };
   const token = jwt.sign(payload, secret);
