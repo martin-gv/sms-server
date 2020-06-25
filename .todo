@@ -13,14 +13,15 @@ send text message - validation for only numbers and +
 send text message - check local number using region of account number
 register - save fields on error
 check token redirect after login (new reply page)
+token not being passed through after logging in
 middleware to new number routes to only work if user doesn't have a number
 glitch where first message from nexmo number isn't delivered?
-register only if not logged in
 
 new-number redirects - on login, go to new number
 new-number redirects - on settings, show alert about getting a new number
 new-number redirects - on new message, show alert about getting a number + disable form
 
+x register only if not logged in
 x email notification lookup using number used by Nexmo
 x add isAuthenticated to settings routes
 x menu items hide/show depending on login/logout status
