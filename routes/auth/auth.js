@@ -44,7 +44,12 @@ router.post("/login", (req, res, next) => {
         return;
       }
 
-      res.redirect("/?" + tokenParam);
+      // Redirect to 'reply' page if necessary
+      if (req.body.token) {
+        res.redirect("/reply?" + tokenParam);
+      } else {
+        res.redirect("/");
+      }
     });
   })(req, res, next);
 });
