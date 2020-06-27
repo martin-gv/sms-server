@@ -11,7 +11,12 @@
         <dt class="col-sm-4">Email:</dt>
         <dd class="col-sm-8"><%= locals.email %></dd>
         <dt class="col-sm-4">SMS Number:</dt>
-        <dd class="col-sm-8"><%= locals.smsNumber %></dd>
+        <dd class="col-sm-8">
+          <div class="text-danger mb-2">
+            <%= locals.smsNumber %><br />
+          </div>
+          <a class="btn btn-primary" href="/new-number">Get a number</a>
+        </dd>
       </dl>
     </li>
     <li class="list-group-item">

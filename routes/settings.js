@@ -21,12 +21,13 @@ router.get("/settings", (req, res) => {
   const { email, emailNotificationRecipients } = req.user;
 
   let smsNumber = req.user.smsNumber;
+  const hasNumber = smsNumber ? true : false;
 
   if (smsNumber !== null) {
     const parsedNumber = phoneUtil.parseAndKeepRawInput(smsNumber, "CA");
     smsNumber = phoneUtil.format(parsedNumber, PNF.NATIONAL);
   } else {
-    smsNumber = "No number assigned to account";
+    smsNumber = "This account doesn't have a number";
   }
 
   const message = req.flash();
@@ -35,6 +36,7 @@ router.get("/settings", (req, res) => {
     email: email,
     emailNotificationRecipients: emailNotificationRecipients,
     smsNumber: smsNumber,
+    hasNumber: hasNumber
   });
 });
 
