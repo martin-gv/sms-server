@@ -7,10 +7,23 @@ const phoneUtil = require("google-libphonenumber").PhoneNumberUtil.getInstance()
 const { isAuthenticated } = require("../../middleware/auth");
 
 //
-// ─── USE AUTHENTICATION ─────────────────────────────────────────────────────────
+// ─── ROUTE MIDDLEWARE ───────────────────────────────────────────────────────────
 //
 
-router.use("/send", isAuthenticated);
+router.use("/send", isAuthenticated, userHasNumber);
+
+//
+// ─── USER HAS NUMBER MIDDLEWARE ─────────────────────────────────────────────────
+//
+
+function userHasNumber(req, res, next) {
+  if (req.user.smsNumber === null) {
+    req.flash("warning", "Get a number to start sending messages");
+    res.redirect("/new-number");
+  } else {
+    next();
+  }
+}
 
 //
 // ─── PAGE ───────────────────────────────────────────────────────────────────────
