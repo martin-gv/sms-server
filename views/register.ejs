@@ -1,6 +1,8 @@
 <%- include('includes/header', { title: "Settings" }); %>
-<%- include('includes/alert', { message: locals.message}); %>
-<div class="card mx-auto">
+<div class="container" style="max-width: 20rem; padding: 0">
+  <%- include('includes/alert', { message: locals.message}); %>
+</div>
+<div class="card mx-auto" style="max-width: 20rem;">
   <div class="card-body">
     <h4>Create new account</h4>
     <hr />
@@ -41,5 +43,4 @@
     </form>
   </div>
 </div>
-
 <%- include('includes/footer'); %>
