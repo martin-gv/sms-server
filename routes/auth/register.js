@@ -18,8 +18,11 @@ router.use("/register", isUnauthenticated);
 //
 
 router.get("/register", (req, res) => {
+  // Re-add email to form after error
+  const email = req.query.email;
+
   const message = req.flash();
-  res.render("register", { message: message });
+  res.render("register", { message: message, email: email });
 });
 
 //
@@ -34,13 +37,13 @@ router.post("/register", async (req, res) => {
   // Check if email format is valid
   if (!validator.validate(email)) {
     req.flash("error", "Email is invalid");
-    res.redirect("/register");
+    res.redirect("/register" + "?email=" + email);
     return;
   }
 
   if (password !== confirmPassword) {
     req.flash("error", "Passwords don't match");
-    res.redirect("/register");
+    res.redirect("/register" + "?email=" + email);
     return;
   }
 
