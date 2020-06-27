@@ -36,6 +36,14 @@ router.post("/login", (req, res, next) => {
 
     req.logIn(user, (err) => {
       if (err) return next(err);
+
+      // Check if user has a number assigned or not
+      if (user.smsNumber === null) {
+        req.flash("warning", "Get a new number to complete your account");
+        res.redirect("/new-number");
+        return;
+      }
+
       res.redirect("/?" + tokenParam);
     });
   })(req, res, next);
