@@ -12,10 +12,12 @@
         <dd class="col-sm-8"><%= locals.email %></dd>
         <dt class="col-sm-4">SMS Number:</dt>
         <dd class="col-sm-8">
-          <div class="text-danger mb-2">
-            <%= locals.smsNumber %><br />
+          <div class="<%= locals.hasNumber ? 'mb-2' : 'text-danger mb-2' %>">
+            <%= locals.smsNumber %>
           </div>
+          <% if (locals.hasNumber === false) { %>
           <a class="btn btn-primary" href="/new-number">Get a number</a>
+          <% } %>
         </dd>
       </dl>
     </li>
