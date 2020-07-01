@@ -3,16 +3,18 @@ emoji support
 add error handler
 add async handler to routes
 add error handling in passport.deserializeUser
-don't delete email on incorrect password?
 fix main script running on every page
 create session table in migratin? and remove sync()
 add logger?
 send text message - save fields on error
 send text message - validation for only numbers and +
 send text message - check local number using region of account number
+don't delete email on incorrect password login
 
 glitch where first message from nexmo number isn't delivered?
+  switch to twilio
 
+x handle registration errors (e.g. email already exists)
 x register - save fields on error
 x send text message to anyone
 x middleware to new number routes to only work if user doesn't have a number
