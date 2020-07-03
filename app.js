@@ -3,7 +3,6 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const Nexmo = require("nexmo");
-const sendgrid = require("@sendgrid/mail");
 const passport = require("passport");
 const flash = require("connect-flash");
 
@@ -21,7 +20,6 @@ const nexmo = new Nexmo({
   apiSecret: process.env.NEXMO_API_SECRET,
 });
 
-sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 
 const app = express();
 const port = process.env.PORT || 8080;
