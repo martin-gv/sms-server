@@ -5,8 +5,6 @@ const bodyParser = require("body-parser");
 const Nexmo = require("nexmo");
 const sendgrid = require("@sendgrid/mail");
 const multer = require("multer");
-const addrs = require("email-addresses");
-const emailReplyParser = require("node-email-reply-parser");
 const passport = require("passport");
 const flash = require("connect-flash");
 
@@ -144,30 +142,6 @@ app.post("/sms-reply", smsReply);
 //
 // ─── OTHER ROUTES ───────────────────────────────────────────────────────────────
 //
-
-// Email to SMS
-// SendGrid webook -> Nexmo API
-app.post("/email-to-sms", upload.any(), (req, res) => {
-  console.log("EMAIL TO SMS");
-
-  const fromNum = process.env.NEXMO_PHONE_NUMBER; // Nexmo number
-
-  const to = req.body.to; // email to address
-  const toNum = addrs.parseOneAddress(to).local; // get phone # from email address
-
-  const emailText = req.body.text; // email reply body text
-  const sms = emailReplyParser(emailText, true);
-
-  nexmo.message.sendSms(fromNum, toNum, sms, (err, nexmoRes) => {
-    if (err) {
-      console.log(err);
-      res.status(500).end();
-    } else {
-      console.log("SMS sent ✔️");
-      res.status(204).end(); // send response to SendGrid
-    }
-  });
-});
 
 // Delivery receipts (Nexmo webhook)
 app.post("/delivery-receipt", (req, res) => {
