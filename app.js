@@ -2,7 +2,6 @@ require("dotenv").config();
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const Nexmo = require("nexmo");
 const passport = require("passport");
 const flash = require("connect-flash");
 
@@ -13,12 +12,9 @@ const registerRoutes = require("./routes/auth/register");
 const settingsRoutes = require("./routes/settings");
 const outboundSmsRoutes = require("./routes/sms/outbound");
 const newNumberRoutes = require("./routes/new-number");
-const { isAuthenticated } = require("./middleware/auth");
+const externalApp = require("./routes/externalApp");
 
-const nexmo = new Nexmo({
-  apiKey: process.env.NEXMO_API_KEY,
-  apiSecret: process.env.NEXMO_API_SECRET,
-});
+const { isAuthenticated } = require("./middleware/auth");
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -88,21 +84,11 @@ app.use(settingsRoutes);
 app.use(outboundSmsRoutes);
 app.use(newNumberRoutes);
 
-// External app integration
-// POST request -> Send SMS
-app.post("/sms", (req, res) => {
-  const from = process.env.NEXMO_PHONE_NUMBER; // Nexmo number
-  const to = req.body.to;
-  const sms = req.body.sms;
+//
+// ─── EXTERNAL APP INTEGRATION ───────────────────────────────────────────────────
+//
 
-  nexmo.message.sendSms(from, to, sms, (err, nexmoRes) => {
-    if (err) {
-      res.status(500).json(err);
-    } else {
-      res.status(200).json(nexmoRes);
-    }
-  });
-});
+app.post("/sms", externalApp);
 
 //
 // ─── INBOUND SMS -> EMAIL NOTIFICATION ────────────────────────────────────────────
