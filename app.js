@@ -4,7 +4,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const Nexmo = require("nexmo");
 const sendgrid = require("@sendgrid/mail");
-const multer = require("multer");
 const passport = require("passport");
 const flash = require("connect-flash");
 
@@ -16,8 +15,6 @@ const settingsRoutes = require("./routes/settings");
 const outboundSmsRoutes = require("./routes/sms/outbound");
 const newNumberRoutes = require("./routes/new-number");
 const { isAuthenticated } = require("./middleware/auth");
-
-const upload = multer();
 
 const nexmo = new Nexmo({
   apiKey: process.env.NEXMO_API_KEY,
