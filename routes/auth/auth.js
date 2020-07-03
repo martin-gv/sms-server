@@ -9,8 +9,11 @@ const querystring = require("querystring");
 
 router.get("/login", (req, res) => {
   const message = req.flash();
-  const tokenParam = req.query.token;
-  res.render("login", { message: message, token: tokenParam });
+  res.render("login", {
+    message: message,
+    token: req.query.token,
+    email: req.query.email,
+  });
 });
 
 //
@@ -21,7 +24,10 @@ router.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) return next(err);
 
-    const tokenParam = querystring.encode({ token: req.body.token });
+    const queryParams = querystring.encode({
+      token: req.body.token,
+      email: req.body.email,
+    });
 
     // Passport will return the 'info' object with a 'message' key if no
     // credentials are supplied. The verify callback in config/passport.js
@@ -30,7 +36,7 @@ router.post("/login", (req, res, next) => {
 
     if (!user) {
       req.flash("error", info.message);
-      res.redirect("/login?" + tokenParam);
+      res.redirect("/login?" + queryParams);
       return;
     }
 
