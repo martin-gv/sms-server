@@ -20,7 +20,6 @@ const nexmo = new Nexmo({
   apiSecret: process.env.NEXMO_API_SECRET,
 });
 
-
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -70,18 +69,6 @@ sessionStore.sync();
 require("./config/passport");
 app.use(passport.initialize());
 app.use(passport.session()); // must run after app.use(session())
-
-//
-// ─── DEBUG ──────────────────────────────────────────────────────────────────────
-//
-
-// app.use((req, res, next) => {
-//   console.log("----------- debug ------------");
-//   console.log("location", req.originalUrl);
-//   console.log("session", req.session);
-//   console.log("user", !!req.user);
-//   next();
-// });
 
 //
 // ─── INDEX ROUTE ────────────────────────────────────────────────────────────────
