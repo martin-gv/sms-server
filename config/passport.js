@@ -12,7 +12,7 @@ const customFields = {
 const verifyCallback = async (username, password, done) => {
   const user = await User.findOne({ where: { email: username } });
 
-  if (!user) return done(null, false, { message: "Incorrect username" });
+  if (!user) return done(null, false, { message: "Incorrect email" });
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
