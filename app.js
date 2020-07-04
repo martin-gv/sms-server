@@ -103,6 +103,18 @@ app.use("*", (req, res) => {
   res.status(404).json({ error });
 });
 
+//
+// ─── ERROR HANDLER ──────────────────────────────────────────────────────────────
+//
+
+app.use((err, req, res, next) => {
+  res.render("error", { message: { error: "Sorry. There was an error" } });
+});
+
+//
+// ─── START UP APP ───────────────────────────────────────────────────────────────
+//
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
