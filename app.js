@@ -102,6 +102,23 @@ app.post("/delivery-receipt", (req, res) => {
   res.status(204).end();
 });
 
+//
+// ─── AUTHENTICATION REQUIRED ────────────────────────────────────────────────────
+//
+
+app.use(isAuthenticated);
+
+//
+// ─── CONVERSATIONS ──────────────────────────────────────────────────────────────
+//
+
+const conversationRoutes = require("./routes/conversations");
+app.use("/conversations", conversationRoutes);
+
+//
+// ─── TEMP CATCH-ALL ─────────────────────────────────────────────────────────────
+//
+
 app.use("*", (req, res) => {
   const error = { status: 404, message: "invalid endpoint" };
   res.status(404).json({ error });
