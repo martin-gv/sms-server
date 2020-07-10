@@ -107,9 +107,8 @@ app.use("*", (req, res) => {
 // ─── ERROR HANDLER ──────────────────────────────────────────────────────────────
 //
 
-app.use((err, req, res, next) => {
-  res.render("error", { message: { error: "Sorry. There was an error" } });
-});
+const errorHandler = require("./controllers/errorHandler");
+app.use(errorHandler);
 
 //
 // ─── START UP APP ───────────────────────────────────────────────────────────────
