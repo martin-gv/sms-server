@@ -9,6 +9,7 @@ add logger?
 send text message - save fields on error
 send text message - validation for only numbers and +
 send text message - check local number using region of account number
+redirect from login page if already logged in
 
 glitch where first message from nexmo number isn't delivered?
   switch to twilio
