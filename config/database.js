@@ -9,8 +9,13 @@ const sequelize = new Sequelize(database, user, password, {
   dialect: "postgres",
 });
 
-const User = require("../models/User");
-User(sequelize);
+// Initialize models
+const User = require("../models/User")(sequelize);
+const Conversation = require("../models/Conversation")(sequelize);
+
+// Set up associations
+User.hasMany(Conversation);
+Conversation.belongsTo(User);
 
 sequelize
   .authenticate()
