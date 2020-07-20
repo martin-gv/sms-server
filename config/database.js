@@ -14,8 +14,8 @@ const User = require("../models/User")(sequelize);
 const Conversation = require("../models/Conversation")(sequelize);
 
 // Set up associations
-User.hasMany(Conversation);
-Conversation.belongsTo(User);
+User.hasMany(Conversation, { foreignKey: "userId" });
+Conversation.belongsTo(User, { foreignKey: "userId" });
 
 sequelize
   .authenticate()
