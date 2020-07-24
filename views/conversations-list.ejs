@@ -1,0 +1,33 @@
+<%- include('includes/header', { title: 'Conversations', loggedIn: true }); %>
+<div class="card mx-auto">
+  <div class="card-body">
+    <h4>Conversations</h4>
+    <hr />
+    <h5>New Conversation</h5>
+    <form autocomplete="off" method="POST" action="/conversations">
+      <div class="form-group">
+        <label for="phoneNumber">Phone number:</label>
+        <input
+          class="form-control"
+          id="phoneNumber"
+          type="text"
+          name="phoneNumber"
+          required="true"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">
+        Add New Conversation
+      </button>
+    </form>
+    <hr />
+    <h5>Current Conversations</h5>
+    <ul class="list-group">
+      <% for (const conversation of locals.conversations) { %>
+      <a href="conversations/<%= conversation.id %>" class="list-group-item list-group-item-action">
+        <%= conversation.contactPhoneNumber %>
+      </a>
+      <% } %>
+    </ul>
+  </div>
+</div>
+<%- include('includes/footer'); %>
