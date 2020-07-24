@@ -16,6 +16,22 @@ exports.getConversation = async (req, res) => {
 };
 
 //
+// ─── GET REQUEST - RENDER SINGLE CONVERSATION PAGE ──────────────────────────────
+//
+
+exports.getSingleConversation = async (req, res) => {
+  console.log("params", req.params);
+
+  const conversationId = req.params.conversationId;
+  const conversation = await Conversation.findOne({
+    where: { id: conversationId },
+  });
+  console.log(conversation);
+
+  res.render("conversation", { conversation: conversation });
+};
+
+//
 // ─── POST REQUEST - HANDLE NEW CONVERSATION FORM SUBMISSION ─────────────────────
 //
 
