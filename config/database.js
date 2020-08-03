@@ -12,10 +12,14 @@ const sequelize = new Sequelize(database, user, password, {
 // Initialize models
 const User = require("../models/User")(sequelize);
 const Conversation = require("../models/Conversation")(sequelize);
+const Message = require("../models/Message")(sequelize);
 
 // Set up associations
 User.hasMany(Conversation, { foreignKey: "userId" });
 Conversation.belongsTo(User, { foreignKey: "userId" });
+
+Conversation.hasMany(Message, { foreignKey: "conversationId" });
+Message.belongsTo(Conversation, { foreignKey: "conversationId" });
 
 sequelize
   .authenticate()
