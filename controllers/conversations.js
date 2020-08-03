@@ -3,7 +3,7 @@ const db = require("../config/database");
 const Conversation = db.models.Conversation;
 
 //
-// ─── GET REQUEST - RENDER CONVERSATIONS PAGE ────────────────────────────────────
+// ─── RENDER CONVERSATIONS LIST PAGE ─────────────────────────────────────────────
 //
 
 exports.getConversation = async (req, res) => {
@@ -16,27 +16,25 @@ exports.getConversation = async (req, res) => {
 };
 
 //
-// ─── GET REQUEST - RENDER SINGLE CONVERSATION PAGE ──────────────────────────────
+// ─── RENDER SINGLE CONVERSATION PAGE ────────────────────────────────────────────
 //
 
 exports.getSingleConversation = async (req, res) => {
-  console.log("params", req.params);
-
+  // Get the requested conversation
   const conversationId = req.params.conversationId;
   const conversation = await Conversation.findOne({
     where: { id: conversationId },
   });
-  console.log(conversation);
 
   res.render("conversation", { conversation: conversation });
 };
 
 //
-// ─── POST REQUEST - HANDLE NEW CONVERSATION FORM SUBMISSION ─────────────────────
+// ─── CREATE NEW CONVERSATION - FORM SUBMISSION ──────────────────────────────────
 //
 
 exports.addConversation = async (req, res) => {
-  // Prepare new record
+  // Prepare values for new record
   const userId = req.user.id;
   const contactPhoneNumber = req.body.phoneNumber;
 
