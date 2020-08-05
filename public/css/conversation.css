@@ -1,0 +1,4 @@
+.message-bubble:last-of-type {
+  /* Override Bootstrap margin in last message bubble */
+  margin-bottom: 0 !important;
+}

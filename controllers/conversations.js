@@ -36,6 +36,7 @@ exports.getSingleConversation = async (req, res) => {
   res.render("conversation/conversation", {
     message: message,
     conversation: currentConversation,
+    css: ['conversation']
   });
 };
 

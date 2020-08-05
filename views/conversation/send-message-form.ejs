@@ -1,6 +1,11 @@
 <form autocomplete="off" method="POST" action="/messages">
-  <input type="hidden" name="conversationId" value="<%= locals.conversationId %>"/>
-  <div class="form-group">
+  <input
+    type="hidden"
+    name="conversationId"
+    value="<%= locals.conversationId %>"
+  />
+  <div id="alert"></div>
+  <div class="input-group">
     <textarea
       class="form-control"
       id="messageContent"
@@ -9,7 +14,8 @@
       required="true"
       placeholder="Send text message..."
     ></textarea>
+    <div class="input-group-append">
+      <button type="submit" class="btn btn-info">Send Message</button>
+    </div>
   </div>
-  <div id="alert"></div>
-  <button type="submit" class="btn btn-info">Send</button>
 </form>
