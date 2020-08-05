@@ -9,10 +9,14 @@ const Conversation = db.models.Conversation;
 exports.getConversation = async (req, res) => {
   // Find all conversations for the current user. The
   // current user instance is saved in req by Passport.
-  const User = req.user;
-  const conversations = await User.getConversations();
+  const currentUser = req.user;
+  const conversations = await currentUser.getConversations();
 
-  res.render("conversations-list", { conversations: conversations });
+  const message = req.flash();
+  res.render("conversations-list", {
+    message: message,
+    conversations: conversations,
+  });
 };
 
 //
