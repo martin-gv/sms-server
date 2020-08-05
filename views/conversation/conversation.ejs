@@ -1,0 +1,30 @@
+<%- include('../includes/header', { title: 'Conversations', loggedIn: true }); %>
+<%- include('../includes/alert', { message: locals.message }); %>
+<div class="card mx-auto">
+  <div class="card-body">
+    <h4>
+      Conversation with
+      <span class="text-secondary">
+        <%= locals.conversation.contactPhoneNumber %>
+      </span>
+    </h4>
+    <hr />
+    <!-- Loop through conversation messages -->
+    <% for (message of locals.conversation.Messages) { %>
+      <% if (message.isInboundMessage) { %>
+        <span class="bg-secondary text-left mb-3 d-block">
+          <%= message.messageContent %>
+        </span>
+      <% } else { %>
+        <span class="bg-info text-right mb-3 d-block">
+          <%= message.messageContent %>
+        </span>
+      <% } %>
+    <% } %>
+    <%- include('send-message-form', {
+        recipientNumber: locals.conversation.contactPhoneNumber,
+        conversationId: locals.conversation.id
+    }); %>
+  </div>
+</div>
+<%- include('../includes/footer'); %>
