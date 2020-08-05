@@ -5,7 +5,6 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const flash = require("connect-flash");
 
-const { inboundSms } = require("./routes/sms/inbound");
 const { smsReply } = require("./routes/sms/reply");
 const authRoutes = require("./routes/auth/auth");
 const registerRoutes = require("./routes/auth/register");
@@ -75,13 +74,6 @@ app.use(newNumberRoutes);
 app.post("/sms", externalApp);
 
 //
-// ─── INBOUND SMS -> EMAIL NOTIFICATION ────────────────────────────────────────────
-//
-
-// Used by the Nexmo webhook
-app.post("/inbound-sms", inboundSms);
-
-//
 // ─── OUTBOUND SMS REPLIES ───────────────────────────────────────────────────────
 //
 
@@ -101,6 +93,13 @@ app.post("/delivery-receipt", (req, res) => {
   console.log("body:", req.body);
   res.status(204).end();
 });
+
+//
+// ─── WEBHOOKS ───────────────────────────────────────────────────────────────────
+//
+
+const webhookRoutes = require("./routes/webhooks");
+app.use("/webhooks", webhookRoutes);
 
 //
 // ─── AUTHENTICATION REQUIRED ────────────────────────────────────────────────────
