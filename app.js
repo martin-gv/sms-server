@@ -51,11 +51,11 @@ app.use(passport.initialize());
 app.use(passport.session()); // must run after app.use(session())
 
 //
-// ─── INDEX ROUTE ────────────────────────────────────────────────────────────────
+// ─── DEFAULT ROUTE ──────────────────────────────────────────────────────────────
 //
 
 app.get("/", (req, res) => {
-  res.redirect("/send");
+  res.redirect("/conversations");
 });
 
 //
