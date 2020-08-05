@@ -1,6 +1,7 @@
 const db = require("../config/database");
 
 const Conversation = db.models.Conversation;
+const Message = db.models.Message;
 
 //
 // ─── RENDER CONVERSATIONS LIST PAGE ─────────────────────────────────────────────
@@ -24,13 +25,18 @@ exports.getConversation = async (req, res) => {
 //
 
 exports.getSingleConversation = async (req, res) => {
-  // Get the requested conversation
+  // Get the requested conversation and all associated messages
   const conversationId = req.params.conversationId;
-  const conversation = await Conversation.findOne({
+  const currentConversation = await Conversation.findOne({
     where: { id: conversationId },
+    include: Message,
   });
 
-  res.render("conversation", { conversation: conversation });
+  const message = req.flash();
+  res.render("conversation/conversation", {
+    message: message,
+    conversation: currentConversation,
+  });
 };
 
 //
