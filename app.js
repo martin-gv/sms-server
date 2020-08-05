@@ -109,11 +109,14 @@ app.post("/delivery-receipt", (req, res) => {
 app.use(isAuthenticated);
 
 //
-// ─── CONVERSATIONS ──────────────────────────────────────────────────────────────
+// ─── CONVERSATIONS AND MESSAGES ─────────────────────────────────────────────────
 //
 
 const conversationRoutes = require("./routes/conversations");
+const messageRoutes = require("./routes/messages");
+
 app.use("/conversations", conversationRoutes);
+app.use("/messages", messageRoutes);
 
 //
 // ─── TEMP CATCH-ALL ─────────────────────────────────────────────────────────────
