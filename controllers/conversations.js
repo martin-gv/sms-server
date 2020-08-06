@@ -36,7 +36,7 @@ exports.getSingleConversation = async (req, res) => {
   res.render("conversation/conversation", {
     message: message,
     conversation: currentConversation,
-    css: ['conversation']
+    css: ["conversation"],
   });
 };
 
@@ -44,16 +44,33 @@ exports.getSingleConversation = async (req, res) => {
 // ─── CREATE NEW CONVERSATION - FORM SUBMISSION ──────────────────────────────────
 //
 
-exports.addConversation = async (req, res) => {
-  // Prepare values for new record
-  const userId = req.user.id;
-  const contactPhoneNumber = req.body.phoneNumber;
+exports.addConversation = async (req, res, next) => {
+  try {
+    // Prepare values for new record
+    const userId = req.user.id;
+    const contactPhoneNumber = req.body.phoneNumber;
 
-  // Create new record
-  await Conversation.create({
-    userId: userId,
-    contactPhoneNumber: contactPhoneNumber,
-  });
+    // Find conversation if it already exists
+    const conversation = await Conversation.findOne({
+      where: { userId: userId, contactPhoneNumber: contactPhoneNumber },
+    });
 
-  res.redirect("/conversations");
+    if (conversation !== null) {
+      // If conversation exists show an error
+      req.flash(
+        "error",
+        `A conversation for <strong>${contactPhoneNumber}</strong> already exists`
+      );
+    } else {
+      // Otherwise, create a new record
+      await Conversation.create({
+        userId: userId,
+        contactPhoneNumber: contactPhoneNumber,
+      });
+    }
+
+    res.redirect("/conversations");
+  } catch (error) {
+    next(error);
+  }
 };
