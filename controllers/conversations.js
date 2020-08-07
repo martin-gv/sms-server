@@ -6,6 +6,19 @@ const Conversation = db.models.Conversation;
 const Message = db.models.Message;
 
 //
+// ─── NUMBER REQUIRED - MIDDLEWARE ───────────────────────────────────────────────
+//
+
+exports.numberRequired = (req, res, next) => {
+  if (req.user.smsNumber !== null) {
+    next();
+  } else {
+    req.flash("warning", "Get a number to start sending messages");
+    res.redirect("/new-number");
+  }
+};
+
+//
 // ─── RENDER CONVERSATIONS LIST PAGE ─────────────────────────────────────────────
 //
 
