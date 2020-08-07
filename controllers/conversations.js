@@ -27,29 +27,33 @@ exports.getConversation = async (req, res) => {
 //
 
 exports.findAndCheckOwner = async (req, res, next) => {
-  const conversationId = req.params.conversationId;
+  try {
+    const conversationId = req.params.conversationId;
 
-  // Find the conversation by id
-  const conversation = await Conversation.findOne({
-    where: { id: conversationId },
-    include: Message,
-  });
+    // Find the conversation by id
+    const conversation = await Conversation.findOne({
+      where: { id: conversationId },
+      include: Message,
+    });
 
-  const currentUser = req.user;
+    const currentUser = req.user;
 
-  // If the current user is the owner of the conversation being
-  // retrieved, then continue to the next controller function
-  if (conversation.userId === currentUser.id) {
-    // Save the conversation for later use
-    res.locals.conversation = conversation;
+    // If the current user is the owner of the conversation being
+    // retrieved, then continue to the next controller function
+    if (conversation.userId === currentUser.id) {
+      // Save the conversation for later use
+      res.locals.conversation = conversation;
 
-    next();
-    return;
+      next();
+      return;
+    }
+
+    // Else show an error
+    req.flash("error", "You do not have permission to view that conversation");
+    res.redirect("/conversations");
+  } catch (error) {
+    next(error);
   }
-
-  // Else show an error
-  req.flash("error", "You do not have permission to view that conversation");
-  res.redirect("/conversations");
 };
 
 //
