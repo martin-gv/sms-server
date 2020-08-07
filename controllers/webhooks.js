@@ -19,13 +19,30 @@ exports.inboundMessage = async (req, res) => {
   const user = await User.findOne({ where: { smsNumber: toNumber } });
 
   // Find the user's conversation that matches the 'from' number
-  const conversation = await Conversation.findOne({
+  const matchingConversation = await Conversation.findOne({
     where: { userId: user.id, contactPhoneNumber: fromNumber },
   });
 
+  // This variable will save the id of either the matching conversation,
+  // or the newly created conversation if no matching one exists.
+  let conversationId;
+
+  // Save the id of the matching conversation
+  if (matchingConversation !== null) {
+    conversationId = matchingConversation.id;
+  } else {
+    // Or create a new one if no matching one exists
+    const newConversation = await Conversation.create({
+      userId: user.id,
+      contactPhoneNumber: fromNumber,
+    });
+
+    conversationId = newConversation.id;
+  }
+
   // Save the inbound message to the database
   await Message.create({
-    conversationId: conversation.id,
+    conversationId: conversationId,
     isInboundMessage: true,
     messageContent: messageContent,
   });
@@ -42,7 +59,7 @@ exports.inboundMessage = async (req, res) => {
       <strong>From:</strong> ${fromNumber}<br/>
       <strong>Message:</strong> ${messageContent}<br/>
       <br/>
-      <a href="${process.env.APP_DOMAIN_URL}/conversations/${conversation.id}">
+      <a href="${process.env.APP_DOMAIN_URL}/conversations/${conversationId}">
         Click here to open conversation
       </a>
     `,
