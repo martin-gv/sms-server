@@ -23,21 +23,47 @@ exports.getConversation = async (req, res) => {
 };
 
 //
-// ─── RENDER SINGLE CONVERSATION PAGE ────────────────────────────────────────────
+// ─── FIND AND CHECK OWNER OF CONVERSATION - MIDDLEWARE ──────────────────────────
 //
 
-exports.getSingleConversation = async (req, res) => {
-  // Get the requested conversation and all associated messages
+exports.findAndCheckOwner = async (req, res, next) => {
   const conversationId = req.params.conversationId;
-  const currentConversation = await Conversation.findOne({
+
+  // Find the conversation by id
+  const conversation = await Conversation.findOne({
     where: { id: conversationId },
     include: Message,
   });
 
+  const currentUser = req.user;
+
+  // If the current user is the owner of the conversation being
+  // retrieved, then continue to the next controller function
+  if (conversation.userId === currentUser.id) {
+    // Save the conversation for later use
+    res.locals.conversation = conversation;
+
+    next();
+    return;
+  }
+
+  // Else show an error
+  req.flash("error", "You do not have permission to view that conversation");
+  res.redirect("/conversations");
+};
+
+//
+// ─── RENDER SINGLE CONVERSATION PAGE ────────────────────────────────────────────
+//
+
+exports.getSingleConversation = async (req, res) => {
+  // Get the previously retrieved conversation
+  const conversation = res.locals.conversation;
+
   const message = req.flash();
   res.render("conversation/conversation", {
     message: message,
-    conversation: currentConversation,
+    conversation: conversation,
     css: ["conversation"],
   });
 };
