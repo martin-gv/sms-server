@@ -10,17 +10,19 @@
     </h4>
     <hr />
     <!-- Loop through conversation messages -->
-    <% for (message of locals.conversation.Messages) { %>
-      <% if (message.isInboundMessage) { %>
-        <span class="bg-secondary text-left mb-3 d-block message-bubble">
-          <%= message.messageContent %>
-        </span>
-      <% } else { %>
-        <span class="bg-info text-right mb-3 d-block message-bubble">
-          <%= message.messageContent %>
-        </span>
+    <div class="messages-list">
+      <% for (message of locals.conversation.Messages) { %>
+        <% if (message.isInboundMessage) { %>
+          <span class="mb-3 message-bubble inbound">
+            <%= message.messageContent %>
+          </span>
+        <% } else { %>
+          <span class="mb-3 message-bubble outbound">
+            <%= message.messageContent %>
+          </span>
+        <% } %>
       <% } %>
-    <% } %>
+    </div>
   </div>
   <div class="card-footer">
     <%- include('send-message-form', {

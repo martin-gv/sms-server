@@ -1,3 +1,25 @@
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inbound {
+  align-self: flex-start;
+  background-color: #96a2ad;
+}
+
+.outbound {
+  align-self: flex-end;
+  background-color: #51bed0;
+}
+
+.message-bubble {
+  border-radius: 20px;
+  max-width: calc(60% + 40px);
+  padding: 10px 20px;
+}
+
 .message-bubble:last-of-type {
   /* Override Bootstrap margin in last message bubble */
   margin-bottom: 0 !important;
