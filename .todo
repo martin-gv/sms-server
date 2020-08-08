@@ -10,15 +10,23 @@ send text message - save fields on error
 send text message - validation for only numbers and +
 send text message - check local number using region of account number
 redirect from login page if already logged in
+clean up inbound sms webhook controller
 
 conversations
-  validate numbers
-  user's own number not allowed
-  no duplicate conversations (add unique constraint)
+  x validate numbers
+  x no duplicate conversations (add unique constraint)
   x change to conversations-list.ejs
+  x start new conversation when new message from new number arrives
+  x authorization to only view own conversations
+  x disable conversations for new accounts without a number set up
+  new middleware to check if conversation exists (split up into find and permission middlewares)
 conversation
-  add route for single conversation page
+  x add route for single conversation page
   use uuid for conversations/:id routes
+  x style message bubbles
+  press enter to send message
+  add timestamps to messages
+  add max height and scroll
 
 
 glitch where first message from nexmo number isn't delivered?
