@@ -1,14 +1,15 @@
 <%- include('../includes/header', { title: 'Conversations', loggedIn: true }); %>
 <%- include('../includes/alert', { message: locals.message }); %>
 <div class="card mx-auto">
-  <div class="card-body">
-    <h4>
+  <div class="card-header">
+    <h5>
       Conversation with
       <span class="text-secondary">
         <%= locals.conversation.contactPhoneNumber %>
       </span>
-    </h4>
-    <hr />
+    </h5>
+  </div>
+  <div class="card-body">
     <!-- Loop through conversation messages -->
     <div class="messages-list">
       <% for (message of locals.conversation.Messages) { %>
