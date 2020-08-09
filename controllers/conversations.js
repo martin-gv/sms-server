@@ -82,6 +82,7 @@ exports.getSingleConversation = async (req, res) => {
     message: message,
     conversation: conversation,
     css: ["conversation"],
+    js: ["conversation"],
   });
 };
 
