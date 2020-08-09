@@ -46,7 +46,11 @@ exports.findAndCheckOwner = async (req, res, next) => {
     // Find the conversation by id
     const conversation = await Conversation.findOne({
       where: { id: conversationId },
-      include: Message,
+      include: {
+        model: Message,
+        limit: 25,
+        order: [["createdAt", "DESC"]],
+      },
     });
 
     const currentUser = req.user;
@@ -76,6 +80,8 @@ exports.findAndCheckOwner = async (req, res, next) => {
 exports.getSingleConversation = async (req, res) => {
   // Get the previously retrieved conversation
   const conversation = res.locals.conversation;
+
+  conversation.Messages.reverse();
 
   const message = req.flash();
   res.render("conversation/conversation", {
