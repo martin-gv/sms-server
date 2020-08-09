@@ -1,6 +1,7 @@
 const db = require("../config/database");
 const PNF = require("google-libphonenumber").PhoneNumberFormat;
 const phoneUtil = require("google-libphonenumber").PhoneNumberUtil.getInstance();
+const moment = require("moment");
 
 const Conversation = db.models.Conversation;
 const Message = db.models.Message;
@@ -85,6 +86,20 @@ exports.getSingleConversation = async (req, res) => {
   // to get the most recent ones, but on the front end they should be displayed with
   // the oldest ones at the top, and the newest at the bottom.
   conversation.Messages.reverse();
+
+  // Format dates for front end
+  conversation.Messages = conversation.Messages.map((el) => {
+    // Convert Message instances to raw data objects for manipulation. If a property
+    // is added to the "object" returned from Sequelize, the property is added to
+    // the instance, not to the data itself.
+    return el.get({ plain: true });
+  }).map((el) => {
+    // Add formatted date
+    return {
+      ...el,
+      createdAtFormatted: moment(el.createdAt).format("ddd, MMM  Do • h:mm A"),
+    };
+  });
 
   const message = req.flash();
   res.render("conversation/conversation", {

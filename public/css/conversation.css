@@ -9,20 +9,31 @@
   align-items: center;
 }
 
-.inbound {
-  align-self: flex-start;
-  background-color: #96a2ad;
-}
-
-.outbound {
-  align-self: flex-end;
-  background-color: #51bed0;
-}
-
 .message-bubble {
   border-radius: 20px;
   max-width: calc(60% + 40px);
   padding: 10px 20px;
+}
+
+.message-bubble.inbound {
+  background-color: #96a2ad;
+}
+
+.message-bubble.outbound {
+  background-color: #51bed0;
+}
+
+.timestamp {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.inbound {
+  align-self: flex-start;
+}
+
+.outbound {
+  align-self: flex-end;
 }
 
 .message-bubble:last-of-type {

@@ -24,6 +24,7 @@
     "google-libphonenumber": "^3.2.10",
     "jsonwebtoken": "^8.5.1",
     "mailgun-js": "^0.22.0",
+    "moment": "^2.27.0",
     "nexmo": "^2.6.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",

@@ -14,10 +14,12 @@
     <div class="messages-list">
       <% for (message of locals.conversation.Messages) { %>
         <% if (message.isInboundMessage) { %>
+          <span class="text-muted timestamp inbound"><%= message.createdAtFormatted %></span>
           <span class="mb-3 message-bubble inbound">
             <%= message.messageContent %>
           </span>
         <% } else { %>
+          <span class="text-muted timestamp outbound"><%= message.createdAtFormatted %></span>
           <span class="mb-3 message-bubble outbound">
             <%= message.messageContent %>
           </span>
