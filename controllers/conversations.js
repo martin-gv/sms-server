@@ -81,6 +81,9 @@ exports.getSingleConversation = async (req, res) => {
   // Get the previously retrieved conversation
   const conversation = res.locals.conversation;
 
+  // Messages are queried from newest to oldest (ORDER BY "Message"."createdAt" DESC)
+  // to get the most recent ones, but on the front end they should be displayed with
+  // the oldest ones at the top, and the newest at the bottom.
   conversation.Messages.reverse();
 
   const message = req.flash();
