@@ -46,8 +46,7 @@ exports.sendMessage = async (req, res, next) => {
       }
     );
   } catch (error) {
-    req.flash("error", error.message);
-    res.redirect("/conversations");
+    next(error);
   }
 };
 
