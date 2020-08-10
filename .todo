@@ -24,9 +24,9 @@ conversation
   x add route for single conversation page
   use uuid for conversations/:id routes
   x style message bubbles
-  press enter to send message
-  add timestamps to messages
-  add max height and scroll
+  x press enter to send message
+  x add timestamps to messages
+  x add max height and scroll
 
 
 glitch where first message from nexmo number isn't delivered?
