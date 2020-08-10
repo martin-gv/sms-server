@@ -1,6 +1,6 @@
 .card-body {
-  max-height: calc(100vh - 215px);
-  overflow-y: scroll;
+  height: calc(100vh - 215px);
+  overflow-y: auto;
 }
 
 .messages-list {
