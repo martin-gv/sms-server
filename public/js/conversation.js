@@ -30,3 +30,32 @@ function onTextAreaInput() {
     `
   );
 }
+
+/**
+ * Pressing ENTER inside the textarea will send the text message.
+ * It will also disable the form while the server responds.
+ */
+
+textArea.addEventListener("keypress", textAreaPress);
+
+const sendMessageButton = document.getElementById("send-message-button");
+const sendMessageForm = document.getElementById("sendMessageForm");
+
+function textAreaPress(event) {
+  if (event.keyCode == 13 && !event.shiftKey) {
+    // Stops ENTER key press from creating a new line
+    event.preventDefault();
+    disableFormElements();
+    submitSendMessageForm();
+  }
+}
+
+function submitSendMessageForm() {
+  sendMessageForm.submit(); //submits the form.
+}
+
+function disableFormElements() {
+  // readonly so data is sent along with POST
+  textArea.setAttribute("readonly", "true");
+  sendMessageButton.setAttribute("disabled", "true");
+}

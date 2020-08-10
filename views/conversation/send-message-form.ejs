@@ -1,4 +1,4 @@
-<form autocomplete="off" method="POST" action="/messages">
+<form autocomplete="off" method="POST" action="/messages" id="sendMessageForm">
   <input
     type="hidden"
     name="conversationId"
@@ -15,7 +15,9 @@
       placeholder="Enter message here"
     ></textarea>
     <div class="input-group-append">
-      <button type="submit" class="btn btn-info">Send Message</button>
+      <button type="submit" id="send-message-button" class="btn btn-info">
+        Send Message
+      </button>
     </div>
   </div>
 </form>
