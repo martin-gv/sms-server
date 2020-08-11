@@ -9,7 +9,6 @@ const { smsReply } = require("./routes/sms/reply");
 const authRoutes = require("./routes/auth/auth");
 const registerRoutes = require("./routes/auth/register");
 const settingsRoutes = require("./routes/settings");
-const outboundSmsRoutes = require("./routes/sms/outbound");
 const newNumberRoutes = require("./routes/new-number");
 const externalApp = require("./routes/externalApp");
 
@@ -64,7 +63,6 @@ app.get("/", (req, res) => {
 app.use(authRoutes); // login and logout
 app.use(registerRoutes);
 app.use(settingsRoutes);
-app.use(outboundSmsRoutes);
 app.use(newNumberRoutes);
 
 //
