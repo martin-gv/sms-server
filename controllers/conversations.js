@@ -54,10 +54,11 @@ exports.findConversation = async (req, res, next) => {
       },
     });
 
-    // Show error if conversation does not exist
+    // If conversation does not exist, shown an error
     if (conversation === null) {
       req.flash("error", "No conversation found");
       res.redirect("/conversations");
+      return;
     }
 
     // Save conversation for later use
