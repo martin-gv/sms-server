@@ -10,7 +10,8 @@ router.post("/", controller.validateNumber, controller.addConversation);
 
 router.get(
   "/:conversationId",
-  controller.findAndCheckOwner,
+  controller.findConversation,
+  controller.checkOwner,
   controller.getSingleConversation
 );
 

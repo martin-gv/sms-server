@@ -37,10 +37,10 @@ exports.getConversation = async (req, res) => {
 };
 
 //
-// ─── FIND AND CHECK OWNER OF CONVERSATION - MIDDLEWARE ──────────────────────────
+// ─── FIND CONVERSATION - MIDDLEWARE ─────────────────────────────────────────────
 //
 
-exports.findAndCheckOwner = async (req, res, next) => {
+exports.findConversation = async (req, res, next) => {
   try {
     const conversationId = req.params.conversationId;
 
@@ -54,6 +54,28 @@ exports.findAndCheckOwner = async (req, res, next) => {
       },
     });
 
+    // Show error if conversation does not exist
+    if (conversation === null) {
+      req.flash("error", "No conversation found");
+      res.redirect("/conversations");
+    }
+
+    // Save conversation for later use
+    res.locals.conversation = conversation;
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+//
+// ─── CHECK OWNER OF CONVERSATION - MIDDLEWARE ───────────────────────────────────
+//
+
+exports.checkOwner = async (req, res, next) => {
+  try {
+    const conversation = res.locals.conversation;
     const currentUser = req.user;
 
     // If the current user is the owner of the conversation being
