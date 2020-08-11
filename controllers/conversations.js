@@ -79,19 +79,17 @@ exports.checkOwner = async (req, res, next) => {
     const conversation = res.locals.conversation;
     const currentUser = req.user;
 
-    // If the current user is the owner of the conversation being
-    // retrieved, then continue to the next controller function
-    if (conversation.userId === currentUser.id) {
-      // Save the conversation for later use
-      res.locals.conversation = conversation;
-
-      next();
+    // If the current user isn't the conversation's owner, show an error
+    if (conversation.userId !== currentUser.id) {
+      req.flash(
+        "error",
+        "You do not have permission to view that conversation"
+      );
+      res.redirect("/conversations");
       return;
     }
 
-    // Else show an error
-    req.flash("error", "You do not have permission to view that conversation");
-    res.redirect("/conversations");
+    next();
   } catch (error) {
     next(error);
   }
