@@ -3,6 +3,7 @@ const router = express.Router();
 
 const controller = require("../controllers/conversations");
 
+// All conversation routes require an SMS number linked to the user's account
 router.use(controller.numberRequired);
 
 router.get("/", controller.getConversation);
