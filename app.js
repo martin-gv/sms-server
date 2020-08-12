@@ -5,7 +5,6 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const flash = require("connect-flash");
 
-const { smsReply } = require("./routes/sms/reply");
 const authRoutes = require("./routes/auth/auth");
 const registerRoutes = require("./routes/auth/register");
 const settingsRoutes = require("./routes/settings");
@@ -70,16 +69,6 @@ app.use(newNumberRoutes);
 //
 
 app.post("/sms", externalApp);
-
-//
-// ─── OUTBOUND SMS REPLIES ───────────────────────────────────────────────────────
-//
-
-app.get("/reply", isAuthenticated, (req, res) => {
-  res.render("index", { loggedIn: Boolean(req.user) });
-});
-
-app.post("/sms-reply", smsReply);
 
 //
 // ─── OTHER ROUTES ───────────────────────────────────────────────────────────────
