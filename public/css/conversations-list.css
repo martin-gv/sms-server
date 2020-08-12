@@ -1,0 +1,7 @@
+#new-conversation-panel {
+  border-top: none;
+}
+
+#new-conversation-panel .list-group-item {
+  background: #e0e0e0;
+}

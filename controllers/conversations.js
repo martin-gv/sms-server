@@ -33,6 +33,7 @@ exports.getConversation = async (req, res) => {
   res.render("conversations-list", {
     message: message,
     conversations: conversations,
+    css: ["conversations-list"],
   });
 };
 

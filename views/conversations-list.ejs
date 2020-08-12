@@ -1,30 +1,48 @@
 <%- include('includes/header', { title: 'Conversations', loggedIn: true }); %>
 <%- include('includes/alert', { message: locals.message}); %>
 <div class="card mx-auto">
+  <div class="card-header d-flex align-items-center justify-content-between">
+    <h5 class="mb-0">Conversations</h5>
+    <button
+      class="btn btn-primary btn-sm"
+      type="button"
+      data-toggle="collapse"
+      data-target="#new-conversation-panel"
+      aria-expanded="false"
+      aria-controls="new-conversation-panel"
+    >
+      New conversation
+    </button>
+  </div>
+  <ul class="list-group list-group-flush collapse" id="new-conversation-panel">
+    <li class="list-group-item">
+      <form autocomplete="off" method="POST" action="/conversations">
+        <label for="phoneNumber" class="font-weight-bold">Phone number:</label>
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter phone number"
+            id="phoneNumber"
+            name="phoneNumber"
+            required="true"
+          />
+          <div class="input-group-append">
+            <button class="btn btn-secondary btn-sm" type="submit">
+              Add contact
+            </button>
+          </div>
+        </div>
+      </form>
+    </li>
+  </ul>
   <div class="card-body">
-    <h4>Conversations</h4>
-    <hr />
-    <h5>New Conversation</h5>
-    <form autocomplete="off" method="POST" action="/conversations">
-      <div class="form-group">
-        <label for="phoneNumber">Phone number:</label>
-        <input
-          class="form-control"
-          id="phoneNumber"
-          type="text"
-          name="phoneNumber"
-          required="true"
-        />
-      </div>
-      <button type="submit" class="btn btn-primary">
-        Add New Conversation
-      </button>
-    </form>
-    <hr />
-    <h5>Current Conversations</h5>
     <ul class="list-group">
       <% for (const conversation of locals.conversations) { %>
-      <a href="conversations/<%= conversation.id %>" class="list-group-item list-group-item-action">
+      <a
+        href="conversations/<%= conversation.id %>"
+        class="list-group-item list-group-item-action"
+      >
         <%= conversation.contactPhoneNumber %>
       </a>
       <% } %>
