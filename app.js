@@ -16,13 +16,25 @@ const { isAuthenticated } = require("./middleware/auth");
 const app = express();
 const port = process.env.PORT || 8080;
 
-// For serving the SMS reply HTML file at the server root
+//
+// ─── PUBLIC FOLDER CONFIG ───────────────────────────────────────────────────────
+//
+
 app.use(express.static("public"));
 
-// Both required for delivery receipts
-// JSON support also required for Axios
+//
+// ─── BODY PARSER CONFIG ─────────────────────────────────────────────────────────
+//
+
+// Both are required for delivery receipts according to Nexmo documentation.
+// JSON support is also required for requests coming from Axios on the front end
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//
+// ─── USE FLASH MESSAGES ─────────────────────────────────────────────────────────
+//
+
 app.use(flash());
 
 //
@@ -89,7 +101,7 @@ const webhookRoutes = require("./routes/webhooks");
 app.use("/webhooks", webhookRoutes);
 
 //
-// ─── AUTHENTICATION REQUIRED ────────────────────────────────────────────────────
+// ─── AUTHENTICATION REQUIRED FOR ROUTES BELOW THIS POINT ────────────────────────
 //
 
 app.use(isAuthenticated);
