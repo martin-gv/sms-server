@@ -36,17 +36,36 @@
       </form>
     </li>
   </ul>
-  <div class="card-body">
-    <ul class="list-group">
-      <% for (const conversation of locals.conversations) { %>
+  <ul class="list-group list-group-flush">
+    <% for (const conversation of locals.conversations) { %>
       <a
         href="conversations/<%= conversation.id %>"
-        class="list-group-item list-group-item-action"
+        class="list-group-item list-group-item-action pb-3 pt-3"
       >
-        <%= conversation.contactPhoneNumber %>
+        <!-- Flex container with two sections:
+          Section 1. Contact image + number/text message content
+          Section 2. Timestamp
+        -->
+        <div class="d-flex justify-content-between mb-1">
+          <div class="d-flex"><!-- Section 1 -->
+            <div class="contact-image"></div>
+            <div>
+              <div class="font-weight-bold" style="font-size: 17px"><%= conversation.contactPhoneNumber %></div>
+              <% if (conversation.Messages.length === 1) { %>
+                <div>
+                  <%= conversation.Messages[0].isInboundMessage ? '' : 'You: ' %><%= conversation.Messages[0].messageContent %>
+                </div>
+              <% } %>
+            </div>
+          </div>
+          <div><!-- Section 2 -->
+            <% if (conversation.Messages.length === 1) { %>
+              <small><%= conversation.formattedSortDate %></small>
+            <% } %>
+          </div>
+        </div>
       </a>
-      <% } %>
-    </ul>
-  </div>
+    <% } %>
+  </ul>
 </div>
 <%- include('includes/footer'); %>
