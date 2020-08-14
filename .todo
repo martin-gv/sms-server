@@ -11,6 +11,8 @@ send text message - validation for only numbers and +
 send text message - check local number using region of account number
 redirect from login page if already logged in
 clean up inbound sms webhook controller
+make conversations list full height
+x remove /send feature
 
 conversations
   x validate numbers
@@ -19,7 +21,7 @@ conversations
   x start new conversation when new message from new number arrives
   x authorization to only view own conversations
   x disable conversations for new accounts without a number set up
-  new middleware to check if conversation exists (split up into find and permission middlewares)
+  x new middleware to check if conversation exists (split up into find and permission middlewares)
 conversation
   x add route for single conversation page
   use uuid for conversations/:id routes
