@@ -24,15 +24,53 @@ exports.numberRequired = (req, res, next) => {
 //
 
 exports.getConversation = async (req, res) => {
-  // Find all conversations for the current user. The
-  // current user instance is saved in req by Passport.
+  // A database User instance of the current user is saved in req by Passport
   const currentUser = req.user;
-  const conversations = await currentUser.getConversations();
+
+  // Find all conversations for the current user
+  const conversations = await Conversation.findAll({
+    where: { userId: currentUser.id },
+    include: {
+      model: Message,
+      limit: 1,
+      order: [["createdAt", "DESC"]],
+    },
+  });
+
+  const sortedConversations = conversations
+    .map((el) => {
+      // Convert to plain objects so new properties can be added to each record
+      return el.get({ plain: true });
+    })
+    .map((el) => {
+      let sortDate;
+
+      // Set the new property sortDate to either the date of the most recent message
+      // or, if the conversation has no messages, to the conversation's creation date
+      if (el.Messages.length === 1) {
+        sortDate = el.Messages[0].createdAt;
+      } else {
+        sortDate = el.createdAt;
+      }
+
+      const formattedSortDate = moment(sortDate).fromNow();
+
+      return {
+        ...el,
+        sortDate: sortDate,
+        formattedSortDate: formattedSortDate,
+      };
+    })
+    .sort((a, b) => {
+      // Sort by the new property sortDate from newest to oldest
+      return b.sortDate - a.sortDate;
+    });
 
   const message = req.flash();
+
   res.render("conversations-list", {
     message: message,
-    conversations: conversations,
+    conversations: sortedConversations,
     css: ["conversations-list"],
   });
 };
