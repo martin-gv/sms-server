@@ -117,7 +117,7 @@ const errorHandler = require("./controllers/errorHandler");
 app.use(errorHandler);
 
 //
-// ─── START UP APP ───────────────────────────────────────────────────────────────
+// ─── START SERVER ───────────────────────────────────────────────────────────────
 //
 
 app.listen(port, () => {
