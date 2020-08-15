@@ -5,7 +5,6 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const flash = require("connect-flash");
 
-const settingsRoutes = require("./routes/settings");
 const newNumberRoutes = require("./routes/new-number");
 const externalApp = require("./routes/externalApp");
 
@@ -69,7 +68,6 @@ app.get("/", (req, res) => {
 // ─── ROUTES ─────────────────────────────────────────────────────────────────────
 //
 
-app.use(settingsRoutes);
 app.use(newNumberRoutes);
 
 //
@@ -114,11 +112,17 @@ app.use(isAuthenticated);
 // ─── CONVERSATIONS AND MESSAGES ─────────────────────────────────────────────────
 //
 
+//
+// ─── CONVERSATIONS - MESSAGES - AND SETTINGS ────────────────────────────────────
+//
+
 const conversationRoutes = require("./routes/conversations");
 const messageRoutes = require("./routes/messages");
+const settingsRoutes = require("./routes/settings");
 
 app.use("/conversations", conversationRoutes);
 app.use("/messages", messageRoutes);
+app.use("/settings", settingsRoutes);
 
 //
 // ─── TEMP CATCH-ALL ─────────────────────────────────────────────────────────────
