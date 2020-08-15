@@ -102,12 +102,11 @@ app.use("/settings", settingsRoutes);
 app.use("/new-number", newNumberRoutes);
 
 //
-// ─── TEMP CATCH-ALL ─────────────────────────────────────────────────────────────
+// ─── CATCH ALL ──────────────────────────────────────────────────────────────────
 //
 
-app.use("*", (req, res) => {
-  const error = { status: 404, message: "invalid endpoint" };
-  res.status(404).json({ error });
+app.get("*", (req, res) => {
+  res.redirect("/");
 });
 
 //
