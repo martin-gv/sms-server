@@ -82,33 +82,24 @@ app.use("/register", registerRoutes);
 // ─── MAIN APP ROUTES ────────────────────────────────────────────────────────────
 //
 
-  // ─── INCLUDE ROUTE FILES ────────────────────────────────────────────────────────
-    
-  const conversationRoutes = require("./routes/conversations");
-  const messageRoutes = require("./routes/messages");
-  const settingsRoutes = require("./routes/settings");
-  const newNumberRoutes = require("./routes/newNumber");
+// Include route files
+const conversationRoutes = require("./routes/conversations");
+const messageRoutes = require("./routes/messages");
+const settingsRoutes = require("./routes/settings");
+const newNumberRoutes = require("./routes/newNumber");
 
-  // ─── ADD AUTHENTICATION ─────────────────────────────────────────────────────────
+// Add authentication
+const { isAuthenticated } = require("./middleware/auth");
+app.use(isAuthenticated); // Authentication required for all routes below this point
 
-  const { isAuthenticated } = require("./middleware/auth");
-  app.use(isAuthenticated); // Authentication required for all routes below this point
+// Set up default index route
+app.get("/", (req, res) => res.redirect("/conversations")); // Default route
 
-  // ─── SET UP DEFAULT ROUTE ───────────────────────────────────────────────────────
-
-  app.get("/", (req, res) => res.redirect("/conversations")); // Default route
-
-  // ─── USE ROUTE FILES ────────────────────────────────────────────────────────────
-
-  app.use("/conversations", conversationRoutes);
-  app.use("/messages", messageRoutes);
-  app.use("/settings", settingsRoutes);
-  app.use("/new-number", newNumberRoutes);
-
-//
-// ────────────────────────────────────────────────────────── MAIN APP ROUTES ─────
-//
-
+// Use route files
+app.use("/conversations", conversationRoutes);
+app.use("/messages", messageRoutes);
+app.use("/settings", settingsRoutes);
+app.use("/new-number", newNumberRoutes);
 
 //
 // ─── TEMP CATCH-ALL ─────────────────────────────────────────────────────────────
