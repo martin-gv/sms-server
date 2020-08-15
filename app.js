@@ -5,7 +5,6 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const flash = require("connect-flash");
 
-const newNumberRoutes = require("./routes/new-number");
 const externalApp = require("./routes/externalApp");
 
 const { isAuthenticated } = require("./middleware/auth");
@@ -65,12 +64,6 @@ app.get("/", (req, res) => {
 });
 
 //
-// ─── ROUTES ─────────────────────────────────────────────────────────────────────
-//
-
-app.use(newNumberRoutes);
-
-//
 // ─── EXTERNAL APP INTEGRATION ───────────────────────────────────────────────────
 //
 
@@ -103,26 +96,20 @@ app.get("/logout", (req, res) => {
 });
 
 //
-// ─── AUTHENTICATION REQUIRED FOR ROUTES BELOW THIS POINT ────────────────────────
+// ─── MAIN APP ROUTES ────────────────────────────────────────────────────────────
 //
 
-app.use(isAuthenticated);
-
-//
-// ─── CONVERSATIONS AND MESSAGES ─────────────────────────────────────────────────
-//
-
-//
-// ─── CONVERSATIONS - MESSAGES - AND SETTINGS ────────────────────────────────────
-//
+app.use(isAuthenticated); // Authentication required for all routes below this point
 
 const conversationRoutes = require("./routes/conversations");
 const messageRoutes = require("./routes/messages");
 const settingsRoutes = require("./routes/settings");
+const newNumberRoutes = require("./routes/newNumber");
 
 app.use("/conversations", conversationRoutes);
 app.use("/messages", messageRoutes);
 app.use("/settings", settingsRoutes);
+app.use("/new-number", newNumberRoutes);
 
 //
 // ─── TEMP CATCH-ALL ─────────────────────────────────────────────────────────────

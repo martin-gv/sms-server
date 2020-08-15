@@ -1,25 +1,15 @@
-const express = require("express");
-const router = express.Router();
 const db = require("../config/database");
 const nexmo = require("../config/nexmo");
 const PNF = require("google-libphonenumber").PhoneNumberFormat;
 const phoneUtil = require("google-libphonenumber").PhoneNumberUtil.getInstance();
 
 const User = db.models.User;
-const { isAuthenticated } = require("../middleware/auth");
-const userHasNoNumber = require("../middleware/userHasNoNumber");
 
 //
-// ─── USE AUTHENTICATION ─────────────────────────────────────────────────────────
+// ─── RENDER NEW NUMBER PAGE ─────────────────────────────────────────────────────
 //
 
-router.use("/new-number", isAuthenticated, userHasNoNumber);
-
-//
-// ─── NEW NUMBER PAGE ────────────────────────────────────────────────────────────
-//
-
-router.get("/new-number", (req, res) => {
+exports.getNewNumberPage = (req, res) => {
   const searchOptions = {
     pattern: "1",
     search_pattern: 0, // start with the pattern
@@ -65,13 +55,13 @@ router.get("/new-number", (req, res) => {
       css: ["new-number"],
     });
   });
-});
+};
 
 //
-// ─── NEW NUMBER HANDLER ─────────────────────────────────────────────────────────
+// ─── HANDLE NEW NUMBER FORM SUBMISSION ──────────────────────────────────────────
 //
 
-router.post("/new-number", (req, res) => {
+exports.handleNewNumberForm = (req, res) => {
   const selectedNumber = req.body.selectedNumber;
 
   nexmo.number.buy("CA", selectedNumber, async (error, response) => {
@@ -92,12 +82,6 @@ router.post("/new-number", (req, res) => {
       "primary",
       "Your new number is now registered. Start sending text messages below!"
     );
-    res.redirect("/send");
+    res.redirect("/");
   });
-});
-
-//
-// ─── DEFAULT EXPORT ─────────────────────────────────────────────────────────────
-//
-
-module.exports = router;
+};
