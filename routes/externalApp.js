@@ -1,21 +1,8 @@
-const nexmo = require("../config/nexmo");
+const express = require("express");
+const router = express.Router();
 
-// This handler function allows external apps to send text messages
-// by sending in a POST request. This allows external apps to easily
-// integrate with this application.
+const controller = require("../controllers/externalApp");
 
-function externalApp(req, res) {
-  const from = req.body.from;
-  const to = req.body.to;
-  const sms = req.body.sms;
+router.post("/send-sms", controller.handleExternalAppRequest);
 
-  nexmo.message.sendSms(from, to, sms, (err, nexmoRes) => {
-    if (err) {
-      res.status(500).json(err);
-    } else {
-      res.status(200).json(nexmoRes);
-    }
-  });
-}
-
-module.exports = externalApp;
+module.exports = router;

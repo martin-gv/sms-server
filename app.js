@@ -1,13 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
-const bodyParser = require("body-parser");
 const passport = require("passport");
-const flash = require("connect-flash");
-
-const externalApp = require("./routes/externalApp");
-
-const { isAuthenticated } = require("./middleware/auth");
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -22,8 +16,10 @@ app.use(express.static("public"));
 // ─── BODY PARSER CONFIG ─────────────────────────────────────────────────────────
 //
 
-// Both are required for delivery receipts according to Nexmo documentation.
-// JSON support is also required for requests coming from Axios on the front end
+const bodyParser = require("body-parser");
+
+// Both json and urlencoded are required for delivery receipts according to Nexmo documentation.
+// JSON support is also required for requests coming from Axios on the front end.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -31,6 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // ─── USE FLASH MESSAGES ─────────────────────────────────────────────────────────
 //
 
+const flash = require("connect-flash");
 app.use(flash());
 
 //
@@ -56,18 +53,11 @@ app.use(passport.initialize());
 app.use(passport.session()); // must run after app.use(session())
 
 //
-// ─── DEFAULT ROUTE ──────────────────────────────────────────────────────────────
+// ─── EXTERNAL APP INTEGRATION - API ─────────────────────────────────────────────
 //
 
-app.get("/", (req, res) => {
-  res.redirect("/conversations");
-});
-
-//
-// ─── EXTERNAL APP INTEGRATION ───────────────────────────────────────────────────
-//
-
-app.post("/sms", externalApp);
+const externalAppRoutes = require("./routes/externalApp");
+app.use("/api/v1/", externalAppRoutes);
 
 //
 // ─── WEBHOOKS ───────────────────────────────────────────────────────────────────
@@ -77,39 +67,48 @@ const webhookRoutes = require("./routes/webhooks");
 app.use("/webhooks", webhookRoutes);
 
 //
-// ─── USER LOGIN AND REGISTRATION ────────────────────────────────────────────────
+// ─── USER LOGIN, LOGOUT, AND REGISTRATION ───────────────────────────────────────
 //
 
 const loginRoutes = require("./routes/login");
+const logoutRoutes = require("./routes/logout");
 const registerRoutes = require("./routes/register");
 
 app.use("/login", loginRoutes);
+app.use("/logout", logoutRoutes);
 app.use("/register", registerRoutes);
-
-//
-// ─── LOGOUT ─────────────────────────────────────────────────────────────────────
-//
-
-app.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/login");
-});
 
 //
 // ─── MAIN APP ROUTES ────────────────────────────────────────────────────────────
 //
 
-app.use(isAuthenticated); // Authentication required for all routes below this point
+  // ─── INCLUDE ROUTE FILES ────────────────────────────────────────────────────────
+    
+  const conversationRoutes = require("./routes/conversations");
+  const messageRoutes = require("./routes/messages");
+  const settingsRoutes = require("./routes/settings");
+  const newNumberRoutes = require("./routes/newNumber");
 
-const conversationRoutes = require("./routes/conversations");
-const messageRoutes = require("./routes/messages");
-const settingsRoutes = require("./routes/settings");
-const newNumberRoutes = require("./routes/newNumber");
+  // ─── ADD AUTHENTICATION ─────────────────────────────────────────────────────────
 
-app.use("/conversations", conversationRoutes);
-app.use("/messages", messageRoutes);
-app.use("/settings", settingsRoutes);
-app.use("/new-number", newNumberRoutes);
+  const { isAuthenticated } = require("./middleware/auth");
+  app.use(isAuthenticated); // Authentication required for all routes below this point
+
+  // ─── SET UP DEFAULT ROUTE ───────────────────────────────────────────────────────
+
+  app.get("/", (req, res) => res.redirect("/conversations")); // Default route
+
+  // ─── USE ROUTE FILES ────────────────────────────────────────────────────────────
+
+  app.use("/conversations", conversationRoutes);
+  app.use("/messages", messageRoutes);
+  app.use("/settings", settingsRoutes);
+  app.use("/new-number", newNumberRoutes);
+
+//
+// ────────────────────────────────────────────────────────── MAIN APP ROUTES ─────
+//
+
 
 //
 // ─── TEMP CATCH-ALL ─────────────────────────────────────────────────────────────
