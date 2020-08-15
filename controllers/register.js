@@ -1,35 +1,25 @@
-const express = require("express");
-const router = express.Router();
-const db = require("../../config/database");
+const db = require("../config/database");
 const validator = require("email-validator");
 const bcrypt = require("bcrypt");
 
 const User = db.models.User;
-const { isUnauthenticated } = require("../../middleware/auth");
 
 //
-// ─── ROUTE ONLY AVAILABLE TO NON LOGGED IN USERS ────────────────────────────────
+// ─── RENDER REGISTRATION PAGE ───────────────────────────────────────────────────
 //
 
-router.use("/register", isUnauthenticated);
-
-//
-// ─── REGISTER PAGE ──────────────────────────────────────────────────────────────
-//
-
-router.get("/register", (req, res) => {
+exports.getRegistrationPage = (req, res) => {
   // Re-add email to form after error
   const email = req.query.email;
-
   const message = req.flash();
   res.render("register", { message: message, email: email });
-});
+};
 
 //
-// ─── REGISTER HANDLER ───────────────────────────────────────────────────────────
+// ─── HANDLE REGISTRATION FORM SUBMISSION ────────────────────────────────────────
 //
 
-router.post("/register", async (req, res, next) => {
+exports.handleRegistrationForm = async (req, res, next) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
@@ -76,6 +66,4 @@ router.post("/register", async (req, res, next) => {
     req.flash("error", error.message);
     res.redirect("/register");
   }
-});
-
-module.exports = router;
+};

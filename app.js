@@ -5,8 +5,6 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const flash = require("connect-flash");
 
-const authRoutes = require("./routes/auth/auth");
-const registerRoutes = require("./routes/auth/register");
 const settingsRoutes = require("./routes/settings");
 const newNumberRoutes = require("./routes/new-number");
 const externalApp = require("./routes/externalApp");
@@ -71,8 +69,6 @@ app.get("/", (req, res) => {
 // ─── ROUTES ─────────────────────────────────────────────────────────────────────
 //
 
-app.use(authRoutes); // login and logout
-app.use(registerRoutes);
 app.use(settingsRoutes);
 app.use(newNumberRoutes);
 
@@ -88,6 +84,25 @@ app.post("/sms", externalApp);
 
 const webhookRoutes = require("./routes/webhooks");
 app.use("/webhooks", webhookRoutes);
+
+//
+// ─── USER LOGIN AND REGISTRATION ────────────────────────────────────────────────
+//
+
+const loginRoutes = require("./routes/login");
+const registerRoutes = require("./routes/register");
+
+app.use("/login", loginRoutes);
+app.use("/register", registerRoutes);
+
+//
+// ─── LOGOUT ─────────────────────────────────────────────────────────────────────
+//
+
+app.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/login");
+});
 
 //
 // ─── AUTHENTICATION REQUIRED FOR ROUTES BELOW THIS POINT ────────────────────────

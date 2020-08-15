@@ -1,26 +1,20 @@
-const express = require("express");
-const router = express.Router();
 const passport = require("passport");
 const querystring = require("querystring");
 
 //
-// ─── LOGIN PAGE ─────────────────────────────────────────────────────────────────
+// ─── RENDER LOGIN PAGE ──────────────────────────────────────────────────────────
 //
 
-router.get("/login", (req, res) => {
+exports.getLoginPage = (req, res) => {
   const message = req.flash();
-  res.render("login", {
-    message: message,
-    token: req.query.token,
-    email: req.query.email,
-  });
-});
+  res.render("login", { message: message, email: req.query.email });
+};
 
 //
-// ─── LOGIN HANDLER ──────────────────────────────────────────────────────────────
+// ─── HANDLE LOGIN FORM SUBMISSION ───────────────────────────────────────────────
 //
 
-router.post("/login", (req, res, next) => {
+exports.handleLoginForm = (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) return next(err);
 
@@ -58,15 +52,4 @@ router.post("/login", (req, res, next) => {
       }
     });
   })(req, res, next);
-});
-
-//
-// ─── LOGOUT HANDLER ─────────────────────────────────────────────────────────────
-//
-
-router.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/login");
-});
-
-module.exports = router;
+};
