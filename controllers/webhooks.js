@@ -76,3 +76,11 @@ exports.inboundMessage = async (req, res) => {
 
   res.status(204).end();
 };
+
+//
+// ─── DELIVERY RECEIPTS - WEBHOOK ────────────────────────────────────────────────
+//
+
+exports.deliveryReceipts = (req, res) => {
+  res.status(204).end();
+};

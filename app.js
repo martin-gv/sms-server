@@ -83,17 +83,6 @@ app.use(newNumberRoutes);
 app.post("/sms", externalApp);
 
 //
-// ─── OTHER ROUTES ───────────────────────────────────────────────────────────────
-//
-
-// Delivery receipts (Nexmo webhook)
-app.post("/delivery-receipt", (req, res) => {
-  console.log("DELIVERY RECEIPT");
-  console.log("body:", req.body);
-  res.status(204).end();
-});
-
-//
 // ─── WEBHOOKS ───────────────────────────────────────────────────────────────────
 //
 
