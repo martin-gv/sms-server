@@ -93,7 +93,9 @@ const { isAuthenticated } = require("./middleware/auth");
 app.use(isAuthenticated); // Authentication required for all routes below this point
 
 // Set up default index route
-app.get("/", (req, res) => res.redirect("/conversations")); // Default route
+app.get("/", (req, res) => {
+  res.redirect("/conversations");
+});
 
 // Use route files
 app.use("/conversations", conversationRoutes);
