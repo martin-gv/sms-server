@@ -5,7 +5,8 @@
   "repository": "https://github.com/martin-gv/sms-server",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js --inspect --ext js,ejs"
+    "start": "node app.js",
+    "dev": "nodemon app.js --inspect --ext js,ejs"
   },
   "keywords": [],
   "author": "",
