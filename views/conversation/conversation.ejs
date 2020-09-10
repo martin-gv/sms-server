@@ -11,7 +11,7 @@
   </div>
   <div id="scrollable-messages-area" class="card-body">
     <!-- Loop through conversation messages -->
-    <div class="messages-list">
+    <div id="messages-list">
       <% for (message of locals.conversation.Messages) { %>
         <% if (message.isInboundMessage) { %>
           <span class="text-muted timestamp inbound"><%= message.createdAtFormatted %></span>
@@ -34,4 +34,7 @@
     }); %>
   </div>
 </div>
+<!-- The div below saves the conversation's id so it can be
+  accessed on the client side by the JavaScript file: conversation.js -->
+<div id="custom-data" data-conversation-id=<%= locals.conversation.id %>></div>
 <%- include('../includes/footer'); %>
