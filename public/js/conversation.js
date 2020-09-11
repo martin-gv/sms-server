@@ -59,3 +59,56 @@ function disableFormElements() {
   textArea.setAttribute("readonly", "true");
   sendMessageButton.setAttribute("disabled", "true");
 }
+
+//
+// ─── SOCKET.IO ──────────────────────────────────────────────────────────────────
+//
+
+// When the page loads connect to the server via socket.io
+const socket = io();
+
+//
+// ─── SOCKET.IO - CONNECT TO THE SERVER ──────────────────────────────────────────
+//
+
+// After connecting to the server, the client will join a 'room'
+// that corresponds to the current conversation being viewed. The client
+// is then able to receive inbound messages and add them to the page.
+
+socket.on("connect", () => {
+  // Get the conversation id from the data attribute. The value
+  // is set server-side when building the page from the EJS template
+  const conversationId = document.getElementById("custom-data").dataset
+    .conversationId;
+
+  // Send the conversation id to the server to subscribe to incoming messages
+  socket.emit("conversation-subscribe", { conversationId: conversationId });
+});
+
+//
+// ─── SOCKET.IO - HANDLE INBOUND MESSAGES ────────────────────────────────────────
+//
+
+socket.on("inboundMessage", (messageContent) => {
+  addNewMessageToPage(messageContent);
+});
+
+function addNewMessageToPage(messageContent) {
+  // Create timestamp element
+  const timestampSpan = document.createElement("span");
+  timestampSpan.setAttribute("class", "text-muted timestamp inbound");
+  timestampSpan.innerText = "Now";
+
+  // Create message bubble element
+  const messageSpan = document.createElement("span");
+  messageSpan.setAttribute("class", "mb-3 message-bubble inbound");
+  messageSpan.innerText = messageContent;
+
+  // Add timestamp and message bubble to conversation list
+  const messagesList = document.getElementById("messages-list");
+  messagesList.appendChild(timestampSpan);
+  messagesList.appendChild(messageSpan);
+
+  // Scroll the message list to the bottom
+  scrollableElement.scrollTop = scrollableElement.scrollHeight;
+}
