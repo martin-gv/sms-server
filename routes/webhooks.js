@@ -3,7 +3,10 @@ const router = express.Router();
 
 const controller = require("../controllers/webhooks");
 
-router.post("/inbound-sms", controller.inboundMessage);
-router.post("/delivery-receipts", controller.deliveryReceipts)
+// This route file accepts a socket.io instance for use in the inbound message controller
+module.exports = (io) => {
+  router.post("/inbound-sms", controller.inboundMessage(io)); // Pass in the socket.io instance
+  router.post("/delivery-receipts", controller.deliveryReceipts);
 
-module.exports = router;
+  return router;
+};
