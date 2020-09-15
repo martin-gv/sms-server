@@ -112,3 +112,11 @@ function addNewMessageToPage(messageContent) {
   // Scroll the message list to the bottom
   scrollableElement.scrollTop = scrollableElement.scrollHeight;
 }
+
+//
+// ─── SOCKET.IO - HANDLE ERRORS ──────────────────────────────────────────────────
+//
+
+socket.on("conversation error", (data) => {
+  console.log(data.message);
+});
