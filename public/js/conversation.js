@@ -85,14 +85,14 @@ socket.on("connect", () => {
     .conversationId;
 
   // Send the conversation id to the server to subscribe to incoming messages
-  socket.emit("conversation-subscribe", { conversationId: conversationId });
+  socket.emit("conversation subscribe", { conversationId: conversationId });
 });
 
 //
 // ─── SOCKET.IO - HANDLE INBOUND MESSAGES ────────────────────────────────────────
 //
 
-socket.on("inboundMessage", (messageContent, createdAt) => {
+socket.on("inbound message", (messageContent, createdAt) => {
   addNewMessageToPage(messageContent, createdAt);
 });
 

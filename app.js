@@ -81,7 +81,7 @@ const Conversation = db.models.Conversation;
 // socket.io connections are established when the client visit the single conversation page.
 io.on("connect", (socket) => {
   // This event will subscribe the client to a room using the conversation id as the name of the room
-  socket.on("conversation-subscribe", async (data) => {
+  socket.on("conversation subscribe", async (data) => {
     // The session property is established by socket.io middleware. If the user is already
     // logged in, the session saved in the database will include a passport.user property
     const session = socket.handshake.session;

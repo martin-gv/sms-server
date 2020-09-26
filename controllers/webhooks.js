@@ -91,7 +91,7 @@ exports.inboundMessage = (io) => async (req, res) => {
 //
 
 function emitReplyToClient({ io, conversationId, messageContent, createdAt }) {
-  io.to(conversationId).emit("inboundMessage", messageContent, createdAt);
+  io.to(conversationId).emit("inbound message", messageContent, createdAt);
 }
 
 //
