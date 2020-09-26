@@ -1,4 +1,7 @@
-// Make list of messages scrollable
+//
+// ─── SCROLL TO THE BOTTOM WHEN THE PAGE LOADS ────────────────────────────────────
+//
+
 const scrollableElement = document.getElementById("scrollable-messages-area");
 scrollableElement.scrollTop = scrollableElement.scrollHeight;
 
