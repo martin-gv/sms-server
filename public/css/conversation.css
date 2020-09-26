@@ -1,6 +1,9 @@
-.card-body {
+/* #scrollable-messages-area also shares the class .card-body */
+#scrollable-messages-area {
   height: calc(100vh - 215px);
-  overflow-y: auto;
+  overflow-y: scroll;
+  /* Override Bootstrap .card-body style */
+  padding-bottom: 0;
 }
 
 #messages-list {
@@ -34,9 +37,4 @@
 
 .outbound {
   align-self: flex-end;
-}
-
-.message-bubble:last-of-type {
-  /* Override Bootstrap margin in last message bubble */
-  margin-bottom: 0 !important;
 }
