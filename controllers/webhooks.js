@@ -42,7 +42,7 @@ exports.inboundMessage = (io) => async (req, res) => {
   }
 
   // Save the inbound message to the database
-  await Message.create({
+  const newMessage = await Message.create({
     conversationId: conversationId,
     isInboundMessage: true,
     messageContent: messageContent,
@@ -56,6 +56,7 @@ exports.inboundMessage = (io) => async (req, res) => {
     io: io,
     conversationId: conversationId,
     messageContent: messageContent,
+    createdAt: newMessage.createdAt,
   });
 
   const email = {
@@ -89,8 +90,8 @@ exports.inboundMessage = (io) => async (req, res) => {
 // ─── EMIT REAL-TIME REPLY TO THE CLIENT VIA SOCKET.IO ───────────────────────────
 //
 
-function emitReplyToClient({ io, conversationId, messageContent }) {
-  io.to(conversationId).emit("inboundMessage", messageContent);
+function emitReplyToClient({ io, conversationId, messageContent, createdAt }) {
+  io.to(conversationId).emit("inboundMessage", messageContent, createdAt);
 }
 
 //
