@@ -92,15 +92,15 @@ socket.on("connect", () => {
 // ─── SOCKET.IO - HANDLE INBOUND MESSAGES ────────────────────────────────────────
 //
 
-socket.on("inboundMessage", (messageContent) => {
-  addNewMessageToPage(messageContent);
+socket.on("inboundMessage", (messageContent, createdAt) => {
+  addNewMessageToPage(messageContent, createdAt);
 });
 
-function addNewMessageToPage(messageContent) {
+function addNewMessageToPage(messageContent, createdAt) {
   // Create timestamp element
   const timestampSpan = document.createElement("span");
   timestampSpan.setAttribute("class", "text-muted timestamp inbound");
-  timestampSpan.innerText = "Now";
+  timestampSpan.innerText = moment(createdAt).format("ddd, MMM  Do • h:mm A")
 
   // Create message bubble element
   const messageSpan = document.createElement("span");
