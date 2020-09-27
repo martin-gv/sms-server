@@ -9,7 +9,8 @@ const User = db.models.User;
 // ─── PROCESS INBOUND MESSAGE - WEBHOOK ──────────────────────────────────────────
 //
 
-exports.inboundMessage = async (req, res) => {
+// This controller function requires a socket.io instance
+exports.inboundMessage = (io) => async (req, res) => {
   // Get the values of the inbound SMS
   const fromNumber = req.body.msisdn;
   const toNumber = req.body.to;
@@ -41,7 +42,7 @@ exports.inboundMessage = async (req, res) => {
   }
 
   // Save the inbound message to the database
-  await Message.create({
+  const message = await Message.create({
     conversationId: conversationId,
     isInboundMessage: true,
     messageContent: messageContent,
@@ -49,6 +50,9 @@ exports.inboundMessage = async (req, res) => {
 
   // Send the recipient user an email notification
   const emailRecipients = user.emailNotificationRecipients;
+
+  // Emit the message via socket.io. If the user is currently connected they will see the reply
+  emitReplyToClient({ io: io, message: message });
 
   const email = {
     to: emailRecipients,
@@ -76,6 +80,14 @@ exports.inboundMessage = async (req, res) => {
 
   res.status(204).end();
 };
+
+//
+// ─── EMIT REAL-TIME REPLY TO THE CLIENT VIA SOCKET.IO ───────────────────────────
+//
+
+function emitReplyToClient({ io, message }) {
+  io.to(message.conversationId).emit("inbound message", { message: message });
+}
 
 //
 // ─── DELIVERY RECEIPTS - WEBHOOK ────────────────────────────────────────────────

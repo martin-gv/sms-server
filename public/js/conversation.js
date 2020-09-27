@@ -1,4 +1,7 @@
-// Make list of messages scrollable
+//
+// ─── SCROLL TO THE BOTTOM WHEN THE PAGE LOADS ────────────────────────────────────
+//
+
 const scrollableElement = document.getElementById("scrollable-messages-area");
 scrollableElement.scrollTop = scrollableElement.scrollHeight;
 
@@ -59,3 +62,72 @@ function disableFormElements() {
   textArea.setAttribute("readonly", "true");
   sendMessageButton.setAttribute("disabled", "true");
 }
+
+//
+// ─── SOCKET.IO ──────────────────────────────────────────────────────────────────
+//
+
+// When the page loads connect to the server via socket.io
+const socket = io();
+
+//
+// ─── SOCKET.IO - CONNECT TO THE SERVER ──────────────────────────────────────────
+//
+
+// After connecting to the server, the client will join a 'room'
+// that corresponds to the current conversation being viewed. The client
+// is then able to receive inbound messages and add them to the page.
+
+socket.on("connect", () => {
+  // Get the conversation id from the data attribute. The value
+  // is set server-side when building the page from the EJS template
+  const conversationId = document.getElementById("custom-data").dataset
+    .conversationId;
+
+  // Send the conversation id to the server to subscribe to incoming messages
+  socket.emit("conversation subscribe", { conversationId: conversationId });
+});
+
+//
+// ─── SOCKET.IO - HANDLE INBOUND MESSAGES ────────────────────────────────────────
+//
+
+socket.on("inbound message", ({ message }) => {
+  addNewMessageToPage(message);
+});
+
+function addNewMessageToPage(message) {
+  // Create timestamp element
+  const timestampSpan = document.createElement("span");
+  timestampSpan.setAttribute("class", "text-muted timestamp inbound");
+  timestampSpan.innerText = moment(message.createdAt).format(
+    "ddd, MMM  Do • h:mm A"
+  );
+
+  // Create message bubble element
+  const messageSpan = document.createElement("span");
+  messageSpan.setAttribute("class", "mb-3 message-bubble inbound");
+  messageSpan.innerText = message.messageContent;
+
+  // Add timestamp and message bubble to conversation list
+  const messagesList = document.getElementById("messages-list");
+  messagesList.appendChild(timestampSpan);
+  messagesList.appendChild(messageSpan);
+
+  // Scroll to bottom of scrollable container so that the newest message is visible.
+  // This usage of scrollTo with an options object is unsupported in Safari. The
+  // smoothscroll polyfill added to this page adds this functionality to Safari.
+  scrollableElement.scrollTo({
+    top: scrollableElement.scrollHeight,
+    left: 0,
+    behavior: "smooth",
+  });
+}
+
+//
+// ─── SOCKET.IO - HANDLE ERRORS ──────────────────────────────────────────────────
+//
+
+socket.on("conversation error", (data) => {
+  console.log(data.message);
+});

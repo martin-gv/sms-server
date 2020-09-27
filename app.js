@@ -1,9 +1,12 @@
 require("dotenv").config();
 
+const http = require("http");
 const express = require("express");
 const passport = require("passport");
 
 const app = express();
+const server = http.createServer(app);
+
 const port = process.env.PORT || 8080;
 
 //
@@ -53,6 +56,16 @@ app.use(passport.initialize());
 app.use(passport.session()); // must run after app.use(session())
 
 //
+// ─── SOCKET.IO CONFIG ───────────────────────────────────────────────────────────
+//
+
+// Configure socket.io with the server
+const io = require("socket.io")(server);
+
+// Set up socket.io event listeners and other application features
+require("./config/socket.io")(io);
+
+//
 // ─── EXTERNAL APP INTEGRATION - API ─────────────────────────────────────────────
 //
 
@@ -63,7 +76,8 @@ app.use("/api/v1/", externalAppRoutes);
 // ─── WEBHOOKS ───────────────────────────────────────────────────────────────────
 //
 
-const webhookRoutes = require("./routes/webhooks");
+// The webhook route file accepts a socket.io instance for use in the inbound message controller
+const webhookRoutes = require("./routes/webhooks")(io);
 app.use("/webhooks", webhookRoutes);
 
 //
@@ -122,6 +136,6 @@ app.use(errorHandler);
 // ─── START SERVER ───────────────────────────────────────────────────────────────
 //
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

@@ -5,7 +5,8 @@
   "repository": "https://github.com/martin-gv/sms-server",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js --inspect --ext js,ejs"
+    "start": "node app.js",
+    "dev": "nodemon app.js --inspect --ext js,ejs"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +32,7 @@
     "pg": "^8.2.1",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.11",
+    "socket.io": "^2.3.0",
     "twilio": "^3.42.2"
   },
   "devDependencies": {
