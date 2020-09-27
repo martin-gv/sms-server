@@ -3,11 +3,10 @@ const sessionConfig = require("./session");
 
 const Conversation = db.models.Conversation;
 
-//
-// ─── MAIN SOCKET.IO CONFIG ──────────────────────────────────────────────────────
-//
-
 module.exports = (io) => {
+  //
+  // ─── SETUP SESSION MIDDLEWARE ───────────────────────────────────────────────────
+  //
   io.use((socket, next) => {
     // socket.io  middleware takes two arguments, so Express middleware can't be passed to
     // io.use directly since it requires three arguments. Instead, the socket.io middleware
@@ -18,8 +17,16 @@ module.exports = (io) => {
     sessionConfig(socket.handshake, {}, next);
   });
 
+  //
+  // ─── SETUP MAIN CONNECTION ──────────────────────────────────────────────────────
+  //
+
   // socket.io connections are established when the client visit the single conversation page.
   io.on("connect", (socket) => {
+    //
+    // ─── SETUP SUBSCRIPTION EVENT LISTENER ──────────────────────────────────────────
+    //
+
     // This event will subscribe the client to a room using the conversation id as the name of the room
     socket.on("conversation subscribe", async (data) => {
       // The session property is established by socket.io middleware. If the user is already
