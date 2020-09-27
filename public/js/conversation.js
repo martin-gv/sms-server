@@ -97,7 +97,6 @@ socket.on("inbound message", ({ message }) => {
 });
 
 function addNewMessageToPage(message) {
-  console.log(message);
   // Create timestamp element
   const timestampSpan = document.createElement("span");
   timestampSpan.setAttribute("class", "text-muted timestamp inbound");
