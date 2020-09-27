@@ -42,7 +42,7 @@ exports.inboundMessage = (io) => async (req, res) => {
   }
 
   // Save the inbound message to the database
-  const newMessage = await Message.create({
+  const message = await Message.create({
     conversationId: conversationId,
     isInboundMessage: true,
     messageContent: messageContent,
@@ -52,12 +52,7 @@ exports.inboundMessage = (io) => async (req, res) => {
   const emailRecipients = user.emailNotificationRecipients;
 
   // Emit the message via socket.io. If the user is currently connected they will see the reply
-  emitReplyToClient({
-    io: io,
-    conversationId: conversationId,
-    messageContent: messageContent,
-    createdAt: newMessage.createdAt,
-  });
+  emitReplyToClient({ io: io, message: message });
 
   const email = {
     to: emailRecipients,
@@ -90,8 +85,8 @@ exports.inboundMessage = (io) => async (req, res) => {
 // ─── EMIT REAL-TIME REPLY TO THE CLIENT VIA SOCKET.IO ───────────────────────────
 //
 
-function emitReplyToClient({ io, conversationId, messageContent, createdAt }) {
-  io.to(conversationId).emit("inbound message", messageContent, createdAt);
+function emitReplyToClient({ io, message }) {
+  io.to(message.conversationId).emit("inbound message", { message: message });
 }
 
 //

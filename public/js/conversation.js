@@ -92,20 +92,23 @@ socket.on("connect", () => {
 // ─── SOCKET.IO - HANDLE INBOUND MESSAGES ────────────────────────────────────────
 //
 
-socket.on("inbound message", (messageContent, createdAt) => {
-  addNewMessageToPage(messageContent, createdAt);
+socket.on("inbound message", ({ message }) => {
+  addNewMessageToPage(message);
 });
 
-function addNewMessageToPage(messageContent, createdAt) {
+function addNewMessageToPage(message) {
+  console.log(message);
   // Create timestamp element
   const timestampSpan = document.createElement("span");
   timestampSpan.setAttribute("class", "text-muted timestamp inbound");
-  timestampSpan.innerText = moment(createdAt).format("ddd, MMM  Do • h:mm A")
+  timestampSpan.innerText = moment(message.createdAt).format(
+    "ddd, MMM  Do • h:mm A"
+  );
 
   // Create message bubble element
   const messageSpan = document.createElement("span");
   messageSpan.setAttribute("class", "mb-3 message-bubble inbound");
-  messageSpan.innerText = messageContent;
+  messageSpan.innerText = message.messageContent;
 
   // Add timestamp and message bubble to conversation list
   const messagesList = document.getElementById("messages-list");
