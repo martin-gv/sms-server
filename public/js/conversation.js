@@ -3,8 +3,6 @@
 //
 
 const scrollableElement = document.getElementById("scrollable-messages-area");
-
-// Start conversation already scrolled to the bottom
 scrollableElement.scrollTop = scrollableElement.scrollHeight;
 
 // Expand text area for multiple lines.
