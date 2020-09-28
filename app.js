@@ -44,6 +44,8 @@ app.set("view engine", "ejs");
 // ─── SESSION CONFIG ─────────────────────────────────────────────────────────────
 //
 
+// This session middleware establishes new sessions, looks up existing sessions
+// in the store using req.headers.cookie, and populates req.session
 const sessionConfig = require("./config/session");
 app.use(sessionConfig);
 
@@ -52,8 +54,16 @@ app.use(sessionConfig);
 //
 
 require("./config/passport");
+
+// passport.initialize() sets up Passport and allows authentication strategies to be used.
+// When a user succesfully logs in Passport will serialize the user (in this case, the id only)
+// and save it to the session's data under the property passport.user.
 app.use(passport.initialize());
-app.use(passport.session()); // must run after app.use(session())
+
+// passport.session() deserializes the user found in req.session.passport.user and, if present,
+// saves it in req.user. Important: it must run after app.use(sessionConfig). Later in the request's
+// lifecycle, a call to req.isAuthenticated() will check if the property req.user exists.
+app.use(passport.session());
 
 //
 // ─── SOCKET.IO CONFIG ───────────────────────────────────────────────────────────
