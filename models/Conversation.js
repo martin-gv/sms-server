@@ -18,6 +18,8 @@ module.exports = (sequelize) => {
         type: DataTypes.TEXT,
         allowNull: false,
       },
+      contactFirstName: DataTypes.TEXT,
+      contactLastName: DataTypes.TEXT,
     },
     { tableName: "Conversations" }
   );

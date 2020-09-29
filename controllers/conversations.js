@@ -242,6 +242,8 @@ exports.addConversation = async (req, res, next) => {
       await Conversation.create({
         userId: userId,
         contactPhoneNumber: contactPhoneNumber,
+        contactFirstName: req.body.firstName,
+        contactLastName: req.body.lastName,
       });
     }
 
