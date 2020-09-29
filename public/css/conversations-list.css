@@ -25,4 +25,10 @@
   height: 3.5rem;
   width: 3.5rem;
   margin-right: 1rem;
+  /* Text styles */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20px;
 }

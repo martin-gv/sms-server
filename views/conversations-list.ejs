@@ -68,9 +68,23 @@
         -->
         <div class="d-flex justify-content-between mb-1">
           <div class="d-flex"><!-- Section 1 -->
-            <div class="contact-image"></div>
+            <div class="contact-image">
+              <% if(conversation.contactFirstName || conversation.contactLastName) { %>
+                <% const firstNameInitial = conversation.contactFirstName ? conversation.contactFirstName[0] : '' %>
+                <% const lastNameInitial = conversation.contactLastName ? conversation.contactLastName[0] : '' %>
+                <% const contactInitials = firstNameInitial + lastNameInitial %>  
+                <%= contactInitials.trim() %>
+              <% } %>
+            </div>
             <div>
-              <div class="font-weight-bold" style="font-size: 17px"><%= conversation.contactPhoneNumber %></div>
+              <div class="font-weight-bold" style="font-size: 17px">
+                <% if(conversation.contactFirstName || conversation.contactLastName) { %>
+                  <% const contactName = conversation.contactFirstName + " " + conversation.contactLastName %>  
+                  <%= contactName.trim() %>
+                <% } else { %>
+                  <%= conversation.contactPhoneNumber %>
+                <% } %>
+              </div>
               <% if (conversation.Messages.length === 1) { %>
                 <div>
                   <%= conversation.Messages[0].isInboundMessage ? '' : 'You: ' %><%= conversation.Messages[0].messageContent %>
