@@ -11,9 +11,16 @@ router.post("/", controller.validateNumber, controller.addConversation);
 
 router.get(
   "/:conversationId",
-  controller.findConversation,
+  controller.findConversationAndMessages,
   controller.checkOwner,
   controller.getSingleConversation
+);
+
+router.post(
+  "/:conversationId/edit",
+  controller.findConversation,
+  controller.checkOwner,
+  controller.editConversation
 );
 
 module.exports = router;

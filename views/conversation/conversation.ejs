@@ -1,13 +1,31 @@
 <%- include('../includes/header', { title: 'Conversations', loggedIn: true }); %>
 <%- include('../includes/alert', { message: locals.message }); %>
+<%- include('edit-contact-name-modal', { 
+    contactFirstName: locals.conversation.contactFirstName,
+    contactLastName: locals.conversation.contactLastName,
+    id: locals.conversation.id
+}); %>
 <div class="card mx-auto">
-  <div class="card-header">
+  <div class="card-header d-flex align-items-center justify-content-between">
     <h5>
       Conversation with
       <span class="text-secondary">
-        <%= locals.conversation.contactPhoneNumber %>
+        <% if(locals.conversation.contactFirstName || locals.conversation.contactLastName) { %>
+          <% const contactName = locals.conversation.contactFirstName + " " + locals.conversation.contactLastName %>  
+          <%= contactName.trim() %>
+        <% } else { %>
+          <%= locals.conversation.contactPhoneNumber %>
+        <% } %>
       </span>
     </h5>
+    <button
+      type="button"
+      class="btn btn-secondary btn-sm"
+      data-toggle="modal"
+      data-target="#editContactNameModal"
+    >
+      Edit
+  </button>
   </div>
   <div id="scrollable-messages-area" class="card-body">
     <!-- Loop through conversation messages -->

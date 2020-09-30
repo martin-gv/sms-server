@@ -76,10 +76,10 @@ exports.getConversation = async (req, res) => {
 };
 
 //
-// ─── FIND CONVERSATION - MIDDLEWARE ─────────────────────────────────────────────
+// ─── FIND CONVERSATION AND MESSAGES - MIDDLEWARE ────────────────────────────────
 //
 
-exports.findConversation = async (req, res, next) => {
+exports.findConversationAndMessages = async (req, res, next) => {
   try {
     const conversationId = req.params.conversationId;
 
@@ -91,6 +91,35 @@ exports.findConversation = async (req, res, next) => {
         limit: 25,
         order: [["createdAt", "DESC"]],
       },
+    });
+
+    // If conversation does not exist, shown an error
+    if (conversation === null) {
+      req.flash("error", "No conversation found");
+      res.redirect("/conversations");
+      return;
+    }
+
+    // Save conversation for later use
+    res.locals.conversation = conversation;
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+//
+// ─── FIND CONVERSATION ONLY - MIDDLEWARE ────────────────────────────────────────
+//
+
+exports.findConversation = async (req, res, next) => {
+  try {
+    const conversationId = req.params.conversationId;
+
+    // Find the conversation by id
+    const conversation = await Conversation.findOne({
+      where: { id: conversationId },
     });
 
     // If conversation does not exist, shown an error
@@ -248,6 +277,29 @@ exports.addConversation = async (req, res, next) => {
     }
 
     res.redirect("/conversations");
+  } catch (error) {
+    next(error);
+  }
+};
+
+//
+// ─── EDIT CONVERSATION - FORM SUBMISSION ────────────────────────────────────────
+//
+
+exports.editConversation = async (req, res) => {
+  try {
+    const conversationId = req.params.conversationId;
+
+    const conversationData = {
+      contactFirstName: req.body.firstName,
+      contactLastName: req.body.lastName,
+    };
+
+    await Conversation.update(conversationData, {
+      where: { id: conversationId },
+    });
+
+    res.redirect("/conversations/" + conversationId);
   } catch (error) {
     next(error);
   }
