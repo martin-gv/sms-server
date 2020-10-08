@@ -228,16 +228,8 @@ exports.validateNumber = (req, res, next) => {
     return;
   }
 
-  // Leading + removed for two reasons:
-  // * Nexmo documentation examples don't have it
-  // * Nexmo documentation says that numbers in E.164 format 'omit ... a leading +'
-  //
-  // As far as I can tell, the leading + is required in E.164 format, but since
-  // Nexmo specifically states otherwise I've decided to follow their examples
-  // when using their service and npm package.
-  //
-  // Also, phoneUtil.format expects a parsed number.
-  const formattedNumber = phoneUtil.format(parsedNumber, PNF.E164).substring(1);
+  // phoneUtil.format expects a parsed number
+  const formattedNumber = phoneUtil.format(parsedNumber, PNF.E164);
 
   // Save number for later use in controller chain
   res.locals.formattedNumber = formattedNumber;
