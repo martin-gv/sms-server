@@ -1,5 +1,5 @@
 const db = require("../config/database");
-const nexmo = require("../config/nexmo");
+const twilio = require("../config/twilio");
 
 const Conversation = db.models.Conversation;
 const Message = db.models.Message;
@@ -27,24 +27,24 @@ exports.sendMessage = async (req, res, next) => {
       res.redirect("/conversations");
     }
 
-    // Send text message
-    nexmo.message.sendSms(
-      fromNumber,
-      conversation.contactPhoneNumber,
-      messageContent,
-      (err, nexmoRes) => {
-        if (err) {
-          next(err);
-        } else {
-          // Save info in locals
-          res.locals.conversation = conversation;
-          res.locals.messageContent = messageContent;
+    // Send text message using Twilio
+    twilio.messages
+      .create({
+        body: messageContent,
+        from: fromNumber,
+        to: conversation.contactPhoneNumber,
+      })
+      .then((message) => {
+        // Save info in locals
+        res.locals.conversation = conversation;
+        res.locals.messageContent = messageContent;
 
-          // Save to database in the next middleware
-          next();
-        }
-      }
-    );
+        // Save to database in the next middleware
+        next();
+      })
+      .catch((error) => {
+        next(error);
+      });
   } catch (error) {
     next(error);
   }

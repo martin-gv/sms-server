@@ -1,7 +1,5 @@
 const db = require("../config/database");
-const nexmo = require("../config/nexmo");
-const PNF = require("google-libphonenumber").PhoneNumberFormat;
-const phoneUtil = require("google-libphonenumber").PhoneNumberUtil.getInstance();
+const twilio = require("../config/twilio");
 
 const User = db.models.User;
 
@@ -10,51 +8,40 @@ const User = db.models.User;
 //
 
 exports.getNewNumberPage = (req, res) => {
-  const searchOptions = {
-    pattern: "1",
-    search_pattern: 0, // start with the pattern
-    features: "SMS",
-    size: 5,
+  const twilioSearchOptions = {
+    smsEnabled: true,
+    mmsEnabled: true,
+    voiceEnabled: true,
+    limit: 5,
   };
 
   if (req.query.areaCode) {
-    searchOptions.pattern = "1" + req.query.areaCode;
+    twilioSearchOptions.areaCode = req.query.areaCode;
   }
 
-  nexmo.number.search("CA", searchOptions, (error, response) => {
-    if (error) {
-      req.flash("error", error.message);
-      res.redirect("/new-number");
-      return;
-    }
+  twilio
+    .availablePhoneNumbers("CA")
+    .local.list(twilioSearchOptions)
+    .then((twilioRes) => {
+      // twilioRes is an array of number objects. These are some useful properties:
+      // * phoneNumber - E.164 formatted
+      // * friendlyName - e.g. (123) 456-7890
 
-    const availableNumbers = [];
+      if (twilioRes.length === 0 && req.query.areaCode) {
+        req.flash(
+          "areaCodeWarning",
+          `No numbers available for the area code <strong>${req.query.areaCode}</strong>`
+        );
+      }
 
-    if (response.numbers === undefined && req.query.areaCode) {
-      req.flash(
-        "areaCodeWarning",
-        `No numbers available for area code <strong>${req.query.areaCode}</strong>`
-      );
-    }
-
-    if (response.numbers !== undefined) {
-      response.numbers.forEach((number) => {
-        const parsed = phoneUtil.parseAndKeepRawInput(number.msisdn, "CA");
-        const formatted = phoneUtil.format(parsed, PNF.NATIONAL);
-
-        const data = { msisdn: number.msisdn, formatted: formatted };
-        availableNumbers.push(data);
+      res.render("new-number", {
+        message: req.flash(),
+        availableNumbers: twilioRes, // Twilio response
+        areaCode: req.query.areaCode,
+        js: ["new-number"],
+        css: ["new-number"],
       });
-    }
-
-    res.render("new-number", {
-      message: req.flash(),
-      availableNumbers: availableNumbers,
-      areaCode: req.query.areaCode,
-      js: ["new-number"],
-      css: ["new-number"],
     });
-  });
 };
 
 //
@@ -64,24 +51,26 @@ exports.getNewNumberPage = (req, res) => {
 exports.handleNewNumberForm = (req, res) => {
   const selectedNumber = req.body.selectedNumber;
 
-  nexmo.number.buy("CA", selectedNumber, async (error, response) => {
-    if (error) {
-      req.flash("error", error.message);
-      res.redirect("/new-number");
-      return;
-    }
+  twilio.incomingPhoneNumbers
+    .create({
+      phoneNumber: selectedNumber,
+      smsUrl: "https://sms.martin-gv.com/webhooks/inbound-sms",
+    })
+    .then(async (twilioRes) => {
+      // Add the new number to the user's account
+      const currentUser = req.user;
+      await User.update(
+        { smsNumber: selectedNumber },
+        { where: { id: currentUser.id } }
+      );
 
-    const currentUser = req.user;
+      // Success message
+      req.flash(
+        "primary",
+        "Your new number is now registered. Start sending text messages below!"
+      );
 
-    await User.update(
-      { smsNumber: selectedNumber },
-      { where: { id: currentUser.id } }
-    );
-
-    req.flash(
-      "primary",
-      "Your new number is now registered. Start sending text messages below!"
-    );
-    res.redirect("/");
-  });
+      // Go to homepage
+      res.redirect("/");
+    });
 };

@@ -6,7 +6,7 @@
     <hr />
 
     <form class="mb-4" method="GET" action="/new-number">
-      <label for="areaCode" class="mr-3">Search by area code</label>
+      <label for="areaCode" class="mr-3 font-weight-bold">Search by area code</label>
       <div class="input-group" style="max-width: 250px;">
         <input
           type="text"
@@ -24,16 +24,17 @@
     </form>
 
     <% if (locals.availableNumbers.length > 0) { %>
-    <label class="mr-3">Select a number</label>
+    <label class="mr-3 font-weight-bold">Select a number</label>
     <div class="list-group">
-      <% for (const number of locals.availableNumbers) { %>
+    <% for (const availableNumber of locals.availableNumbers) { %>
       <button
         class="list-group-item list-group-item-action"
-        data-number="<%= number.msisdn %>"
+        data-number="<%= availableNumber.phoneNumber %>"
       >
-        <%= number.formatted %>
+        <%= availableNumber.friendlyName %></br>
+        <%= availableNumber.locality %>, <%= availableNumber.region %>
       </button>
-      <% } %>
+    <% } %>
     </div>
     <% } %>
     <% if (locals.message && locals.message.areaCodeWarning) { %>

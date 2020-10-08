@@ -1,4 +1,5 @@
 const db = require("../config/database");
+const MessagingResponse = require("twilio").twiml.MessagingResponse;
 const mailgun = require("../config/mailgun");
 
 const Conversation = db.models.Conversation;
@@ -11,10 +12,10 @@ const User = db.models.User;
 
 // This controller function requires a socket.io instance
 exports.inboundMessage = (io) => async (req, res) => {
-  // Get the values of the inbound SMS
-  const fromNumber = req.body.msisdn;
-  const toNumber = req.body.to;
-  const messageContent = req.body.text;
+  // Get the values of the inbound SMS from the Twilio POST request
+  const fromNumber = req.body.From;
+  const toNumber = req.body.To;
+  const messageContent = req.body.Body;
 
   // Find the account associated with the 'to' number
   const user = await User.findOne({ where: { smsNumber: toNumber } });
@@ -48,37 +49,42 @@ exports.inboundMessage = (io) => async (req, res) => {
     messageContent: messageContent,
   });
 
-  // Send the recipient user an email notification
-  const emailRecipients = user.emailNotificationRecipients;
-
   // Emit the message via socket.io. If the user is currently connected they will see the reply
   emitReplyToClient({ io: io, message: message });
 
-  const email = {
-    to: emailRecipients,
-    from: "SMS Notifier <sms-notifier@mail.sms.martin-gv.com>",
-    subject: `SMS from ${fromNumber}`,
-    html: `
+  // Send the recipient an email notification if they've set one up in their settings
+  const emailRecipients = user.emailNotificationRecipients;
+
+  if (emailRecipients !== null && emailRecipients !== "") {
+    const email = {
+      to: emailRecipients,
+      from: "SMS Notifier <sms-notifier@mail.sms.martin-gv.com>",
+      subject: `SMS from ${fromNumber}`,
+      html: `
       <h3>New SMS Message</h3>
       <strong>From:</strong> ${fromNumber}<br/>
       <strong>Message:</strong> ${messageContent}<br/>
       <br/>
       <a href="${process.env.APP_DOMAIN_URL}/conversations/${conversationId}">
-        Click here to open conversation
+      Click here to open conversation
       </a>
-    `,
-  };
+      `,
+    };
 
-  mailgun.messages().send(email, (error, body) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("email sent!");
-      console.log(body);
-    }
-  });
+    mailgun.messages().send(email, (error, body) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("email sent!");
+        console.log(body);
+      }
+    });
+  }
 
-  res.status(204).end();
+  // Respond to the Twilio webhook request. The code below follows the example in the Twilio docs
+  const twiml = new MessagingResponse();
+  res.writeHead(200, { "Content-Type": "text/xml" });
+  res.end(twiml.toString());
 };
 
 //
