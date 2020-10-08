@@ -254,9 +254,17 @@ exports.addConversation = async (req, res, next) => {
 
     if (conversation !== null) {
       // If conversation exists show an error
+
+      // Format E.164 number
+      const parsedNum = phoneUtil.parseAndKeepRawInput(
+        contactPhoneNumber,
+        "CA"
+      );
+      const formattedNum = phoneUtil.format(parsedNum, PNF.NATIONAL);
+
       req.flash(
         "error",
-        `A conversation for <strong>${contactPhoneNumber}</strong> already exists`
+        `A conversation for <strong>${formattedNum}</strong> already exists`
       );
     } else {
       // Otherwise, create a new record
