@@ -1,4 +1,5 @@
 const db = require("../config/database");
+const MessagingResponse = require("twilio").twiml.MessagingResponse;
 const mailgun = require("../config/mailgun");
 
 const Conversation = db.models.Conversation;
@@ -80,7 +81,10 @@ exports.inboundMessage = (io) => async (req, res) => {
     });
   }
 
-  res.status(204).end();
+  // Respond to the Twilio webhook request. The code below follows the example in the Twilio docs
+  const twiml = new MessagingResponse();
+  res.writeHead(200, { "Content-Type": "text/xml" });
+  res.end(twiml.toString());
 };
 
 //
