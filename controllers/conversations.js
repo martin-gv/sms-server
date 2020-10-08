@@ -215,10 +215,9 @@ exports.validateNumber = (req, res, next) => {
 
   const parsedNumber = phoneUtil.parseAndKeepRawInput(toNumber, "CA");
 
+  // Check if number is valid for the region (Canada)
   // phoneUtil.isValidNumber expects a parsed number
   const isValidNumber = phoneUtil.isValidNumber(parsedNumber);
-
-  // Check if number is valid for the region (Canada)
   if (isValidNumber === false) {
     req.flash(
       "error",
@@ -228,11 +227,11 @@ exports.validateNumber = (req, res, next) => {
     return;
   }
 
+  // Save parsed number for later use in controller chain
   // phoneUtil.format expects a parsed number
   const formattedNumber = phoneUtil.format(parsedNumber, PNF.E164);
-
-  // Save number for later use in controller chain
   res.locals.formattedNumber = formattedNumber;
+  res.locals.parsedNumber = parsedNumber;
 
   next();
 };
@@ -243,24 +242,21 @@ exports.validateNumber = (req, res, next) => {
 
 exports.addConversation = async (req, res, next) => {
   try {
-    // Prepare values for new record
-    const userId = req.user.id;
-    const contactPhoneNumber = res.locals.formattedNumber;
+    // Get parsed number from previous middleware
+    const parsedNumber = res.locals.parsedNumber;
+
+    // Convert number to E.164 format (used to find an existing conversation, and create a new one if required)
+    const e164formattedNum = phoneUtil.format(parsedNumber, PNF.E164);
 
     // Find conversation if it already exists
     const conversation = await Conversation.findOne({
-      where: { userId: userId, contactPhoneNumber: contactPhoneNumber },
+      where: { userId: req.user.id, contactPhoneNumber: e164formattedNum },
     });
 
+    // If conversation exists show an error
     if (conversation !== null) {
-      // If conversation exists show an error
-
-      // Format E.164 number
-      const parsedNum = phoneUtil.parseAndKeepRawInput(
-        contactPhoneNumber,
-        "CA"
-      );
-      const formattedNum = phoneUtil.format(parsedNum, PNF.NATIONAL);
+      // Convert number to a readable format
+      const formattedNum = phoneUtil.format(parsedNumber, PNF.NATIONAL);
 
       req.flash(
         "error",
@@ -269,8 +265,8 @@ exports.addConversation = async (req, res, next) => {
     } else {
       // Otherwise, create a new record
       await Conversation.create({
-        userId: userId,
-        contactPhoneNumber: contactPhoneNumber,
+        userId: req.user.id,
+        contactPhoneNumber: e164formattedNum,
         contactFirstName: req.body.firstName,
         contactLastName: req.body.lastName,
       });
