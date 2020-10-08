@@ -11,10 +11,10 @@ const User = db.models.User;
 
 // This controller function requires a socket.io instance
 exports.inboundMessage = (io) => async (req, res) => {
-  // Get the values of the inbound SMS
-  const fromNumber = req.body.msisdn;
-  const toNumber = req.body.to;
-  const messageContent = req.body.text;
+  // Get the values of the inbound SMS from the Twilio POST request
+  const fromNumber = req.body.From;
+  const toNumber = req.body.To;
+  const messageContent = req.body.Body;
 
   // Find the account associated with the 'to' number
   const user = await User.findOne({ where: { smsNumber: toNumber } });
