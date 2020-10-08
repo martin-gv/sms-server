@@ -52,7 +52,10 @@ exports.handleNewNumberForm = (req, res) => {
   const selectedNumber = req.body.selectedNumber;
 
   twilio.incomingPhoneNumbers
-    .create({ phoneNumber: selectedNumber })
+    .create({
+      phoneNumber: selectedNumber,
+      smsUrl: "https://sms.martin-gv.com/webhooks/inbound-sms",
+    })
     .then(async (twilioRes) => {
       // Add the new number to the user's account
       const currentUser = req.user;
