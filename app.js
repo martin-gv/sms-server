@@ -21,9 +21,10 @@ app.use(express.static("public"));
 
 const bodyParser = require("body-parser");
 
-// Both json and urlencoded are required for delivery receipts according to Nexmo documentation.
-// JSON support is also required for requests coming from Axios on the front end.
+// JSON parsing is required for requests coming from Axios on the front end
 app.use(bodyParser.json());
+
+// URL encoded parsing is required for Twilio webhooks
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //
