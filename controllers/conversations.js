@@ -190,6 +190,18 @@ exports.getSingleConversation = async (req, res) => {
     };
   });
 
+  // Add formatted phone number
+  const parsedNumber = phoneUtil.parseAndKeepRawInput(
+    conversation.contactPhoneNumber,
+    "CA"
+  );
+
+  conversation.formattedPhoneNumber = phoneUtil.format(
+    parsedNumber,
+    PNF.NATIONAL
+  );
+
+  // Render page
   const message = req.flash();
   res.render("conversation/conversation", {
     message: message,
@@ -229,8 +241,6 @@ exports.validateNumber = (req, res, next) => {
 
   // Save parsed number for later use in controller chain
   // phoneUtil.format expects a parsed number
-  const formattedNumber = phoneUtil.format(parsedNumber, PNF.E164);
-  res.locals.formattedNumber = formattedNumber;
   res.locals.parsedNumber = parsedNumber;
 
   next();
