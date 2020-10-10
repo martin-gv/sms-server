@@ -6,7 +6,7 @@
         <% const contactName = locals.conversation.contactFirstName + " " + locals.conversation.contactLastName %>  
         <%= contactName.trim() %>
       <% } else { %>
-        <%= locals.conversation.contactPhoneNumber %>
+        <%= locals.conversation.formattedPhoneNumber %>
       <% } %>
     </span>
   </h5>

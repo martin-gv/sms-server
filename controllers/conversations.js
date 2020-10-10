@@ -43,6 +43,19 @@ exports.getConversation = async (req, res) => {
       return el.get({ plain: true });
     })
     .map((el) => {
+      // Add formatted phone number
+      const parsedNumber = phoneUtil.parseAndKeepRawInput(
+        el.contactPhoneNumber,
+        "CA"
+      );
+      const formattedPhoneNumber = phoneUtil.format(parsedNumber, PNF.NATIONAL);
+      
+      return {
+        ...el,
+        formattedPhoneNumber: formattedPhoneNumber,
+      };
+    })
+    .map((el) => {
       let sortDate;
 
       // Set the new property sortDate to either the date of the most recent message

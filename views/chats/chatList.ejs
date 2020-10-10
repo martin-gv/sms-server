@@ -82,7 +82,7 @@
                   <% const contactName = conversation.contactFirstName + " " + conversation.contactLastName %>  
                   <%= contactName.trim() %>
                 <% } else { %>
-                  <%= conversation.contactPhoneNumber %>
+                  <%= conversation.formattedPhoneNumber %>
                 <% } %>
               </div>
               <% if (conversation.Messages.length === 1) { %>
