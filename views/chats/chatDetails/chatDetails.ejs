@@ -1,33 +1,13 @@
-<%- include('../includes/header', { title: 'Conversations', loggedIn: true }); %>
-<%- include('../includes/alert', { message: locals.message }); %>
-<%- include('edit-contact-name-modal', { 
+<%- include('../../includes/header', { title: 'Conversations', loggedIn: true }); %>
+<%- include('../../includes/alert', { message: locals.message }); %>
+<%- include('chatDetailsEditModal', { 
     contactFirstName: locals.conversation.contactFirstName,
     contactLastName: locals.conversation.contactLastName,
     formattedPhoneNumber: locals.conversation.formattedPhoneNumber,
     id: locals.conversation.id
 }); %>
 <div class="card mx-auto">
-  <div class="card-header d-flex align-items-center justify-content-between">
-    <h5>
-      Conversation with
-      <span class="text-secondary">
-        <% if(locals.conversation.contactFirstName || locals.conversation.contactLastName) { %>
-          <% const contactName = locals.conversation.contactFirstName + " " + locals.conversation.contactLastName %>  
-          <%= contactName.trim() %>
-        <% } else { %>
-          <%= locals.conversation.contactPhoneNumber %>
-        <% } %>
-      </span>
-    </h5>
-    <button
-      type="button"
-      class="btn btn-secondary btn-sm"
-      data-toggle="modal"
-      data-target="#editContactNameModal"
-    >
-      Edit
-  </button>
-  </div>
+  <%- include('chatDetailsHeader', { conversation: locals.conversation }); %>  
   <div id="scrollable-messages-area" class="card-body">
     <!-- Loop through conversation messages -->
     <div id="messages-list">
@@ -46,14 +26,12 @@
       <% } %>
     </div>
   </div>
-  <div class="card-footer">
-    <%- include('send-message-form', {
+    <%- include('chatDetailsFooter', {
         recipientNumber: locals.conversation.contactPhoneNumber,
         conversationId: locals.conversation.id
     }); %>
-  </div>
 </div>
 <!-- The div below saves the conversation's id so it can be
   accessed on the client side by the JavaScript file: conversation.js -->
 <div id="custom-data" data-conversation-id=<%= locals.conversation.id %>></div>
-<%- include('../includes/footer'); %>
+<%- include('../../includes/footer'); %>

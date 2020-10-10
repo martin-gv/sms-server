@@ -68,7 +68,7 @@ exports.getConversation = async (req, res) => {
 
   const message = req.flash();
 
-  res.render("conversations-list", {
+  res.render("chats/chatList", {
     message: message,
     conversations: sortedConversations,
     css: ["conversations-list"],
@@ -203,7 +203,7 @@ exports.getSingleConversation = async (req, res) => {
 
   // Render page
   const message = req.flash();
-  res.render("conversation/conversation", {
+  res.render("chats/chatDetails/chatDetails", {
     message: message,
     conversation: conversation,
     css: ["conversation"],

@@ -1,0 +1,30 @@
+<div class="card-footer">
+  <form
+    autocomplete="off"
+    method="POST"
+    action="/messages"
+    id="sendMessageForm"
+  >
+    <input
+      type="hidden"
+      name="conversationId"
+      value="<%= locals.conversationId %>"
+    />
+    <div id="alert"></div>
+    <div class="input-group">
+      <textarea
+        class="form-control"
+        id="messageContent"
+        name="messageContent"
+        rows="1"
+        required="true"
+        placeholder="Enter message here"
+      ></textarea>
+      <div class="input-group-append">
+        <button type="submit" id="send-message-button" class="btn btn-info">
+          Send Message
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

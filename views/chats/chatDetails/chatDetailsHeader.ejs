@@ -1,0 +1,21 @@
+<div class="card-header d-flex align-items-center justify-content-between">
+  <h5>
+    Conversation with
+    <span class="text-secondary">
+      <% if(locals.conversation.contactFirstName || locals.conversation.contactLastName) { %>
+        <% const contactName = locals.conversation.contactFirstName + " " + locals.conversation.contactLastName %>  
+        <%= contactName.trim() %>
+      <% } else { %>
+        <%= locals.conversation.contactPhoneNumber %>
+      <% } %>
+    </span>
+  </h5>
+  <button
+    type="button"
+    class="btn btn-secondary btn-sm"
+    data-toggle="modal"
+    data-target="#editContactNameModal"
+  >
+    Edit
+  </button>
+</div>
