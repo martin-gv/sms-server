@@ -1,11 +1,6 @@
 <%- include('../../includes/header', { title: 'Conversations', loggedIn: true }); %>
 <%- include('../../includes/alert', { message: locals.message }); %>
-<%- include('chatDetailsEditModal', { 
-    contactFirstName: locals.conversation.contactFirstName,
-    contactLastName: locals.conversation.contactLastName,
-    formattedPhoneNumber: locals.conversation.formattedPhoneNumber,
-    id: locals.conversation.id
-}); %>
+<%- include('chatDetailsEditModal', { conversation: locals.conversation }); %>
 <div class="card mx-auto">
   <%- include('chatDetailsHeader', { conversation: locals.conversation }); %>  
   <div id="scrollable-messages-area" class="card-body">
@@ -26,10 +21,7 @@
       <% } %>
     </div>
   </div>
-    <%- include('chatDetailsFooter', {
-        recipientNumber: locals.conversation.contactPhoneNumber,
-        conversationId: locals.conversation.id
-    }); %>
+    <%- include('chatDetailsFooter', { conversation: locals.conversation }); %>
 </div>
 <!-- The div below saves the conversation's id so it can be
   accessed on the client side by the JavaScript file: conversation.js -->
