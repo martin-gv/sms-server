@@ -19,6 +19,10 @@ exports.getNewNumberPage = (req, res) => {
     twilioSearchOptions.areaCode = req.query.areaCode;
   }
 
+  if (req.query.province) {
+    twilioSearchOptions.inRegion = req.query.province;
+  }
+
   twilio
     .availablePhoneNumbers("CA")
     .local.list(twilioSearchOptions)
@@ -38,6 +42,7 @@ exports.getNewNumberPage = (req, res) => {
         message: req.flash(),
         availableNumbers: twilioRes, // Twilio response
         areaCode: req.query.areaCode,
+        province: req.query.province,
         js: ["new-number"],
         css: ["new-number"],
       });

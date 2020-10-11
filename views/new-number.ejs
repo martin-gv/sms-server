@@ -5,24 +5,58 @@
     <h4>Get a new number</h4>
     <hr />
 
-    <form class="mb-4" method="GET" action="/new-number">
-      <label for="areaCode" class="mr-3 font-weight-bold">Search by area code</label>
-      <div class="input-group" style="max-width: 250px;">
-        <input
-          type="text"
-          class="form-control"
-          id="areaCode"
-          name="areaCode"
-          placeholder="Enter area code"
-        />
-        <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="submit">
-            Search
-          </button>
-        </div>
-      </div>
-    </form>
+    <div class="row mb-3">
 
+      <!-- this column is full-width at xs sizes, and 50% at sm sizes and above -->
+      <div class="col-sm-6">
+        <form method="GET" action="/new-number">
+          <label for="areaCode" class="font-weight-bold">Search by area code</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              id="areaCode"
+              name="areaCode"
+              placeholder="Enter area code"
+            />
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="submit">
+                Search
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+      <!-- this column is full-width at xs sizes, and 50% at sm sizes and above -->
+      <div class="col-sm-6">
+        <form method="GET" action="/new-number">
+          <label for="province" class="font-weight-bold">Or search by province</label>
+          <div class="input-group">
+            <select class="custom-select" id="province" name="province">
+              <option selected>Select an option</option>
+              <option value="AB">Alberta</option>
+              <option value="BC">British Columbia</option>
+              <option value="MB">Manitoba</option>
+              <option value="NB">New Brunswick</option>
+              <option value="NL">Newfoundland and Labrador</option>
+              <option value="NT">Northwest Territories</option>
+              <option value="NS">Nova Scotia</option>
+              <option value="NU">Nunavut</option>
+              <option value="PE">Prince Edward Island</option>
+              <option value="QC">Quebec</option>
+              <option value="SK">Saskatchewan</option>
+              <option value="YT">Yukon</option>
+            </select>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+      
     <% if (locals.availableNumbers.length > 0) { %>
     <label class="mr-3 font-weight-bold">Select a number</label>
     <div class="list-group">
