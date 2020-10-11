@@ -4,6 +4,10 @@
 <div class="card mx-auto">
   <%- include('chatDetailsHeader', { conversation: locals.conversation }); %>  
   <div id="scrollable-messages-area" class="card-body">
+    <!-- No messages -->
+    <% if (locals.conversation.Messages.length === 0) { %>
+      <div class="text-muted text-center mt-3">No messages. Try sending one below.</div>
+    <% } %>
     <!-- Loop through conversation messages -->
     <div id="messages-list">
       <% for (message of locals.conversation.Messages) { %>
