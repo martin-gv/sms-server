@@ -1,5 +1,4 @@
 const passport = require("passport");
-const querystring = require("querystring");
 
 //
 // ─── RENDER LOGIN PAGE ──────────────────────────────────────────────────────────
@@ -18,11 +17,6 @@ exports.handleLoginForm = (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) return next(err);
 
-    const queryParams = querystring.encode({
-      token: req.body.token,
-      email: req.body.email,
-    });
-
     // Passport will return the 'info' object with a 'message' key if no
     // credentials are supplied. The verify callback in config/passport.js
     // will also use this 'message' key for errors. For this reason, the
@@ -30,7 +24,7 @@ exports.handleLoginForm = (req, res, next) => {
 
     if (!user) {
       req.flash("error", info.message);
-      res.redirect("/login?" + queryParams);
+      res.redirect("/login");
       return;
     }
 
@@ -41,12 +35,6 @@ exports.handleLoginForm = (req, res, next) => {
       if (user.smsNumber === null) {
         req.flash("warning", "Get a new number to complete your account");
         res.redirect("/new-number");
-        return;
-      }
-
-      // Redirect to 'reply' page if necessary
-      if (req.body.token) {
-        res.redirect("/reply?token=" + req.body.token);
       } else {
         res.redirect("/");
       }
