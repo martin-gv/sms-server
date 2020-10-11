@@ -285,17 +285,19 @@ exports.addConversation = async (req, res, next) => {
         "error",
         `A conversation for <strong>${formattedNum}</strong> already exists`
       );
+      res.redirect("/conversations");
     } else {
       // Otherwise, create a new record
-      await Conversation.create({
+      const results = await Conversation.create({
         userId: req.user.id,
         contactPhoneNumber: e164formattedNum,
         contactFirstName: req.body.firstName,
         contactLastName: req.body.lastName,
       });
-    }
 
-    res.redirect("/conversations");
+      // Open newly created conversations
+      res.redirect("/conversations/" + results.id);
+    }
   } catch (error) {
     next(error);
   }
