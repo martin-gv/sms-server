@@ -23,4 +23,11 @@ router.post(
   controller.editConversation
 );
 
+router.post(
+  "/:conversationId/delete",
+  controller.findConversation,
+  controller.checkOwner,
+  controller.deleteConversation
+);
+
 module.exports = router;

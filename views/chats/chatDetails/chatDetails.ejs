@@ -1,6 +1,7 @@
 <%- include('../../includes/header', { title: 'Conversations', loggedIn: true }); %>
 <%- include('../../includes/alert', { message: locals.message }); %>
 <%- include('chatDetailsEditModal', { conversation: locals.conversation }); %>
+<%- include('chatDetailsConfirmDeleteModal', { conversation: locals.conversation }); %>
 <div class="card mx-auto">
   <%- include('chatDetailsHeader', { conversation: locals.conversation }); %>  
   <div id="scrollable-messages-area" class="card-body">

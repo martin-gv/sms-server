@@ -41,17 +41,28 @@
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          Close
-        </button>
+      <!-- .modal-footer has display:flex and justify-content:flex-end by default -->
+      <div class="modal-footer justify-content-between">
         <button
-          type="submit"
-          class="btn btn-primary"
-          form="editContactNameForm"
+          class="btn btn-outline-danger float-left"
+          data-toggle="modal"
+          data-target="#confirmDeleteModal"
+          data-dismiss="modal"
         >
-          Save changes
+          Delete
         </button>
+        <div>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            form="editContactNameForm"
+          >
+            Save changes
+          </button>
+        </div>
       </div>
     </div>
   </div>

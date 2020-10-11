@@ -49,7 +49,7 @@ exports.getConversation = async (req, res) => {
         "CA"
       );
       const formattedPhoneNumber = phoneUtil.format(parsedNumber, PNF.NATIONAL);
-      
+
       return {
         ...el,
         formattedPhoneNumber: formattedPhoneNumber,
@@ -319,6 +319,41 @@ exports.editConversation = async (req, res) => {
     });
 
     res.redirect("/conversations/" + conversationId);
+  } catch (error) {
+    next(error);
+  }
+};
+
+//
+// ─── DELETE CONVERSATION - FORM SUBMISSION ──────────────────────────────────────
+//
+
+exports.deleteConversation = async (req, res, next) => {
+  try {
+    const conversationId = req.params.conversationId;
+
+    // Delete the conversation and the attached messages in a transaction. If one of the functions
+    // fails the whole operation will be rolled back. This is to avoid an incomplete operation
+    // (e.g. all the messages are deleted, but the conversation record itself fails to delete).
+
+    // Note: the code below returns the transaction function call, and each database query is returned
+    // as well. This follows the examples in the v5 docs. Sequelize v6 uses an async/await pattern instead
+    return db
+      .transaction((t) => {
+        // Delete all the messages in the conversation
+        return Message.destroy({
+          where: { conversationId: conversationId },
+          transaction: t,
+        }).then(() => {
+          // Delete the conversation
+          return Conversation.destroy({
+            where: { id: conversationId },
+            transaction: t,
+          });
+        });
+      })
+      .then(() => res.redirect("/conversations")) // Success
+      .catch((error) => next(error)); // Error
   } catch (error) {
     next(error);
   }
