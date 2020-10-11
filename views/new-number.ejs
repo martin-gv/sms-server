@@ -57,9 +57,17 @@
 
     </div>
 
+    <!-- no results warning (area code search) -->
     <% if (locals.message && locals.message.areaCodeWarning) { %>
       <div class="alert alert-warning" role="alert">
         <%- locals.message.areaCodeWarning %>
+      </div>
+    <% } %>
+    
+    <!-- search results success message -->
+    <% if (locals.message && locals.message.searchSuccess) { %>
+      <div class="alert alert-success" role="alert">
+        <%- locals.message.searchSuccess %>
       </div>
     <% } %>
       
