@@ -60,17 +60,18 @@
     <% if (locals.availableNumbers.length > 0) { %>
       <label class="mr-3 font-weight-bold">Select a number</label>
       <div class="list-group">
-    <% for (const availableNumber of locals.availableNumbers) { %>
-      <button
-        class="list-group-item list-group-item-action"
-        data-number="<%= availableNumber.phoneNumber %>"
-      >
-        <%= availableNumber.friendlyName %></br>
-        <%= availableNumber.locality %>, <%= availableNumber.region %>
-      </button>
-    <% } %>
+      <% for (const availableNumber of locals.availableNumbers) { %>
+        <button
+          class="list-group-item list-group-item-action"
+          data-number="<%= availableNumber.phoneNumber %>"
+        >
+          <%= availableNumber.friendlyName %></br>
+          <%= availableNumber.locality %>, <%= availableNumber.region %>
+        </button>
+      <% } %>
       </div>
     <% } %>
+    
     <% if (locals.message && locals.message.areaCodeWarning) { %>
       <div class="alert alert-warning" role="alert">
         <%- locals.message.areaCodeWarning %>
