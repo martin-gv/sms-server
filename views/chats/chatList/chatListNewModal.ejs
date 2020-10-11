@@ -1,0 +1,62 @@
+<div class="modal fade" id="newChatModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">New chat</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form
+          autocomplete="off"
+          method="POST"
+          action="/conversations"
+          id="newChatForm"
+        >
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="firstName">First name</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="First name"
+                id="firstName"
+                name="firstName"
+              />
+            </div>
+            <div class="form-group col">
+              <label for="lastName">Last name</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Last name"
+                id="lastName"
+                name="lastName"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="phoneNumber">Phone number</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter phone number"
+              id="phoneNumber"
+              name="phoneNumber"
+              required="true"
+            />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button type="submit" class="btn btn-primary" form="newChatForm">
+          Create new chat
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

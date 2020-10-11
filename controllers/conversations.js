@@ -81,7 +81,7 @@ exports.getConversation = async (req, res) => {
 
   const message = req.flash();
 
-  res.render("chats/chatList", {
+  res.render("chats/chatList/chatList", {
     message: message,
     conversations: sortedConversations,
     css: ["conversations-list"],
