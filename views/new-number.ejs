@@ -56,6 +56,12 @@
       </div>
 
     </div>
+
+    <% if (locals.message && locals.message.areaCodeWarning) { %>
+      <div class="alert alert-warning" role="alert">
+        <%- locals.message.areaCodeWarning %>
+      </div>
+    <% } %>
       
     <% if (locals.availableNumbers.length > 0) { %>
       <label class="mr-3 font-weight-bold">Select a number</label>
@@ -69,12 +75,6 @@
           <%= availableNumber.locality %>, <%= availableNumber.region %>
         </button>
       <% } %>
-      </div>
-    <% } %>
-    
-    <% if (locals.message && locals.message.areaCodeWarning) { %>
-      <div class="alert alert-warning" role="alert">
-        <%- locals.message.areaCodeWarning %>
       </div>
     <% } %>
 
