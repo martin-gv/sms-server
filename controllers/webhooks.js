@@ -54,31 +54,8 @@ exports.inboundMessage = (io) => async (req, res) => {
 
   // Send the recipient an email notification if they've set one up in their settings
   const emailRecipients = user.emailNotificationRecipients;
-
   if (emailRecipients !== null && emailRecipients !== "") {
-    const email = {
-      to: emailRecipients,
-      from: "SMS Notifier <sms-notifier@mail.sms.martin-gv.com>",
-      subject: `SMS from ${fromNumber}`,
-      html: `
-      <h3>New SMS Message</h3>
-      <strong>From:</strong> ${fromNumber}<br/>
-      <strong>Message:</strong> ${messageContent}<br/>
-      <br/>
-      <a href="${process.env.APP_DOMAIN_URL}/conversations/${conversationId}">
-      Click here to open conversation
-      </a>
-      `,
-    };
-
-    mailgun.messages().send(email, (error, body) => {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("email sent!");
-        console.log(body);
-      }
-    });
+    sendEmailNotification(emailRecipients, fromNumber, message);
   }
 
   // Respond to the Twilio webhook request. The code below follows the example in the Twilio docs
@@ -93,6 +70,36 @@ exports.inboundMessage = (io) => async (req, res) => {
 
 function emitReplyToClient({ io, message }) {
   io.to(message.conversationId).emit("inbound message", { message: message });
+}
+
+//
+// ─── SEND EMAIL NOTIFICATION ────────────────────────────────────────────────────
+//
+
+function sendEmailNotification(emailRecipients, fromNumber, message) {
+  const email = {
+    to: emailRecipients,
+    from: "SMS Notifier <sms-notifier@mail.sms.martin-gv.com>",
+    subject: `SMS from ${fromNumber}`,
+    html: `
+    <h3>New SMS Message</h3>
+    <strong>From:</strong> ${fromNumber}<br/>
+    <strong>Message:</strong> ${message.messageContent}<br/>
+    <br/>
+    <a href="${process.env.APP_DOMAIN_URL}/conversations/${message.conversationId}">
+    Click here to open conversation
+    </a>
+    `,
+  };
+
+  mailgun.messages().send(email, (error, body) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("email sent!");
+      console.log(body);
+    }
+  });
 }
 
 //
