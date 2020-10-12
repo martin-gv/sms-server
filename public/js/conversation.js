@@ -5,6 +5,12 @@
 const scrollableElement = document.getElementById("scrollable-messages-area");
 scrollableElement.scrollTop = scrollableElement.scrollHeight;
 
+//
+// ─── MARK CONVERSATION AS READ WHEN THE PAGE LOADS ──────────────────────────────
+//
+
+markConversationAsRead();
+
 // Expand text area for multiple lines.
 // Adapted from StackOverflow:
 // https://stackoverflow.com/questions/454202/creating-a-textarea-with-auto-resize
@@ -140,3 +146,20 @@ socket.on("conversation error", (data) => {
 $("#editContactNameModal").on("shown.bs.modal", function () {
   $("#firstName").trigger("focus");
 });
+
+//
+// ─── MARK CONVERSATION AS READ ──────────────────────────────────────────────────
+//
+
+function markConversationAsRead() {
+  // Get the conversation id from the data attribute. The value
+  // is set server-side when building the page from the EJS template
+  const conversationId = document.getElementById("custom-data").dataset
+    .conversationId;
+
+  axios
+    .post("/conversations/" + conversationId + "/mark-read")
+    .catch(function (error) {
+      console.log(error);
+    });
+}

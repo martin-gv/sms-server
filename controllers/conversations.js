@@ -361,3 +361,20 @@ exports.deleteConversation = async (req, res, next) => {
     next(error);
   }
 };
+
+//
+// ─── MARK CONVERSATION AS READ - AXIOS REQUEST ──────────────────────────────────
+//
+
+exports.markConversationAsRead = async (req, res, next) => {
+  try {
+    await Conversation.update(
+      { unreadMessages: 0 },
+      { where: { id: req.params.conversationId } }
+    );
+
+    res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+};
