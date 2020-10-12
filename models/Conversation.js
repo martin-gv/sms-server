@@ -20,6 +20,11 @@ module.exports = (sequelize) => {
       },
       contactFirstName: DataTypes.TEXT,
       contactLastName: DataTypes.TEXT,
+      unreadMessages: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
     },
     { tableName: "Conversations" }
   );
