@@ -25,38 +25,45 @@
         class="list-group-item list-group-item-action pb-3 pt-3"
       >
         <!-- Flex container with two sections:
-          Section 1. Contact image + number/text message content
-          Section 2. Timestamp
+          Section 1. Contact image
+          Section 2. Name and message content + timestamp and unread message badge
         -->
-        <div class="d-flex justify-content-between mb-1">
-          <div class="d-flex"><!-- Section 1 -->
-            <div class="contact-image">
-              <% if(conversation.contactFirstName || conversation.contactLastName) { %>
-                <% const firstNameInitial = conversation.contactFirstName ? conversation.contactFirstName[0] : '' %>
-                <% const lastNameInitial = conversation.contactLastName ? conversation.contactLastName[0] : '' %>
-                <% const contactInitials = firstNameInitial + lastNameInitial %>  
-                <%= contactInitials.trim() %>
-              <% } %>
-            </div>
+        <div class="d-flex mb-1">
+          <!-- Section 1 -->
+          <div class="contact-image">
+            <% if(conversation.contactFirstName || conversation.contactLastName) { %>
+              <% const firstNameInitial = conversation.contactFirstName ? conversation.contactFirstName[0] : '' %>
+              <% const lastNameInitial = conversation.contactLastName ? conversation.contactLastName[0] : '' %>
+              <% const contactInitials = firstNameInitial + lastNameInitial %>  
+              <%= contactInitials.trim() %>
+            <% } %>
+          </div>
+          <!-- Section 2 -->
+          <div class="d-flex justify-content-between flex-column flex-sm-row" style="flex-grow: 1">
+            <!-- Name and message content -->
             <div>
               <div class="font-weight-bold" style="font-size: 17px">
-                <% if(conversation.contactFirstName || conversation.contactLastName) { %>
-                  <% const contactName = conversation.contactFirstName + " " + conversation.contactLastName %>  
-                  <%= contactName.trim() %>
-                <% } else { %>
-                  <%= conversation.formattedPhoneNumber %>
-                <% } %>
+              <% if(conversation.contactFirstName || conversation.contactLastName) { %>
+                <% const contactName = conversation.contactFirstName + " " + conversation.contactLastName %>  
+                <%= contactName.trim() %>
+              <% } else { %>
+                <%= conversation.formattedPhoneNumber %>
+              <% } %>
               </div>
               <% if (conversation.Messages.length === 1) { %>
-                <div>
-                  <%= conversation.Messages[0].isInboundMessage ? '' : 'You: ' %><%= conversation.Messages[0].messageContent %>
-                </div>
+              <div>
+                <%= conversation.Messages[0].isInboundMessage ? '' : 'You: ' %><%= conversation.Messages[0].messageContent %>
+              </div>
               <% } %>
             </div>
-          </div>
-          <div><!-- Section 2 -->
+            <!-- Timestamp and unread message badge -->
             <% if (conversation.Messages.length === 1) { %>
+            <div>
               <small><%= conversation.formattedSortDate %></small>
+              <% if (conversation.unreadMessages > 0) { %>
+                <div class="badge badge-pill badge-info"><%= conversation.unreadMessages %> new</div>
+              <% } %>
+            </div>
             <% } %>
           </div>
         </div>
