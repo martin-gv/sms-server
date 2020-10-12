@@ -131,3 +131,12 @@ function addNewMessageToPage(message) {
 socket.on("conversation error", (data) => {
   console.log(data.message);
 });
+
+//
+// ─── FOCUS INPUT WHEN THE EDIT CHAT MODAL OPENS ─────────────────────────────────
+//
+
+// Focus the phone number element when the modal is opened
+$("#editContactNameModal").on("shown.bs.modal", function () {
+  $("#firstName").trigger("focus");
+});

@@ -85,6 +85,7 @@ exports.getConversation = async (req, res) => {
     message: message,
     conversations: sortedConversations,
     css: ["conversations-list"],
+    js: ["conversations-list"],
   });
 };
 
