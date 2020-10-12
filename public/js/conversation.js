@@ -100,6 +100,7 @@ socket.on("connect", () => {
 
 socket.on("inbound message", ({ message }) => {
   addNewMessageToPage(message);
+  markConversationAsRead();
 });
 
 function addNewMessageToPage(message) {
