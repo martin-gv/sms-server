@@ -42,11 +42,23 @@ exports.inboundMessage = (io) => async (req, res) => {
     conversationId = newConversation.id;
   }
 
-  // Save the inbound message to the database
-  const message = await Message.create({
-    conversationId: conversationId,
-    isInboundMessage: true,
-    messageContent: messageContent,
+  // Save the inbound message to the database and update the unread messages count
+  const message = await db.transaction(async (t) => {
+    const message = await Message.create(
+      {
+        conversationId: conversationId,
+        isInboundMessage: true,
+        messageContent: messageContent,
+      },
+      { transaction: t }
+    );
+
+    await Conversation.increment("unreadMessages", {
+      where: { id: conversationId },
+      transaction: t,
+    });
+
+    return message;
   });
 
   // Emit the message via socket.io. If the user is currently connected they will see the reply
