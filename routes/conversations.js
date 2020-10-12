@@ -30,4 +30,11 @@ router.post(
   controller.deleteConversation
 );
 
+router.post(
+  "/:conversationId/mark-read",
+  controller.findConversation,
+  controller.checkOwner,
+  controller.markConversationAsRead
+);
+
 module.exports = router;
