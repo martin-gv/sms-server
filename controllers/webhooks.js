@@ -50,7 +50,7 @@ exports.inboundMessage = (io) => async (req, res) => {
   });
 
   // Emit the message via socket.io. If the user is currently connected they will see the reply
-  emitReplyToClient({ io: io, message: message });
+  emitSocketIoEvent({ io: io, message: message });
 
   // Send the recipient an email notification if they've set one up in their settings
   const emailRecipients = user.emailNotificationRecipients;
@@ -68,7 +68,7 @@ exports.inboundMessage = (io) => async (req, res) => {
 // ─── EMIT REAL-TIME REPLY TO THE CLIENT VIA SOCKET.IO ───────────────────────────
 //
 
-function emitReplyToClient({ io, message }) {
+function emitSocketIoEvent({ io, message }) {
   io.to(message.conversationId).emit("inbound message", { message: message });
 }
 
