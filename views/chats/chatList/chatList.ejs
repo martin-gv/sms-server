@@ -2,17 +2,6 @@
 <%- include('../../includes/alert', { message: locals.message}); %>
 <%- include('chatListNewModal'); %>
 <div class="card mx-auto">
-  <div class="card-header d-flex align-items-center justify-content-between">
-    <h5 class="mb-0">Chats</h5>
-    <button
-      type="button"
-      class="btn btn-primary btn-sm"
-      data-toggle="modal"
-      data-target="#newChatModal"
-    >
-      New chat
-    </button>
-  </div>
   <ul class="list-group list-group-flush">
     <!-- No chat message -->
     <% if (locals.conversations.length === 0) { %>
@@ -22,7 +11,7 @@
     <% for (const conversation of locals.conversations) { %>
       <a
         href="conversations/<%= conversation.id %>"
-        class="list-group-item list-group-item-action pb-3 pt-3"
+        class="list-group-item list-group-item-action"
       >
         <!-- Flex container with two sections:
           Section 1. Contact image
@@ -42,7 +31,7 @@
           <div class="d-flex justify-content-between flex-column flex-sm-row" style="flex-grow: 1">
             <!-- Name and message content -->
             <div>
-              <div class="font-weight-bold" style="font-size: 17px">
+              <div class="font-weight-bold chat-title">
               <% if(conversation.contactFirstName || conversation.contactLastName) { %>
                 <% const contactName = conversation.contactFirstName + " " + conversation.contactLastName %>  
                 <%= contactName.trim() %>
@@ -51,7 +40,7 @@
               <% } %>
               </div>
               <% if (conversation.Messages.length === 1) { %>
-              <div>
+              <div class="chat-preview">
                 <%= conversation.Messages[0].isInboundMessage ? '' : 'You: ' %><%= conversation.Messages[0].messageContent %>
               </div>
               <% } %>
@@ -59,9 +48,9 @@
             <!-- Timestamp and unread message badge -->
             <% if (conversation.Messages.length === 1) { %>
             <div>
-              <small><%= conversation.formattedSortDate %></small>
+              <small class="chat-timestamp"><%= conversation.formattedSortDate %></small>
               <% if (conversation.unreadMessages > 0) { %>
-                <div class="badge badge-pill badge-info"><%= conversation.unreadMessages %> new</div>
+                <div class="badge badge-pill badge-primary new-message-badge"><%= conversation.unreadMessages %> new</div>
               <% } %>
             </div>
             <% } %>
