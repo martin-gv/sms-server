@@ -7,3 +7,8 @@
 button.list-group-item-action:focus {
   outline: none;
 }
+
+button.list-group-item-action.active .text-muted {
+  /* override Bootstrap */
+  color: #fff !important;
+}
