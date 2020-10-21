@@ -28,6 +28,7 @@ exports.getSettingsPage = (req, res) => {
     emailNotificationRecipients: emailNotificationRecipients,
     smsNumber: smsNumber,
     hasNumber: hasNumber,
+    css: ["settings"],
   });
 };
 

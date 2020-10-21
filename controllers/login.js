@@ -6,7 +6,11 @@ const passport = require("passport");
 
 exports.getLoginPage = (req, res) => {
   const message = req.flash();
-  res.render("login", { message: message, email: req.query.email });
+  res.render("login", {
+    message: message,
+    email: req.query.email,
+    css: ["login"],
+  });
 };
 
 //

@@ -2,8 +2,7 @@
 <div class="container" style="max-width: 20rem; padding: 0">
   <%- include('includes/alert', { message: locals.message}); %>
 </div>
-<div class="card mx-auto" style="max-width: 20rem;">
-  <div class="card-body">
+<div class="register-container mt-4 mx-auto">
     <h4>Create new account</h4>
     <hr />
     <form autocomplete="off" method="POST" action="/register">
@@ -43,5 +42,4 @@
       </button>
     </form>
   </div>
-</div>
 <%- include('includes/footer'); %>
