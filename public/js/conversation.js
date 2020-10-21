@@ -2,8 +2,12 @@
 // ─── SCROLL TO THE BOTTOM WHEN THE PAGE LOADS ────────────────────────────────────
 //
 
-const scrollableElement = document.getElementById("scrollable-messages-area");
-scrollableElement.scrollTop = scrollableElement.scrollHeight;
+if ("scrollRestoration" in history) {
+  // Back off, browser, I got this...
+  history.scrollRestoration = "manual";
+}
+
+window.scrollTo(0, document.body.scrollHeight);
 
 //
 // ─── MARK CONVERSATION AS READ WHEN THE PAGE LOADS ──────────────────────────────
@@ -11,39 +15,30 @@ scrollableElement.scrollTop = scrollableElement.scrollHeight;
 
 markConversationAsRead();
 
-// Expand text area for multiple lines.
+//
+// ─── EXPAND TEXT AREA FOR MULTIPLE LINES ────────────────────────────────────────
+//
+
 // Adapted from StackOverflow:
 // https://stackoverflow.com/questions/454202/creating-a-textarea-with-auto-resize
+
 const textArea = document.getElementById("messageContent");
+
 textArea.setAttribute(
   "style",
   "height:" + textArea.scrollHeight + "px;overflow-y:hidden"
 );
+
 textArea.addEventListener("input", onTextAreaInput, false);
 
 function onTextAreaInput() {
   this.style.height = "auto";
   this.style.height = this.scrollHeight + "px";
-
-  // Reset size of message list
-  scrollableElement.setAttribute(
-    "style",
-    // Calculations for the height of the scrollable messages list:
-    // 100vh             -> Set height to viewport height
-    // 215px             -> Adjust for the card footer's height
-    // this.style.height -> Adjust for the textarea's new size ('px' doesn't need to be specified)
-    // 36px              -> Adjust for the textarea's initial height when it's 1 row high. Otherwise
-    //                      this.style.height would shrink it when typing in the first character
-    ` height: calc(100vh - 215px - ${this.style.height} + 36px);
-      overflow-y: auto;
-    `
-  );
 }
 
-/**
- * Pressing ENTER inside the textarea will send the text message.
- * It will also disable the form while the server responds.
- */
+//
+// ─── PRESS ENTER KEY TO SEND TEXT MESSAGE ───────────────────────────────────────
+//
 
 textArea.addEventListener("keypress", textAreaPress);
 
@@ -129,6 +124,8 @@ function addNewMessageToPage(message) {
     left: 0,
     behavior: "smooth",
   });
+
+  window.scrollTo(0, document.body.scrollHeight);
 }
 
 //

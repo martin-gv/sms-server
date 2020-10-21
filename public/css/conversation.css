@@ -1,17 +1,66 @@
-/* #scrollable-messages-area also shares the class .card-body */
-#scrollable-messages-area {
-  height: calc(100vh - 215px);
-  overflow-y: scroll;
-  /* Override Bootstrap .card-body style */
-  padding-bottom: 0;
+/* Header */
+.chat-header {
+  width: 100%;
+  position: fixed;
+  left: 0;
+  margin-top: -1rem;
+  padding: 1rem 1rem;
+  background: #fcfcfc;
+  border-bottom: 1px solid #ececec;
 }
 
+/* Header - content */
+.chat-header-content {
+  /* center horizontally within header */
+  margin: auto;
+  /* layout of child items */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* 30px to account for 15px padding on each side of .container */
+  width: 100%;
+  max-width: calc(40rem - 30px);
+}
+
+/* Header - title */
+.chat-title {
+  font-size: 1.3rem;
+}
+
+/* Header - edit button */
+.edit-button {
+  padding: 0;
+  height: 2.1rem;
+  width: 2.1rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 3px 0px rgb(0 0 0 / 0.25);
+}
+
+/* No messages */
+.no-message {
+  min-height: calc(100vh - 12rem);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Message bubbles list */
 #messages-list {
+  min-height: calc(100vh - 6rem);
+  width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
+  padding-top: 3.1rem;
+  padding-bottom: 5.5rem;
 }
 
+/* Message bubbles */
 .message-bubble {
   border-radius: 20px;
   max-width: calc(60% + 40px);
@@ -19,22 +68,66 @@
 }
 
 .message-bubble.inbound {
-  background-color: #96a2ad;
+  background-color: #ccd2d7;
 }
 
 .message-bubble.outbound {
-  background-color: #51bed0;
+  background-color: #5e8fff;
 }
 
+/* Timestamp */
 .timestamp {
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
 }
 
+/* Alignment */
 .inbound {
   align-self: flex-start;
 }
 
 .outbound {
   align-self: flex-end;
+}
+
+/* Chat footer */
+.chat-footer {
+  width: 100%;
+  max-width: calc(40rem - 30px);
+  position: fixed;
+  bottom: 0;
+
+  /* center horizontally */
+  left: 50%;
+  transform: translateX(-50%);
+
+  padding: 1.5rem 1rem 1rem;
+  background: #fff;
+  border-radius: 1.5rem 1.5rem 0 0;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 0 5px 0 rgb(0 0 0 / 0.05);
+}
+
+/* Chat footer - text area */
+.chat-footer #messageContent {
+  background-color: #f1f1f1;
+  border-radius: 1.5rem;
+  border: none;
+  padding: 14px 50px 14px 16px;
+  line-height: normal;
+}
+
+/* Chat footer - send button */
+.chat-footer #send-message-button {
+  padding: 0;
+  height: 2.25rem;
+  width: 2.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 32px;
+  right: 25px;
+  background-color: #407bff;
 }

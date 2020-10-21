@@ -2,13 +2,12 @@
 <%- include('../../includes/alert', { message: locals.message }); %>
 <%- include('chatDetailsEditModal', { conversation: locals.conversation }); %>
 <%- include('chatDetailsConfirmDeleteModal', { conversation: locals.conversation }); %>
-<div class="card mx-auto">
   <%- include('chatDetailsHeader', { conversation: locals.conversation }); %>  
-  <div id="scrollable-messages-area" class="card-body">
+<div class="messages-wrapper">
     <!-- No messages -->
     <% if (locals.conversation.Messages.length === 0) { %>
-      <div class="text-muted text-center mt-3">No messages. Try sending one below.</div>
-    <% } %>
+      <div class="text-muted text-center no-message">No messages. Try sending one below.</div>
+    <% } else { %>
     <!-- Loop through conversation messages -->
     <div id="messages-list">
       <% for (message of locals.conversation.Messages) { %>
@@ -25,9 +24,9 @@
         <% } %>
       <% } %>
     </div>
-  </div>
-    <%- include('chatDetailsFooter', { conversation: locals.conversation }); %>
+    <% } %>
 </div>
+<%- include('chatDetailsFooter', { conversation: locals.conversation }); %>
 <!-- The div below saves the conversation's id so it can be
   accessed on the client side by the JavaScript file: conversation.js -->
 <div id="custom-data" data-conversation-id=<%= locals.conversation.id %>></div>
