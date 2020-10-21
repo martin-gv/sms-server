@@ -20,5 +20,4 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
-    - run: npx sequelize-cli db:migrate
     - run: npm install
