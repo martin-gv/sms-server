@@ -3,8 +3,18 @@
   overflow-y: auto;
 }
 
-#new-conversation-panel {
-  border-top: none;
+/* New chat button */
+.new-chat-button {
+  right: 16px;
+  bottom: 16px;
+  position: fixed;
+  color: #fff;
+  background-color: #407bff;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  padding: 0;
+  box-shadow: 0 2px 8px 1px rgb(0 0 0 / 0.4);
 }
 
 #new-conversation-panel .list-group-item {
