@@ -1,4 +1,90 @@
+/*
+ * ===================================
+ *               Layout
+ * ===================================
+ */
+
+body {
+  background: #f8f8f8;
+  padding-top: 4.5rem;
+}
+
 .container.main {
   max-width: 40rem;
   padding-top: 1rem;
+}
+
+/*
+ * ===================================
+ *               Header
+ * ===================================
+ */
+
+/* Navbar */
+.navbar {
+  /* override Bootstrap*/
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  /* custom styles */
+  box-shadow: 0 0 10px 0px rgb(0 0 0 / 0.05);
+  /* move higher so box-shadow is visible */
+  z-index: 1;
+}
+
+/* Logo */
+.navbar-brand {
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+}
+
+/*
+ * ===================================
+ *               Alerts
+ * ===================================
+ */
+
+.alert {
+  /* override Bootstrap */
+  border-radius: 0.5rem;
+}
+
+/*
+ * ===================================
+ *               Buttons
+ * ===================================
+ */
+
+.btn {
+  /* override Bootstrap */
+  border-radius: 0.5rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+
+/*
+ * ===================================
+ *               Modals
+ * ===================================
+ */
+
+.modal-content {
+  /* override Bootstrap */
+  border-radius: 1rem;
+  border: none;
+}
+
+.modal-body {
+  /* override Bootstrap */
+  padding: 1.5rem 1.5rem 0.75rem;
+}
+
+.modal-header {
+  /* override Bootstrap */
+  padding: 1.25rem 1.5rem;
+}
+
+.modal-footer {
+  /* override Bootstrap */
+  padding: 0 1.5rem 1.25rem;
+  border-top: none;
 }
