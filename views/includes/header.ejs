@@ -26,21 +26,21 @@
   <body>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
       <div class="container">
-        <a class="navbar-brand" href="/">SMS App</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarMenuItems"
-          aria-controls="navbarMenuItems"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        <a class="navbar-brand" href="/">Messages</a>
+        <% if (locals.loggedIn) { %>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarMenuItems"
+            aria-controls="navbarMenuItems"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
 
-        <div class="collapse navbar-collapse" id="navbarMenuItems">
-          <% if (locals.loggedIn) { %>
+          <div class="collapse navbar-collapse" id="navbarMenuItems">
             <div class="navbar-nav">
               <a class="nav-item nav-link" href="/conversations">Chats</a>
             </div>
@@ -48,8 +48,8 @@
               <a class="nav-item nav-link" href="/settings">Settings</a>
               <a class="nav-item nav-link" href="/logout">Logout</a>
             </div>
-          <% } %>
-        </div>
+          </div>
+        <% } %>
       </div>
     </nav>
     <div class="container main">
