@@ -23,6 +23,6 @@ jobs:
     - name: Install dependencies
       run: npm install
     - name: Set up .env file
-      run: echo ${{ secrets.QA_ENV_FILE }} | base64 --decode > .env
+      run: echo ${{ secrets.PRODUCTION_ENV_FILE }} | base64 --decode > .env
     - name: Restart server
       run: pm2 restart messages
