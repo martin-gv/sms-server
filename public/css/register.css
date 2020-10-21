@@ -1,0 +1,7 @@
+.register-container {
+  border-radius: 1.25rem;
+  border: 1px solid #f4f4f4;
+  background: #fff;
+  padding: 2rem 1.5rem;
+  max-width: 20rem;
+}

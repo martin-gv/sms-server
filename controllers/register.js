@@ -12,7 +12,7 @@ exports.getRegistrationPage = (req, res) => {
   // Re-add email to form after error
   const email = req.query.email;
   const message = req.flash();
-  res.render("register", { message: message, email: email });
+  res.render("register", { message: message, email: email, css: ["register"] });
 };
 
 //
