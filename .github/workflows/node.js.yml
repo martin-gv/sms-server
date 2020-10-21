@@ -22,3 +22,5 @@ jobs:
         node-version: '12.x'
     - name: Install dependencies
       run: npm install
+    - name: Restart server
+      run: pm2 restart messages
