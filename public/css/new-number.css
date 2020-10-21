@@ -1,3 +1,9 @@
+.new-number-container {
+  border-radius: 1.25rem;
+  border: 1px solid #f4f4f4;
+  background: #fff;
+}
+
 button.list-group-item-action:focus {
   outline: none;
 }
