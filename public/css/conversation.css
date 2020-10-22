@@ -33,6 +33,7 @@
   height: 2.1rem;
   width: 2.2rem;
   padding: 0;
+  padding-left: 1px; /* slightly adjust icon position */
   margin-right: 0.75rem;
   /* move slight down to better align visually with title text */
   margin-top: 3px;
