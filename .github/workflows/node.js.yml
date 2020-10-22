@@ -10,21 +10,26 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  deploy:
 
     runs-on: self-hosted
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
+
     - name: Install dependencies
       run: npm install
+
     - name: Set up .env file
       env:
         PRODUCTION_ENV_FILE: ${{ secrets.PRODUCTION_ENV_FILE }}
       run: echo "$PRODUCTION_ENV_FILE" | base64 --decode > .env
+      
     - name: Restart server
       run: pm2 restart messages
