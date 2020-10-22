@@ -28,6 +28,7 @@
   margin-bottom: 1rem;
   border-radius: 1rem;
   border: 1px solid #eaeaea;
+  transition: border 200ms ease-out;
 }
 
 @media (max-width: 575px) {
@@ -37,9 +38,17 @@
   }
 }
 
+.list-group-flush>.list-group-item:last-child {
+  /* override Bootstrap */
+  border-width: 1px;
+}
+
+/* Chat containers - hover effect */
 .list-group-flush > .list-group-item:hover {
   /* override Bootstrap */
   background-color: #fff;
+  /* custom styles */
+  border-color: #749fff;
 }
 
 /* Contact image */
