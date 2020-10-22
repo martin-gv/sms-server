@@ -129,6 +129,7 @@
   border: none;
   padding: 14px 50px 14px 16px;
   line-height: normal;
+  resize: none;
 }
 
 /* Chat footer - send button */
