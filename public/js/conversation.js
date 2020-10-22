@@ -116,16 +116,13 @@ function addNewMessageToPage(message) {
   messagesList.appendChild(timestampSpan);
   messagesList.appendChild(messageSpan);
 
-  // Scroll to bottom of scrollable container so that the newest message is visible.
-  // This usage of scrollTo with an options object is unsupported in Safari. The
-  // smoothscroll polyfill added to this page adds this functionality to Safari.
-  scrollableElement.scrollTo({
-    top: scrollableElement.scrollHeight,
+  // Scroll to the bottom of the window so that the newest message is visible. Safari does not
+  // have support for the smooth scroll behavior. The smoothscroll polyfill adds this functionality.
+  window.scrollTo({
+    top: document.body.scrollHeight,
     left: 0,
     behavior: "smooth",
   });
-
-  window.scrollTo(0, document.body.scrollHeight);
 }
 
 //
