@@ -24,6 +24,9 @@ RUN if [ "$dockerenv" = "production" ]; \
 # Copy application code
 COPY . ./
 
+# Set permissions for the entry file
+RUN chmod +x entrypoint.sh
+
 # Expose the port
 EXPOSE 8080
 
