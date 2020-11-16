@@ -4,3 +4,5 @@ node_modules
 
 # sequelize-cli
 config/config.json
+
+.vscode

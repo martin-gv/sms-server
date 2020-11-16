@@ -26,5 +26,7 @@ jobs:
         PRODUCTION_ENV_FILE: ${{ secrets.PRODUCTION_ENV_FILE }}
       run: echo "$PRODUCTION_ENV_FILE" | base64 --decode > .env
       
-    - name: Restart server
-      run: pm2 restart messages
+    - name: Rebuild and restart docker container
+      env:
+        PORT: ${{ secrets.PORT }}
+      run:  PORT="$PORT" docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
