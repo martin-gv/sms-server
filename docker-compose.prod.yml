@@ -1,0 +1,13 @@
+# SMS App - Production
+
+version: "3.8"
+services:
+  db:
+    restart: always
+  server:
+    restart: always
+    build:
+      args:
+        dockerenv: production
+    environment:
+      NODE_ENV: production

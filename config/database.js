@@ -3,9 +3,12 @@ const Sequelize = require("sequelize");
 const database = process.env.DB_NAME;
 const user = process.env.DB_USER;
 const password = process.env.DB_PASSWORD;
+const host = process.env.DB_HOST || "localhost";
+const port = process.env.DB_PORT || 5432;
 
 const sequelize = new Sequelize(database, user, password, {
-  host: "localhost",
+  host: host,
+  port: port,
   dialect: "postgres",
 });
 
