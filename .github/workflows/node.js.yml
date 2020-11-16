@@ -26,4 +26,4 @@ jobs:
     - name: Rebuild and restart docker container
       env:
         PORT: ${{ secrets.PORT }}
-      run:  PORT="$PORT" sudo docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
+      run:  sudo PORT="$PORT" docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
