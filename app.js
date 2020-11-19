@@ -96,7 +96,7 @@ app.use("/webhooks", webhookRoutes);
 
 const loginRoutes = require("./routes/login");
 const logoutRoutes = require("./routes/logout");
-const registerRoutes = require("./routes/register");
+// const registerRoutes = require("./routes/register");
 
 app.use("/login", loginRoutes);
 app.use("/logout", logoutRoutes);
