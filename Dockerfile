@@ -24,9 +24,6 @@ RUN if [ "$dockerenv" = "production" ]; \
 # Copy application code
 COPY . ./
 
-# Set permissions for the entry file
-RUN chmod +x entrypoint.sh
-
 # Expose the port
 EXPOSE 8080
 
@@ -34,4 +31,4 @@ EXPOSE 8080
 USER node
 
 # Start script
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["./wait-for-postgres.sh", "db", "./entrypoint.sh"]
