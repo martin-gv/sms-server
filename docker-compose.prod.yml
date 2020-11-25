@@ -3,9 +3,9 @@
 version: "3.8"
 services:
   db:
-    restart: always
+    restart: unless-stopped
   server:
-    restart: always
+    restart: unless-stopped
     build:
       args:
         dockerenv: production
