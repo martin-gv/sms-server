@@ -9,6 +9,16 @@ jobs:
 
     runs-on: self-hosted
 
+    env:
+      PORT: ${{ secrets.PORT }}
+      DOMAIN: ${{ secrets.DOMAIN }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+      TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+      TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+      MAILGUN_API_KEY: ${{ secrets.MAILGUN_API_KEY }}
+      MAILGUN_DOMAIN: ${{ secrets.MAILGUN_DOMAIN }}
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -24,10 +34,13 @@ jobs:
       run: echo "$PRODUCTION_ENV_FILE" | base64 --decode > .env
       
     - name: Rebuild and restart docker container
-      env:
-        PORT: ${{ secrets.PORT }}
       run: |
-        sudo PORT="$PORT" \
-        docker-compose \
-        -f docker-compose.yml -f docker-compose.prod.yml \
-        up --build -d
+        sudo \
+        PORT="$PORT" DOMAIN="$DOMAIN" \
+        JWT_SECRET="$JWT_SECRET" \
+        SESSION_SECRET="$SESSION_SECRET" \
+        TWILIO_ACCOUNT_SID="$TWILIO_ACCOUNT_SID" \
+        TWILIO_AUTH_TOKEN="$TWILIO_AUTH_TOKEN" \
+        MAILGUN_API_KEY="$MAILGUN_API_KEY" \
+        MAILGUN_DOMAIN="$MAILGUN_DOMAIN" \
+        docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
