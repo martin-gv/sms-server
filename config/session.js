@@ -8,7 +8,7 @@ const sessionStore = new SequelizeStore({ db: db });
 sessionStore.sync();
 
 const sessionConfig = session({
-  secret: process.env.SESSIONS_SECRET_KEY,
+  secret: process.env.SESSION_SECRET,
   store: sessionStore,
   // connect-session-sequelize implements the touch method
   // so, per the Express docs, resave should be set to false
