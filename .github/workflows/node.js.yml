@@ -18,18 +18,15 @@ jobs:
       with:
         node-version: '12.x'
 
-    - name: Rebuild and restart docker container
+    - name: Set up .env file
       env:
-        PORT: ${{ secrets.PORT }}
-        DOMAIN: ${{ secrets.DOMAIN }}
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
-        SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
-        TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
-        TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
-        MAILGUN_API_KEY: ${{ secrets.MAILGUN_API_KEY }}
-        MAILGUN_DOMAIN: ${{ secrets.MAILGUN_DOMAIN }}
+        PRODUCTION_ENV_FILE: ${{ secrets.PRODUCTION_ENV_FILE }}
+      run: echo "$PRODUCTION_ENV_FILE" | base64 --decode > .env
+
+    - name: Rebuild and restart docker container
       run: |
-        sudo PORT="$PORT" \
+        sudo \
+        PORT="$PORT" \
         DOMAIN="$DOMAIN" \
         JWT_SECRET="$JWT_SECRET" \
         SESSION_SECRET="$SESSION_SECRET" \
