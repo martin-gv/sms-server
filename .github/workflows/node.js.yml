@@ -28,15 +28,11 @@ jobs:
       with:
         node-version: '12.x'
 
-    - name: Set up .env file
-      env:
-        PRODUCTION_ENV_FILE: ${{ secrets.PRODUCTION_ENV_FILE }}
-      run: echo "$PRODUCTION_ENV_FILE" | base64 --decode > .env
-      
     - name: Rebuild and restart docker container
       run: |
         sudo \
-        PORT="$PORT" DOMAIN="$DOMAIN" \
+        PORT="$PORT" \
+        DOMAIN="$DOMAIN" \
         JWT_SECRET="$JWT_SECRET" \
         SESSION_SECRET="$SESSION_SECRET" \
         TWILIO_ACCOUNT_SID="$TWILIO_ACCOUNT_SID" \
