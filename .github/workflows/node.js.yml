@@ -24,14 +24,4 @@ jobs:
       run: echo "$PRODUCTION_ENV_FILE" | base64 --decode > .env
 
     - name: Rebuild and restart docker container
-      run: |
-        sudo \
-        PORT="$PORT" \
-        DOMAIN="$DOMAIN" \
-        JWT_SECRET="$JWT_SECRET" \
-        SESSION_SECRET="$SESSION_SECRET" \
-        TWILIO_ACCOUNT_SID="$TWILIO_ACCOUNT_SID" \
-        TWILIO_AUTH_TOKEN="$TWILIO_AUTH_TOKEN" \
-        MAILGUN_API_KEY="$MAILGUN_API_KEY" \
-        MAILGUN_DOMAIN="$MAILGUN_DOMAIN" \
-        docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
+      run: sudo docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
