@@ -102,7 +102,7 @@ function sendEmailNotification(emailRecipients, fromNumber, message) {
     <strong>From:</strong> ${fromNumber}<br/>
     <strong>Message:</strong> ${message.messageContent}<br/>
     <br/>
-    <a href="${process.env.APP_DOMAIN_URL}/conversations/${message.conversationId}">
+    <a href="${process.env.DOMAIN}/conversations/${message.conversationId}">
     Click here to open conversation
     </a>
     `,
