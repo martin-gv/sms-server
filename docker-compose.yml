@@ -18,6 +18,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "${PORT:?err}:8080"
+    env_file:
+      - .env
     environment:
       POSTGRES_PASSWORD: postgres
     depends_on:
