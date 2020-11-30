@@ -3,6 +3,7 @@
 <div class="settings-container">
     <h4>Settings</h4>
     <hr />
+
       <h5 class="mb-3">Account</h5>
       <dl class="row">
         <dt class="col-sm-4">Email:</dt>
@@ -18,6 +19,7 @@
         </dd>
       </dl>
       <hr />
+
       <h5 class="mb-3">Notifications</h5>
       <dl class="row">
         <dt class="col-sm-4">By email:</dt>
@@ -25,7 +27,7 @@
           Enabled
         </dd>
       </dl>
-      <form autocomplete="off" method="POST" action="/settings">
+      <form class="mb-4" autocomplete="off" method="POST" action="/settings">
         <div class="form-group">
           <label for="emailNotificationRecipients">
             Send email notifications to:
@@ -49,5 +51,9 @@
           Update
         </button>
       </form>
+
+      <hr class="mb-4" />
+
+      <%- include('settings/settingsInfusionsoft.ejs'); %>
 </div>
 <%- include('includes/footer'); %>
