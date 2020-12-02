@@ -19,6 +19,9 @@ module.exports = (sequelize) => {
       smsNumber: {
         type: DataTypes.TEXT,
       },
+      accountKey: {
+        type: DataTypes.UUID,
+      },
     },
     { tableName: "Users" }
   );
