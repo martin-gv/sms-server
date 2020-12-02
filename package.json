@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js --inspect --ext js,ejs"
+    "dev": "nodemon app.js --inspect --ext js,ejs",
+    "dev-docker": "nodemon app.js --legacy-watch"
   },
   "keywords": [],
   "author": "",
@@ -32,7 +33,8 @@
     "sequelize": "^6.3.5",
     "sequelize-cli": "^6.2.0",
     "socket.io": "^2.3.0",
-    "twilio": "^3.42.2"
+    "twilio": "^3.42.2",
+    "uuid": "^8.3.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.3"
