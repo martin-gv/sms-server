@@ -1,4 +1,5 @@
 <%- include('includes/header', { title: 'Login' }); %>
+<%- include('includes/alert', { message: locals.message}); %>
 <div class="login-container mt-4 mx-auto">
     <h3 class="text-center mb-4">Login</h3>
     <form method="POST" action="/login">
@@ -6,7 +7,7 @@
         <label for="email">Email:</label>
         <input
           class="form-control"
-          type="text"
+          type="email"
           name="email"
           id="email"
           required="true"
@@ -36,5 +37,6 @@
     <!-- <a class="d-block mt-3 text-center" href="/register"
       >or create new account</a
     > -->
+    <a href="/forgot-password" class="d-block mt-3 text-center">Forgot password?</a>
   </div>
 <%- include('includes/footer'); %>
