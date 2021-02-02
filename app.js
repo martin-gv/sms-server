@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 const http = require("http");
 const express = require("express");
 const passport = require("passport");
@@ -97,10 +95,12 @@ app.use("/webhooks", webhookRoutes);
 const loginRoutes = require("./routes/login");
 const logoutRoutes = require("./routes/logout");
 const registerRoutes = require("./routes/register");
+const forgotPasswordRoutes = require("./routes/forgotPassword");
 
 app.use("/login", loginRoutes);
 app.use("/logout", logoutRoutes);
 // app.use("/register", registerRoutes);
+app.use("/forgot-password", forgotPasswordRoutes);
 
 //
 // ─── MAIN APP ROUTES ────────────────────────────────────────────────────────────

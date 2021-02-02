@@ -4,7 +4,6 @@ A web app for sending and receiving text messages. No phone number required. New
 
 ## Features
 
-* Acquire a new number from a list of available numbers
-* Send and receive text messages
-* Receive email notifications for incoming messages
-
+- Acquire a new number from a list of available numbers
+- Send and receive text messages
+- Receive email notifications for incoming messages

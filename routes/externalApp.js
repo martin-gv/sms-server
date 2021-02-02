@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const controller = require("../controllers/externalApp");
+const controller = require("../controllers/infusionsoft");
 
-router.post("/send-sms", controller.handleExternalAppRequest);
+router.post("/:accountKey", controller.handleInfusionsoftHttpPost);
 
 module.exports = router;

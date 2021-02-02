@@ -12,6 +12,7 @@ const PROVINCES = {
   NT: "Northwest Territories",
   NS: "Nova Scotia",
   NU: "Nunavut",
+  ON: "Ontario",
   PE: "Prince Edward Island",
   QC: "Quebec",
   SK: "Saskatchewan",
@@ -96,18 +97,15 @@ exports.handleNewNumberForm = (req, res) => {
       smsUrl: "https://sms.martin-gv.com/webhooks/inbound-sms",
     })
     .then(async (twilioRes) => {
-      // Add the new number to the user's account
+      // Add the new number to the user's account and generate a new account key
       const currentUser = req.user;
       await User.update(
-        { smsNumber: selectedNumber },
+        { smsNumber: selectedNumber, accountKey: uuidv4() },
         { where: { id: currentUser.id } }
       );
 
       // Success message
-      req.flash(
-        "primary",
-        "Your new number is now registered. Start sending text messages below!"
-      );
+      req.flash("primary", "Your new number is now registered.");
 
       // Go to homepage
       res.redirect("/");
