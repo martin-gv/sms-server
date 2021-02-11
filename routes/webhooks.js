@@ -9,7 +9,7 @@ module.exports = (io) => {
 
   // These routes do not use the socket.io instance
   router.post("/delivery-receipts", controller.deliveryReceipts);
-  router.post("/stripe-events", controller.stripeEvents)
+  router.post("/stripe-events", controller.stripeEvents);
 
   return router;
 };
