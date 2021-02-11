@@ -19,7 +19,18 @@ app.use(express.static("public"));
 const bodyParser = require("body-parser");
 
 // JSON parsing is required for requests coming from Axios on the front end
-app.use(bodyParser.json());
+app.use(
+  bodyParser.json({
+    // The raw body is required to verify Stripe webhook signatures.
+    // The code here is based on this example from the Stripe docs: https://github.com/stripe-samples/checkout-single-subscription/blob/master/server/node/server.js
+    // The raw body is saved only when requests hit the Stripe webhook
+    verify: function (req, res, buf) {
+      if (req.originalUrl === "/webhooks/stripe-events") {
+        req.rawBody = buf.toString();
+      }
+    },
+  })
+);
 
 // URL encoded parsing is required for Twilio webhooks
 app.use(bodyParser.urlencoded({ extended: true }));
