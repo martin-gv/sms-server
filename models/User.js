@@ -22,6 +22,15 @@ module.exports = (sequelize) => {
       accountKey: {
         type: DataTypes.UUID,
       },
+      stripeCustomerId: {
+        type: DataTypes.TEXT,
+        unique: true,
+      },
+      subscriptionStatus: {
+        type: DataTypes.ENUM("ACTIVE", "INACTIVE"),
+        defaultValue: "INACTIVE",
+        allowNull: false,
+      },
     },
     { tableName: "Users" }
   );
