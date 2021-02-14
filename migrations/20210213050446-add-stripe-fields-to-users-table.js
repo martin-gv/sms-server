@@ -14,7 +14,7 @@ module.exports = {
           "Users",
           "subscriptionStatus",
           {
-            type: Sequelize.DataTypes.ENUM("ACTIVE", "INACTIVE"),
+            type: Sequelize.DataTypes.ENUM("ACTIVE", "INACTIVE", "PAST DUE"),
             defaultValue: "INACTIVE",
             allowNull: false,
           },
