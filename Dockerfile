@@ -8,8 +8,7 @@ WORKDIR /usr/src/app
 # Install psql for postgres status check
 RUN apt-get update && apt-get --yes install postgresql-client
 
-# Copy package.json
-# The wildcard ensures both package.json AND package-lock.json are copied
+# Copy package.json and package-lock.json
 COPY package*.json ./
 
 # Define build args
@@ -24,7 +23,7 @@ RUN if [ "$dockerenv" = "production" ]; \
 # Copy application code
 COPY . ./
 
-# Add exec permissions
+# Add exec permissions to entryfiles
 RUN chmod +x wait-for-postgres.sh
 RUN chmod +x entrypoint.sh
 
