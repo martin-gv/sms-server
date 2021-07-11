@@ -1,6 +1,7 @@
 const db = require("../config/database");
 const validator = require("email-validator");
 const bcrypt = require("bcrypt");
+const stripe = require("../config/stripe");
 
 const User = db.models.User;
 
@@ -47,12 +48,18 @@ exports.handleRegistrationForm = async (req, res, next) => {
       return;
     }
 
+    // Create a Stripe customer
+    const customer = await stripe.customers.create({
+      email: email,
+    });
+
     // Create the new user and save to the database
     const saltRounds = 12;
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
     const newUser = await User.create({
       email: email,
       password: hashedPassword,
+      stripeCustomerId: customer.id,
     });
 
     // Immediately login the user
