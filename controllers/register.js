@@ -40,12 +40,14 @@ exports.handleRegistrationForm = async (req, res, next) => {
       return;
     }
 
+    // Check if the passwords match
     if (password !== confirmPassword) {
       req.flash("error", "Passwords don't match");
       res.redirect("/register" + "?email=" + email);
       return;
     }
 
+    // Create the new user and save to the database
     const saltRounds = 12;
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
     const newUser = await User.create({
@@ -53,14 +55,14 @@ exports.handleRegistrationForm = async (req, res, next) => {
       password: hashedPassword,
     });
 
+    // Immediately login the user
     req.login(newUser, function (err) {
       if (err) {
         next(err);
         return;
       }
 
-      req.flash("success", "Successfully registered!");
-      res.redirect("/new-number");
+      res.redirect("/settings");
     });
   } catch (error) {
     req.flash("error", error.message);
