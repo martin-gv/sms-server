@@ -27,8 +27,8 @@ module.exports = (sequelize) => {
         unique: true,
       },
       subscriptionStatus: {
-        type: DataTypes.ENUM("ACTIVE", "INACTIVE", "PAST DUE"),
-        defaultValue: "INACTIVE",
+        type: DataTypes.ENUM("INCOMPLETE", "ACTIVE", "PAST DUE", "CANCELED"),
+        defaultValue: "INCOMPLETE",
         allowNull: false,
       },
     },

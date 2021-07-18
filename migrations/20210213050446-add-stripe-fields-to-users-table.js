@@ -14,8 +14,8 @@ module.exports = {
           "Users",
           "subscriptionStatus",
           {
-            type: Sequelize.DataTypes.ENUM("ACTIVE", "INACTIVE", "PAST DUE"),
-            defaultValue: "INACTIVE",
+            type: Sequelize.DataTypes.ENUM("INCOMPLETE", "ACTIVE", "PAST DUE", "CANCELED"),
+            defaultValue: "INCOMPLETE",
             allowNull: false,
           },
           { transaction: t }
