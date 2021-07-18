@@ -132,6 +132,10 @@ app.get("/", (req, res) => {
   res.redirect("/conversations");
 });
 
+// Save user's subscription status
+const saveSubscriptionStatus = require("./middleware/saveSubscriptionStatus");
+app.use(saveSubscriptionStatus);
+
 // Use route files
 app.use("/conversations", conversationRoutes);
 app.use("/messages", messageRoutes);
