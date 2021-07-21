@@ -31,6 +31,11 @@ module.exports = (sequelize) => {
         defaultValue: "INCOMPLETE",
         allowNull: false,
       },
+      hasPaymentError: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+      }
     },
     { tableName: "Users" }
   );
