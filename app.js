@@ -122,6 +122,7 @@ const conversationRoutes = require("./routes/conversations");
 const messageRoutes = require("./routes/messages");
 const settingsRoutes = require("./routes/settings");
 const newNumberRoutes = require("./routes/newNumber");
+const billingRoutes = require("./routes/billing");
 
 // Add authentication
 const { isAuthenticated } = require("./middleware/auth");
@@ -141,6 +142,7 @@ app.use("/conversations", conversationRoutes);
 app.use("/messages", messageRoutes);
 app.use("/settings", settingsRoutes);
 app.use("/new-number", newNumberRoutes);
+app.use("/billing", billingRoutes);
 
 //
 // ─── CATCH ALL ──────────────────────────────────────────────────────────────────
