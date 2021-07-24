@@ -9,7 +9,13 @@ const User = db.models.User;
 //
 
 exports.getSettingsPage = (req, res) => {
-  const { email, emailNotificationRecipients } = req.user;
+  const {
+    email,
+    emailNotificationRecipients,
+    subscriptionStatus,
+    hasPaymentError,
+    accountKey,
+  } = req.user;
 
   let smsNumber = req.user.smsNumber;
   const hasNumber = smsNumber ? true : false;
@@ -28,7 +34,11 @@ exports.getSettingsPage = (req, res) => {
     emailNotificationRecipients: emailNotificationRecipients,
     smsNumber: smsNumber,
     hasNumber: hasNumber,
+    subscriptionStatus: subscriptionStatus,
+    hasPaymentError: hasPaymentError,
+    accountKey: accountKey,
     css: ["settings"],
+    js: ["stripeCheckout"],
   });
 };
 
@@ -45,5 +55,7 @@ exports.handleSettingsForm = async (req, res) => {
   );
 
   req.flash("success", "Settings updated successfully!");
-  res.redirect("/settings");
+  req.session.save(function () {
+    res.redirect("/settings");
+  });
 };

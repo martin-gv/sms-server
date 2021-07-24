@@ -1,11 +1,30 @@
 <%- include('../../includes/header', { title: 'Conversations', loggedIn: true }); %>
 <%- include('../../includes/alert', { message: locals.message}); %>
 <%- include('chatListNewModal'); %>
+
+<% if (locals.hasPaymentError === true) { %>
+  <div class="alert alert-danger" role="alert">
+    There was an error with your payment method. Please go to settings and update your billing information.
+  </div>
+<% } %>
+
 <div class="card mx-auto">
   <ul class="list-group list-group-flush">
+    <!-- No SMS number -->
+    <% if (locals.hasValidSubscription && !locals.smsNumber) { %>
+      <div class="alert alert-info fade show" role="alert">
+        You don't have a number! Go to settings and get a number to start texting
+      </div>
+    <% } %>    
     <!-- No chat message -->
-    <% if (locals.conversations.length === 0) { %>
-      <div class="text-muted text-center mt-3">Click the button below to start a new chat</div>
+    <% if (locals.conversations.length === 0 && locals.hasValidSubscription && locals.smsNumber) { %>
+      <div class="text-muted text-center mt-3">Use the + button below to start a new chat</div>
+    <% } %>
+    <!-- Inactive subscription -->
+    <% if (locals.hasValidSubscription === false) { %>
+      <div class="alert alert-warning fade show" role="alert">
+        Heads up! Your subscription isn't active. To send and receive messages go to settings and activate your subscription
+      </div>
     <% } %>
     <!-- Loop through chats -->
     <% for (const conversation of locals.conversations) { %>
@@ -60,6 +79,7 @@
     <% } %>
   </ul>
 </div>
+<% if (locals.hasValidSubscription && locals.smsNumber) { %>
 <button
   type="button"
   class="btn btn-primary new-chat-button"
@@ -70,4 +90,5 @@
     <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
   </svg>
 </button>
+<% } %>
 <%- include('../../includes/footer'); %>

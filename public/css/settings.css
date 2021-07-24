@@ -3,4 +3,18 @@
   border: 1px solid #f4f4f4;
   background: #fff;
   padding: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+dt {
+  height: 33px;
+}
+
+h5 {
+  margin-bottom: 15px;
+}
+
+.status {
+  font-size: 13px;
+  font-weight: bold;
 }

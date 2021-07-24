@@ -1,26 +1,62 @@
 <%- include('includes/header', { title: "Settings", loggedIn: true }); %>
 <%- include('includes/alert', { message: locals.message}); %>
+
+<% if (locals.subscriptionStatus === "INCOMPLETE") { %>
+<div class="section" style="margin-bottom: 1.5rem;">
+  <h4>Almost there!</h4>
+  <hr />
+  <div class="alert alert-warning fade show" role="alert">
+    Add a payment method to activate your account.
+  </div>
+  <button class="btn btn-primary" id="addPaymentMethod" onclick="addPaymentMethod()">Add payment method</button>
+</div>
+<% } %>
+
+<% if (locals.hasPaymentError === true) { %>
+  <div class="alert alert-danger" role="alert">
+    There was an error with your payment method. Please go to settings and update your billing information.
+  </div>
+<% } %>
+
+<% if (locals.subscriptionStatus !== "INCOMPLETE") { %>
 <div class="settings-container">
     <h4>Settings</h4>
-    <hr />
+    <hr class="mb-4" />
 
-      <h5 class="mb-3">Account</h5>
+      <h5>Account</h5>
       <dl class="row">
         <dt class="col-sm-4">Email:</dt>
         <dd class="col-sm-8"><%= locals.email %></dd>
+        <dt class="col-sm-4">Subscription:</dt>
+        <% const status = locals.subscriptionStatus %>
+        <% const textClass =
+            status === "ACTIVE"   ? "success" : 
+            status === "PAST DUE" ? "warning" :
+            status === "CANCELED" ? "muted"   : ""
+        %>
+        <dd class="col-sm-8 status text-<%= textClass %>">
+          <%= status === "ACTIVE"   ? "ACTIVE"          :
+              status === "PAST DUE" ? "PAST DUE"  :
+              status === "CANCELED" ? "INACTIVE"        : ""   
+          %>
+        </dd>
         <dt class="col-sm-4">SMS Number:</dt>
         <dd class="col-sm-8">
-          <div class="<%= locals.hasNumber ? 'mb-2' : 'text-danger mb-2' %>">
-            <%= locals.smsNumber %>
-          </div>
-          <% if (locals.hasNumber === false) { %>
-          <a class="btn btn-primary" href="/new-number">Get a number</a>
+
+          <% if (locals.hasNumber === true) { %>
+            <div><%= locals.smsNumber %></div>
           <% } %>
+
+          <% if (locals.hasNumber === false && locals.hasValidSubscription) { %>
+            <a class="btn btn-primary " href="/new-number">Get a number</a>
+          <% } %>
+          
         </dd>
+
       </dl>
       <hr />
 
-      <h5 class="mb-3">Notifications</h5>
+      <h5>Notifications</h5>
       <dl class="row">
         <dt class="col-sm-4">By email:</dt>
         <dd class="col-sm-8">
@@ -47,13 +83,31 @@
             For multiple emails, separate each one with a comma
           </small>
         </div>
-        <button type="submit" class="btn btn-primary" id="update-button">
+        <button type="submit" class="btn btn-outline-primary" id="update-button">
           Update
         </button>
       </form>
 
       <hr class="mb-4" />
 
-      <%- include('settings/settingsInfusionsoft.ejs'); %>
+      <%- include('settings/settingsInfusionsoft.ejs', { accountKey: locals.accountKey, hasNumber: locals.hasNumber }); %>
+
+      <hr class="mb-4" />
+
+      <h5>Billing</h5>
+      
+      <% if (locals.subscriptionStatus === "CANCELED") { %>
+      <div class="text-danger my-2">Your subscription isn't active</div>
+      <button class="btn btn-primary d-inline-block mr-2" id="addPaymentMethod" onclick="addPaymentMethod()">Reactivate</button>
+      <% } %>
+
+      <form method="POST" action="/billing/portal-session" class="d-inline-block">
+        <button class="btn btn-outline-primary" id="manage-billing" <%= locals.hasValidSubscription !== "INCOMPLETE" ? "" : 'disabled="true"'%>>
+          Manage billing
+        </button>
+      </form>
+
 </div>
+<% } %>
+
 <%- include('includes/footer'); %>

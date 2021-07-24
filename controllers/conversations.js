@@ -84,6 +84,9 @@ exports.getConversation = async (req, res) => {
   res.render("chats/chatList/chatList", {
     message: message,
     conversations: sortedConversations,
+    subscriptionStatus: currentUser.subscriptionStatus,
+    smsNumber: currentUser.smsNumber,
+    hasPaymentError: currentUser.hasPaymentError,
     css: ["conversations-list"],
     js: ["conversations-list"],
   });

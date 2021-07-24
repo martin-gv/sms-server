@@ -1,4 +1,7 @@
 <div class="chat-footer">
+  <% if (locals.hasValidSubscription === false) { %>
+    <div class="text-danger text-center mb-3">Activate your subscription to send messages</div>
+  <% } %>
   <form
     autocomplete="off"
     method="POST"
@@ -19,8 +22,11 @@
       required="true"
       placeholder="Enter your message"
       autofocus="true"
+      <% if (locals.hasValidSubscription === false) { %>
+        disabled="true"
+      <% } %>
     ></textarea>
-    <button type="submit" id="send-message-button" class="btn btn-primary">
+    <button type="submit" id="send-message-button" class="btn btn-primary" <%= locals.hasValidSubscription ? "" : 'disabled="true"'%>>
       <svg
         width="1em"
         height="1em"

@@ -1,0 +1,9 @@
+<%- include('includes/header', { title: "Settings", loggedIn: true }); %>
+<%- include('includes/alert', { message: locals.message}); %>
+
+<div class="alert alert-primary" role="alert">
+    Your payment is being processed. Please refresh the page in a few moments.
+</div>
+<div class="px-2 text-muted small">If your subscription doesn't active within 5 minutes please contact us.</div>
+
+<%- include('includes/footer'); %>
