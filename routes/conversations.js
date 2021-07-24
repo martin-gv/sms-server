@@ -2,18 +2,22 @@ const express = require("express");
 const router = express.Router();
 
 const controller = require("../controllers/conversations");
-
-// All conversation routes require an SMS number linked to the user's account
-router.use(controller.numberRequired);
+const hasValidSubscription = require("../middleware/hasValidSubscription");
 
 router.get("/", controller.getConversation);
-router.post("/", controller.validateNumber, controller.addConversation);
 
 router.get(
   "/:conversationId",
   controller.findConversationAndMessages,
   controller.checkOwner,
   controller.getSingleConversation
+);
+
+router.post(
+  "/",
+  hasValidSubscription, // creating new chats requires an active subscription
+  controller.validateNumber,
+  controller.addConversation
 );
 
 router.post(
