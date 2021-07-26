@@ -28,7 +28,9 @@ exports.handleLoginForm = (req, res, next) => {
 
     if (!user) {
       req.flash("error", info.message);
-      res.redirect("/login");
+      req.session.save(function () {
+        res.redirect("/login");
+      });
       return;
     }
 
@@ -38,14 +40,9 @@ exports.handleLoginForm = (req, res, next) => {
 
     req.logIn(user, (err) => {
       if (err) return next(err);
-
-      // Check if user has a number assigned or not
-      if (user.smsNumber === null) {
-        req.flash("warning", "Get a new number to complete your account");
-        res.redirect("/new-number");
-      } else {
+      req.session.save(function () {
         res.redirect("/");
-      }
+      });
     });
   })(req, res, next);
 };
