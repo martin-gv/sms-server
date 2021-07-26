@@ -32,6 +32,10 @@ exports.handleLoginForm = (req, res, next) => {
       return;
     }
 
+    // From the Passport docs regarding using a custom callback in passport.authenticate:
+    // Note that when using a custom callback, it becomes the application's responsibility
+    // to establish a session (by calling req.login()) and send a response.
+
     req.logIn(user, (err) => {
       if (err) return next(err);
 
