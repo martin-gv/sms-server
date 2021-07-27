@@ -5,11 +5,15 @@ const passport = require("passport");
 //
 
 exports.getLoginPage = (req, res) => {
+  const registrationEnabled =
+    process.env.NEW_ACCOUNT_REGISTRATION === "ENABLED";
+
   const message = req.flash();
   res.render("login", {
     message: message,
     email: req.query.email,
     css: ["login"],
+    registrationEnabled: registrationEnabled,
   });
 };
 

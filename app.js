@@ -110,7 +110,7 @@ const forgotPasswordRoutes = require("./routes/forgotPassword");
 
 app.use("/login", loginRoutes);
 app.use("/logout", logoutRoutes);
-// app.use("/register", registerRoutes);
+app.use("/register", registerRoutes);
 app.use("/forgot-password", forgotPasswordRoutes);
 
 //

@@ -34,9 +34,9 @@
         Login
       </button>
     </form>
-    <!-- <a class="d-block mt-3 text-center" href="/register"
-      >or create new account</a
-    > -->
+    <% if (locals.registrationEnabled) { %>
+    <a class="d-block mt-3 text-center" href="/register">or create new account</a>
+    <% } %>
     <a href="/forgot-password" class="d-block mt-3 text-center">Forgot password?</a>
   </div>
 <%- include('includes/footer'); %>
