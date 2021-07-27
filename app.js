@@ -36,7 +36,7 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //
-// ─── USE FLASH MESSAGES ─────────────────────────────────────────────────────────
+// ─── FLASH MESSAGES CONFIG ──────────────────────────────────────────────────────
 //
 
 const flash = require("connect-flash");
