@@ -25,6 +25,7 @@ exports.sendMessage = async (req, res, next) => {
     if (conversation.userId !== req.user.id) {
       req.flash("error", "Conversation permission error");
       req.session.save(() => res.redirect("/conversations"));
+      return;
     }
 
     // Send text message using Twilio
