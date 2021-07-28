@@ -27,6 +27,8 @@ exports.getSettingsPage = (req, res) => {
     smsNumber = "This account doesn't have a number";
   }
 
+  const stripePublicKey = process.env.STRIPE_PUBLIC_KEY;
+
   const message = req.flash();
   res.render("settings", {
     message: message,
@@ -37,6 +39,7 @@ exports.getSettingsPage = (req, res) => {
     subscriptionStatus: subscriptionStatus,
     hasPaymentError: hasPaymentError,
     accountKey: accountKey,
+    stripePublicKey: stripePublicKey,
     css: ["settings"],
     js: ["stripeCheckout"],
   });

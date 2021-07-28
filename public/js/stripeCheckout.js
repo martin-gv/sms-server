@@ -1,6 +1,4 @@
-const stripe = Stripe(
-  "pk_test_51I88VgHXr4rx7oIVUp2Usrc07FuYztFHyV05LjZjp1v2G1fhTs4FuTqwcb5nFhadR3xcQPPwRO7Pal10Uq5KUaUd00ea2yT7Eh"
-);
+const stripe = Stripe(stripePublicKey);
 
 //
 // ─── ADD A PAYMENT METHOD BUTTON ────────────────────────────────────────────────
