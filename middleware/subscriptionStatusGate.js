@@ -1,8 +1,6 @@
 module.exports = function (statuses = []) {
   return function (req, res, next) {
     for (const status of statuses) {
-      console.log(status);
-      console.log(req.user.subscriptionStatus === status);
       if (req.user.subscriptionStatus === status) {
         next();
         return;
