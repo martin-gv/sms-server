@@ -24,7 +24,7 @@ exports.sendMessage = async (req, res, next) => {
     // Check if the current user is the owner of the conversation
     if (conversation.userId !== req.user.id) {
       req.flash("error", "Conversation permission error");
-      res.redirect("/conversations");
+      req.session.save(() => res.redirect("/conversations"));
     }
 
     // Send text message using Twilio
@@ -69,6 +69,6 @@ exports.saveMessage = async (req, res) => {
     res.redirect("/conversations/" + conversation.id);
   } catch (error) {
     req.flash("error", error.message);
-    res.redirect("/conversations");
+    req.session.save(() => res.redirect("/conversations"));
   }
 };

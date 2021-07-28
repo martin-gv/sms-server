@@ -28,7 +28,7 @@ exports.handleRegistrationForm = async (req, res, next) => {
     // Check if email format is valid
     if (!validator.validate(email)) {
       req.flash("error", "Email is invalid");
-      res.redirect("/register" + "?email=" + email);
+      req.session.save(() => res.redirect("/register" + "?email=" + email));
       return;
     }
 
@@ -36,14 +36,14 @@ exports.handleRegistrationForm = async (req, res, next) => {
     const existingUser = await User.findOne({ where: { email: email } });
     if (existingUser !== null) {
       req.flash("error", "An account with that email already exists");
-      res.redirect("/register" + "?email=" + email);
+      req.session.save(() => res.redirect("/register" + "?email=" + email));
       return;
     }
 
     // Check if the passwords match
     if (password !== confirmPassword) {
       req.flash("error", "Passwords don't match");
-      res.redirect("/register" + "?email=" + email);
+      req.session.save(() => res.redirect("/register" + "?email=" + email));
       return;
     }
 
@@ -66,6 +66,6 @@ exports.handleRegistrationForm = async (req, res, next) => {
     });
   } catch (error) {
     req.flash("error", error.message);
-    res.redirect("/register");
+    req.session.save(() => res.redirect("/register"));
   }
 };

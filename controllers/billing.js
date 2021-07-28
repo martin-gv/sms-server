@@ -78,7 +78,7 @@ exports.checkoutComplete = async (req, res, next) => {
         "success",
         "Your subscription is now active! Get a new number below"
       );
-      res.redirect("/new-number");
+      req.session.save(() => res.redirect("/new-number"));
       return;
     }
 
@@ -111,7 +111,7 @@ exports.reactivationComplete = async (req, res, next) => {
 
     if (status === "ACTIVE") {
       req.flash("success", "Your subscription is now active!");
-      res.redirect("/settings");
+      req.session.save(() => res.redirect("/settings"));
       return;
     }
 

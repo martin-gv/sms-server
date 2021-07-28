@@ -160,7 +160,7 @@ exports.handlePasswordResetForm = async (req, res, next) => {
     // Check if the new password and password confirmation match
     if (newPassword !== req.body.confirmPassword) {
       req.flash("error", "Passwords don't match");
-      res.redirect("/forgot-password/reset?token=" + token);
+      req.session.save(() => res.redirect("/forgot-password/reset?token=" + token));
       return;
     }
 
@@ -187,7 +187,7 @@ exports.handlePasswordResetForm = async (req, res, next) => {
 
     // Redirect to the login page
     req.flash("success", "Your password was reset successfully");
-    res.redirect("/login");
+    req.session.save(() => res.redirect("/login"));
   } catch (err) {
     // Check if the error is caused by an expired token
     if (err.name === "TokenExpiredError") {

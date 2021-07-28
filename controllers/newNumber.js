@@ -108,6 +108,6 @@ exports.handleNewNumberForm = (req, res) => {
       req.flash("primary", "Your new number is now registered.");
 
       // Go to homepage
-      res.redirect("/");
+      req.session.save(() => res.redirect("/"));
     });
 };

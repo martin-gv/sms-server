@@ -5,7 +5,7 @@ const userHasNoNumber = (req, res, next) => {
   }
 
   req.flash("warning", "This account already has a numbered registered");
-  res.redirect("/settings");
+  req.session.save(() => res.redirect("/settings"));
 };
 
 module.exports = userHasNoNumber;

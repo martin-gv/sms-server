@@ -15,7 +15,7 @@ exports.numberRequired = (req, res, next) => {
     next();
   } else {
     req.flash("warning", "Get a number to start sending messages");
-    res.redirect("/new-number");
+    req.session.save(() => res.redirect("/new-number"));
   }
 };
 
@@ -113,7 +113,7 @@ exports.findConversationAndMessages = async (req, res, next) => {
     // If conversation does not exist, shown an error
     if (conversation === null) {
       req.flash("error", "No conversation found");
-      res.redirect("/conversations");
+      req.session.save(() => res.redirect("/conversations"));
       return;
     }
 
@@ -142,7 +142,7 @@ exports.findConversation = async (req, res, next) => {
     // If conversation does not exist, shown an error
     if (conversation === null) {
       req.flash("error", "No conversation found");
-      res.redirect("/conversations");
+      req.session.save(() => res.redirect("/conversations"));
       return;
     }
 
@@ -170,7 +170,7 @@ exports.checkOwner = async (req, res, next) => {
         "error",
         "You do not have permission to view that conversation"
       );
-      res.redirect("/conversations");
+      req.session.save(() => res.redirect("/conversations"));
       return;
     }
 
@@ -238,7 +238,7 @@ exports.validateNumber = (req, res, next) => {
   // Check for international format
   if (toNumber.charAt(0) === "+") {
     req.flash("error", "International texting is currently not supported");
-    res.redirect("/conversations");
+    req.session.save(() => res.redirect("/conversations"));
     return;
   }
 
@@ -252,7 +252,7 @@ exports.validateNumber = (req, res, next) => {
       "error",
       `<strong>${toNumber}</strong> is not a valid Canadian phone number`
     );
-    res.redirect("/conversations");
+    req.session.save(() => res.redirect("/conversations"));
     return;
   }
 
@@ -289,7 +289,7 @@ exports.addConversation = async (req, res, next) => {
         "error",
         `A conversation for <strong>${formattedNum}</strong> already exists`
       );
-      res.redirect("/conversations");
+      req.session.save(() => res.redirect("/conversations"));
     } else {
       // Otherwise, create a new record
       const results = await Conversation.create({
