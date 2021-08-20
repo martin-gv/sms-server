@@ -1,11 +1,11 @@
 const Sequelize = require("sequelize");
 
-// Credentials are hard-coded for the Docker database container
-const database = "sms-app-db";
-const user = "postgres";
-const password = "postgres";
-const host = "db";
-const port = 5432;
+const password = process.env.POSTGRES_PASSWORD; // required
+
+const database = process.env.POSTGRES_DB || "postgres";
+const user = process.env.POSTGRES_USER || "postgres";
+const host = process.env.POSTGRES_HOST || "db";
+const port = process.env.POSTGRES_PORT || 5432;
 
 const sequelize = new Sequelize(database, user, password, {
   host: host,

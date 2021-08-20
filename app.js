@@ -4,7 +4,7 @@ const passport = require("passport");
 
 const app = express();
 const server = http.createServer(app);
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 //
 // ─── PUBLIC FOLDER CONFIG ───────────────────────────────────────────────────────
