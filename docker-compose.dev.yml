@@ -1,0 +1,8 @@
+# SMS Server - App (Development)
+
+version: "3.8"
+services:
+  app:
+    volumes:
+      - ./:/app
+      - /app/node_modules

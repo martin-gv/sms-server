@@ -1,0 +1,16 @@
+# SMS Server - Database
+
+version: "3.8"
+services:
+  db:
+    image: postgres:13.0
+    environment:
+      # Set the password in the .env file
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    volumes:
+      - sms-server-data:/var/lib/postgresql/data
+    ports:
+      - "${DOCKER_POSTGRES_PORT:-5432}:5432"
+    restart: always
+volumes:
+  sms-server-data:

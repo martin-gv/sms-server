@@ -1,37 +1,38 @@
-# SMS server
+# SMS Server
 
-FROM node:14.15.0
+ARG DOCKER_ENV
+
+FROM node:14.15.0 as base
 
 # Create and set working directory
-WORKDIR /usr/src/app
-
-# Install psql for postgres status check
-RUN apt-get update && apt-get --yes install postgresql-client
+WORKDIR /app
 
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Define build args
-ARG dockerenv
-
 # Install dependencies
-RUN if [ "$dockerenv" = "production" ]; \
-    then npm ci --only=production; \
-    else npm install; \
-    fi
+FROM base AS deps-development
+RUN npm install
+
+FROM base AS deps-production
+RUN npm ci --only-production
+
+FROM deps-${DOCKER_ENV} AS deps-final
 
 # Copy application code
 COPY . ./
 
-# Add exec permissions to entryfiles
-RUN chmod +x wait-for-postgres.sh
-RUN chmod +x entrypoint.sh
-
-# Expose the port
+# Expose the port of the Node application
 EXPOSE 8080
 
-# Use the unprivileged user 'node'
 USER node
 
-# Start script
-ENTRYPOINT ["./wait-for-postgres.sh", "db", "./entrypoint.sh"]
+# Start container
+FROM deps-final AS cmd-development
+CMD ["npm", "run", "dev-docker"]
+
+FROM deps-final AS cmd-production
+ENV NODE_ENV=production
+ENTRYPOINT ["node", "app.js"]
+
+FROM cmd-${DOCKER_ENV} AS cmd-final

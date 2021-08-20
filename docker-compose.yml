@@ -1,28 +1,15 @@
-# SMS App
+# SMS Server - App
 
 version: "3.8"
 services:
-  db:
-    image: postgres:13.0
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: sms-app-db
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    ports:
-      - "5433:5432"
-  server:
+  app:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        DOCKER_ENV: "${DOCKER_ENV:-development}"
     ports:
-      - "${PORT:?err}:8080"
+      - "${DOCKER_APP_PORT:-8080}:8080"
     env_file:
       - .env
-    environment:
-      POSTGRES_PASSWORD: postgres
-    depends_on:
-      - db
-volumes:
-  pgdata:
+    restart: always

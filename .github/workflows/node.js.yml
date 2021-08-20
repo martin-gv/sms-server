@@ -23,9 +23,14 @@ jobs:
         PRODUCTION_ENV_FILE: ${{ secrets.PRODUCTION_ENV_FILE }}
       run: echo "$PRODUCTION_ENV_FILE" | base64 --decode > .env
 
-    - name: Rebuild container
-      run: sudo docker-compose build
-    
-    - name: Restart docker container
-      run: sudo docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+    - name: Set Docker project name
+      run: export COMPOSE_PROJECT_NAME=sms_server
 
+    - name: Set Docker build arg
+      run: export DOCKER_ENV=production
+      
+    - name: Rebuild & restart container
+      run: sudo docker-compose up --build --detach app
+
+    - name: Run migrations
+      run: sudo docker exec sms_server_app_1 npx sequelize-cli db:migrate
